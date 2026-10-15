@@ -1336,12 +1336,7 @@
         #site-footer {
             position: fixed;
 
-            top:
-                clamp(
-                    90px,
-                    50vh,
-                    calc(100vh - 90px)
-                ) !important;
+            top: var(--footer-top, 50vh) !important;
 
             left:
                 clamp(
@@ -1361,6 +1356,9 @@
             transform:
                 translate(-50%, -50%)
                 rotate(-90deg) !important;
+
+            transition: none !important;
+            will-change: top;
         }
     }
 
@@ -2021,7 +2019,10 @@
             document.querySelectorAll('.panel-page'),
 
         grids:
-            document.querySelectorAll('.dynamic-grid')
+            document.querySelectorAll('.dynamic-grid'),
+
+        footer:
+            document.getElementById('site-footer')
     };
 
 
@@ -2315,6 +2316,44 @@
         );
     }
 
+    function updateFooterOnScroll() {
+        if (!DOM.footer || !window.matchMedia('(max-width: 850px)').matches) {
+            return;
+        }
+
+        const homeSection =
+            document.getElementById('section-01');
+
+        const homeHeight = Math.max(
+            homeSection?.offsetHeight || window.innerHeight,
+            window.innerHeight
+        );
+
+        const progress = clamp(
+            window.scrollY / Math.max(homeHeight * 0.9, 1),
+            0,
+            1
+        );
+
+        const eased = smoothStep(progress);
+
+        // The footer follows the same continuous visual progression
+        // as the mobile hero instead of jumping between fixed positions.
+        const start = window.innerHeight * 0.5;
+        const end = clamp(
+            window.innerHeight - 90,
+            90,
+            window.innerHeight - 90
+        );
+
+        const top = start + (end - start) * eased;
+
+        DOM.footer.style.setProperty(
+            '--footer-top',
+            `${top}px`
+        );
+    }
+
     function handleScroll() {
 
         if (state.ticking) {
@@ -2327,6 +2366,7 @@
 
             updateSectionState();
             updateHeroOnScroll();
+            updateFooterOnScroll();
 
             state.ticking = false;
         });
@@ -2345,6 +2385,7 @@
         () => {
             updateSectionState();
             updateHeroOnScroll();
+            updateFooterOnScroll();
         }
     );
 
@@ -2551,6 +2592,7 @@
 
         updateSectionState();
         updateHeroOnScroll();
+        updateFooterOnScroll();
 
         renderPanel();
     }
