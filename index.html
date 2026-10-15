@@ -59,14 +59,8 @@
 
         --mobile-top-shield-height: 110px;
 
-        /*
-         * Hero scroll interpolation.
-         *
-         * --hero-progress:
-         *   0 = HOME position
-         *   1 = PLAY position
-         */
-        --hero-progress: 0;
+        --safe-area-bottom:
+            env(safe-area-inset-bottom, 0px);
     }
 
 
@@ -263,7 +257,7 @@
         z-index: 1100;
 
         width: 100vw;
-        height: 100dvh;
+        height: 100vh;
 
         pointer-events: none;
     }
@@ -278,15 +272,12 @@
 
         font-family: 'Syncopate';
 
-        /*
-         * Hero movement is now controlled directly by
-         * --hero-progress in JavaScript.
-         *
-         * No transition is applied here.
-         * This prevents a second easing layer from
-         * fighting against scroll position.
-         */
-        transition: none;
+        transition:
+            top var(--transition-speed) var(--ease),
+            left var(--transition-speed) var(--ease),
+            transform var(--transition-speed) var(--ease),
+            font-size var(--transition-speed) var(--ease),
+            opacity var(--transition-speed) var(--ease);
     }
 
 
@@ -295,91 +286,65 @@
        HOME HERO
     ===================================================== */
 
-    body.is-home #catchword,
-    body.is-sub #catchword {
-        top:
-            calc(
-                280px +
-                (160px - 280px) * var(--hero-progress)
-            );
+    body.is-home #catchword {
+        top: 280px;
+        left: 7vw;
 
-        left:
-            calc(
-                7vw +
-                (25px - 7vw) * var(--hero-progress)
-            );
+        transform: translateY(-50%);
 
-        transform:
-            translateY(
-                calc(
-                    -50% * (1 - var(--hero-progress))
-                )
-            );
-
-        font-size:
-            calc(
-                7vw +
-                (24px - 7vw) * var(--hero-progress)
-            );
-
+        font-size: 7vw;
         font-weight: 700;
         line-height: 0.9;
 
         letter-spacing: 0.02em;
     }
 
-    body.is-home #subtitle,
-    body.is-sub #subtitle {
-        top:
-            calc(
-                45px +
-                (135px - 45px) * var(--hero-progress)
-            );
+    body.is-home #subtitle {
+        top: 45px;
+        left: 110px;
 
-        left:
-            calc(
-                110px +
-                (25px - 110px) * var(--hero-progress)
-            );
+        transform: translateY(-50%);
 
-        transform:
-            translate(
-                calc(
-                    -50% * (1 - var(--hero-progress)
-                ),
-                0
-            )
-            );
+        max-width: calc(100vw - 140px);
 
-        font-size:
-            calc(
-                10px +
-                (8px - 10px) * var(--hero-progress)
-            );
+        font-size: 10px;
+        line-height: 1.4;
 
-        line-height:
-            calc(
-                1.4 +
-                (1.3 - 1.4) * var(--hero-progress)
-            );
+        letter-spacing: 0.3em;
 
-        letter-spacing:
-            calc(
-                0.3em +
-                (0.1em - 0.3em) * var(--hero-progress)
-            );
+        white-space: normal;
 
-        opacity:
-            calc(
-                0.6 +
-                (0.5 - 0.6) * var(--hero-progress)
-            );
+        opacity: 0.6;
     }
 
-    /*
-     * The interpolation above controls the desktop
-     * hero continuously.
-     */
+
+
+    /* =====================================================
+       SUB HERO
+    ===================================================== */
+
+    body.is-sub #catchword {
+        top: 160px;
+        left: 25px;
+
+        transform: none;
+
+        font-size: 24px;
+        line-height: 0.9;
+    }
+
+    body.is-sub #subtitle {
+        top: 135px;
+        left: 25px;
+
+        transform: none;
+
+        font-size: 8px;
+
+        letter-spacing: 0.1em;
+
+        opacity: 0.5;
+    }
 
 
 
@@ -676,11 +641,6 @@
 
         margin-bottom: 10px;
 
-        /*
-         * Closed state:
-         * The whole tape moves outside the viewport.
-         * Nothing inside the tape is hidden.
-         */
         transform:
             translateX(
                 calc(100% - var(--sticky-peek))
@@ -691,7 +651,19 @@
             transform var(--sticky-speed) var(--ease);
     }
 
-    .sticky-tape:hover,
+    /*
+     * Touch environments do not use hover to open
+     * the sticky note.
+     */
+    @media (hover: hover) and (pointer: fine) {
+
+        .sticky-tape:hover {
+            transform:
+                translateX(0)
+                rotate(0deg);
+        }
+    }
+
     .sticky-tape.is-open {
         transform:
             translateX(0)
@@ -720,19 +692,15 @@
 
         font-family: 'Vast Shadow';
         font-size: 13px;
+
+        transition:
+            padding-right var(--sticky-speed) var(--ease);
     }
 
     .sticky-tape--behind a {
         background: var(--text-dark);
     }
 
-    /*
-     * The close mark is part of the tape.
-     * It is never display:none'ed.
-     *
-     * When the tape closes, the entire tape leaves
-     * the viewport instead.
-     */
     .sticky-tape.is-open a {
         padding-right: 42px;
     }
@@ -985,7 +953,9 @@
 
     @media screen and (min-width: 851px) {
 
-        /* HOME HEADER */
+        /* -------------------------------------------------
+           HOME HEADER
+        ------------------------------------------------- */
 
         body.is-home #site-header {
             bottom: 0;
@@ -1028,7 +998,9 @@
 
 
 
-        /* SUB HEADER */
+        /* -------------------------------------------------
+           SUB HEADER
+        ------------------------------------------------- */
 
         body.is-sub #site-header {
             top: 0;
@@ -1069,7 +1041,9 @@
 
 
 
-        /* HOME UPDATE → SUB */
+        /* -------------------------------------------------
+           HOME UPDATE → SUB
+        ------------------------------------------------- */
 
         body.is-sub #home-updates {
             margin-left:
@@ -1081,7 +1055,9 @@
 
 
 
-        /* FOOTER */
+        /* -------------------------------------------------
+           FOOTER
+        ------------------------------------------------- */
 
         body.is-home #site-footer {
             position: fixed;
@@ -1092,6 +1068,12 @@
             transform:
                 translate(-50%, -50%)
                 rotate(-90deg);
+
+            width: max-content;
+
+            max-width: calc(100vw - 40px);
+
+            white-space: nowrap;
         }
 
         body.is-sub #site-footer {
@@ -1109,14 +1091,31 @@
                     var(--sidebar-width) / 2
                 );
 
-            transform:
-                translate(-50%, 0);
+            width:
+                min(
+                    210px,
+                    calc(
+                        var(--sidebar-width) -
+                        40px
+                    )
+                );
 
-            max-width: 210px;
+            max-width:
+                calc(
+                    var(--sidebar-width) -
+                    40px
+                );
+
+            box-sizing: border-box;
 
             text-align: center;
 
             white-space: normal;
+
+            overflow-wrap: break-word;
+
+            transform:
+                translate(-50%, 0);
         }
     }
 
@@ -1128,7 +1127,9 @@
 
     @media screen and (max-width: 850px) {
 
-        /* HEADER */
+        /* -------------------------------------------------
+           HEADER
+        ------------------------------------------------- */
 
         #site-header {
             top: auto !important;
@@ -1137,18 +1138,14 @@
 
             width: 100% !important;
 
-            /*
-             * Include the iPhone home indicator area
-             * without relying on a device / UA check.
-             */
             height:
                 calc(
                     var(--mobile-menu-height) +
-                    env(safe-area-inset-bottom)
+                    var(--safe-area-bottom)
                 ) !important;
 
             padding-bottom:
-                env(safe-area-inset-bottom);
+                var(--safe-area-bottom);
 
             border-top: 1px solid var(--line-color);
             border-right: none !important;
@@ -1156,7 +1153,9 @@
 
 
 
-        /* MOBILE TOP SHIELD */
+        /* -------------------------------------------------
+           MOBILE TOP SHIELD
+        ------------------------------------------------- */
 
         #site-header::after {
             content: '';
@@ -1202,17 +1201,21 @@
 
 
 
-        /* HOME */
+        /* -------------------------------------------------
+           HOME
+        ------------------------------------------------- */
 
         #section-01 {
-            min-height: 100dvh;
+            min-height: 100vh;
 
             padding-top: var(--home-updates-start);
         }
 
 
 
-        /* HERO */
+        /* -------------------------------------------------
+           HERO
+        ------------------------------------------------- */
 
         .hero-section {
             position: fixed;
@@ -1221,124 +1224,75 @@
             left: 0;
 
             width: 100vw;
-            height: 100dvh;
+            height: 100vh;
         }
 
-        /*
-         * Mobile Hero
-         *
-         * HOME:
-         *   catchword = 280px / 7vw
-         *   subtitle  = 110px / centered
-         *
-         * PLAY:
-         *   catchword = 40px / 110px
-         *   subtitle  = 25px / 110px
-         *
-         * These are continuously interpolated by
-         * --hero-progress.
-         */
+        body.is-home #catchword {
+            top: 280px;
+            left: 7vw;
 
-        body.is-home #catchword,
-        body.is-sub #catchword {
-            top:
-                calc(
-                    280px +
-                    (40px - 280px) * var(--hero-progress)
-                );
-
-            left:
-                calc(
-                    7vw +
-                    (110px - 7vw) * var(--hero-progress)
-                );
-
-            transform:
-                translateY(
-                    calc(
-                        -50% * (1 - var(--hero-progress))
-                    )
-                );
+            transform: translateY(-50%);
 
             font-size:
-                calc(
-                    clamp(
-                        50px,
-                        calc(1.79vw + 44.27px),
-                        59.5px
-                    ) * (1 - var(--hero-progress)) +
-                    23px * var(--hero-progress)
+                clamp(
+                    50px,
+                    calc(1.79vw + 44.27px),
+                    59.5px
                 );
+        }
 
+        body.is-home #subtitle {
+            top: 110px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: calc(100vw - 50px);
+
+            max-width: 500px;
+
+            text-align: center;
+
+            line-height: 1.5;
+        }
+
+
+
+        /* -------------------------------------------------
+           SUB HERO
+        ------------------------------------------------- */
+
+        body.is-sub #catchword {
+            top: 40px;
+            left: 110px;
+
+            transform: none;
+
+            font-size: 23px;
             line-height: 0.9;
 
             letter-spacing: 0.02em;
         }
 
-        body.is-home #subtitle,
         body.is-sub #subtitle {
-            top:
-                calc(
-                    110px +
-                    (25px - 110px) * var(--hero-progress)
-                );
+            top: 25px;
+            left: 110px;
 
-            left:
-                calc(
-                    50% +
-                    (110px - 50%) * var(--hero-progress)
-                );
+            transform: none;
 
-            transform:
-                translateX(
-                    calc(
-                        -50% * (1 - var(--hero-progress))
-                    )
-                );
+            font-size: 8px;
+            line-height: 1.3;
 
-            width:
-                calc(
-                    (100vw - 50px) *
-                    (1 - var(--hero-progress)) +
-                    200px *
-                    var(--hero-progress)
-                );
-
-            max-width: 500px;
-
-            text-align:
-                center;
-
-            font-size:
-                calc(
-                    10px +
-                    (8px - 10px) * var(--hero-progress)
-                );
-
-            line-height:
-                calc(
-                    1.5 +
-                    (1.3 - 1.5) * var(--hero-progress)
-                );
-
-            letter-spacing:
-                calc(
-                    0.3em +
-                    (0.1em - 0.3em) * var(--hero-progress)
-                );
+            letter-spacing: 0.1em;
 
             white-space: nowrap;
-
-            opacity:
-                calc(
-                    0.6 +
-                    (0.5 - 0.6) * var(--hero-progress)
-                );
         }
 
 
 
-        /* SUB CONTENT */
+        /* -------------------------------------------------
+           SUB CONTENT
+        ------------------------------------------------- */
 
         .sub-section {
             margin-left: 0;
@@ -1361,23 +1315,18 @@
 
 
 
-        /* STICKY */
+        /* -------------------------------------------------
+           STICKY
+        ------------------------------------------------- */
 
         #side-sticky {
             top: auto;
             right: 0;
 
-            /*
-             * The bottom edge of the sticky stack is always
-             * immediately above the mobile menu.
-             *
-             * safe-area is included separately from the
-             * menu's visible 64px area.
-             */
             bottom:
                 calc(
                     var(--mobile-menu-height) +
-                    env(safe-area-inset-bottom)
+                    var(--safe-area-bottom)
                 );
 
             transform: none;
@@ -1385,7 +1334,9 @@
 
 
 
-        /* ACTION PANEL */
+        /* -------------------------------------------------
+           ACTION PANEL
+        ------------------------------------------------- */
 
         #content-panel {
             top: 0;
@@ -1394,7 +1345,7 @@
             bottom:
                 calc(
                     var(--mobile-menu-height) +
-                    env(safe-area-inset-bottom)
+                    var(--safe-area-bottom)
                 );
 
             width: calc(100vw - 20px);
@@ -1441,7 +1392,9 @@
 
 
 
-        /* FOOTER */
+        /* -------------------------------------------------
+           FOOTER
+        ------------------------------------------------- */
 
         #site-footer {
             position: fixed;
@@ -1449,28 +1402,100 @@
             top:
                 clamp(
                     90px,
-                    50dvh,
-                    calc(100dvh - 90px)
-                ) !important;
+                    50vh,
+                    calc(100vh - 90px)
+                );
 
             left:
                 clamp(
                     12px,
                     1vw,
                     20px
-                ) !important;
+                );
 
-            width: max-content;
+            width:
+                min(
+                    210px,
+                    calc(100vw - 40px)
+                );
 
-            max-width: none;
+            max-width:
+                calc(100vw - 40px);
 
-            white-space: nowrap;
+            box-sizing: border-box;
+
+            white-space: normal;
+
+            overflow-wrap: break-word;
 
             text-align: left;
 
             transform:
                 translate(-50%, -50%)
-                rotate(-90deg) !important;
+                rotate(-90deg);
+        }
+    }
+
+
+
+    /* =====================================================
+       SHORT MOBILE VIEWPORT
+    ===================================================== */
+
+    @media screen
+        and (max-width: 850px)
+        and (max-height: 700px) {
+
+        :root {
+            --mobile-top-shield-height: 90px;
+        }
+
+        body.is-home #catchword {
+            top: 230px;
+        }
+
+        body.is-home #subtitle {
+            top: 90px;
+        }
+
+        body.is-sub #catchword {
+            top: 35px;
+        }
+
+        body.is-sub #subtitle {
+            top: 22px;
+        }
+    }
+
+
+
+    /* =====================================================
+       NARROW / SHORT VIEWPORT
+    ===================================================== */
+
+    /*
+     * When the viewport is too short for the normal
+     * horizontal footer treatment, the footer uses its own
+     * width as the wrapping box.
+     */
+    @media screen
+        and (max-width: 850px)
+        and (max-height: 500px) {
+
+        #site-footer {
+            width:
+                min(
+                    180px,
+                    calc(100vw - 40px)
+                );
+
+            max-width:
+                min(
+                    180px,
+                    calc(100vw - 40px)
+                );
+
+            white-space: normal;
         }
     }
 
@@ -2115,15 +2140,6 @@
 
         logo: document.getElementById('logo'),
 
-        hero:
-            document.querySelector('.hero-section'),
-
-        catchword:
-            document.getElementById('catchword'),
-
-        subtitle:
-            document.getElementById('subtitle'),
-
         mainNav:
             document.querySelectorAll('#main-nav-list a'),
 
@@ -2152,15 +2168,7 @@
     const state = {
         section: null,
         action: null,
-
-        ticking: false,
-
-        /*
-         * Height of the first transition area.
-         * Calculated from the actual viewport / section
-         * rather than from device type.
-         */
-        heroRange: 1
+        ticking: false
     };
 
 
@@ -2212,74 +2220,6 @@
                         createGridItem(prefix, index)
                 ).join('');
         });
-    }
-
-
-
-    /* =====================================================
-       HERO SCROLL PROGRESS
-    ===================================================== */
-
-    /*
-     * The Hero does not wait for the body class to change.
-     *
-     * Instead:
-     *
-     *   scroll = 0
-     *       ↓
-     *   HOME position
-     *
-     *   scroll = PLAY section start
-     *       ↓
-     *   PLAY position
-     *
-     * The interpolation is linear, so the movement has
-     * constant velocity and does not suddenly accelerate
-     * or decelerate near either endpoint.
-     */
-
-    function updateHeroRange() {
-
-        const playSection =
-            document.getElementById('section-02');
-
-        if (!playSection) {
-            state.heroRange = 1;
-            return;
-        }
-
-        /*
-         * Use the actual section offset.
-         *
-         * This makes the transition depend on layout
-         * rather than iPhone / Android detection.
-         */
-        state.heroRange =
-            Math.max(
-                playSection.offsetTop,
-                1
-            );
-    }
-
-
-    function updateHeroProgress() {
-
-        const scrollY =
-            window.scrollY || window.pageYOffset || 0;
-
-        const progress =
-            Math.min(
-                Math.max(
-                    scrollY / state.heroRange,
-                    0
-                ),
-                1
-            );
-
-        DOM.body.style.setProperty(
-            '--hero-progress',
-            progress.toFixed(5)
-        );
     }
 
 
@@ -2467,14 +2407,6 @@
        SCROLL
     ===================================================== */
 
-    function updateScrollState() {
-
-        updateHeroProgress();
-
-        updateSectionState();
-    }
-
-
     function handleScroll() {
 
         if (state.ticking) {
@@ -2485,7 +2417,13 @@
 
         requestAnimationFrame(() => {
 
-            updateScrollState();
+            /*
+             * Scroll only determines which section is active.
+             *
+             * Hero / footer positions themselves are controlled
+             * entirely by CSS through .is-home / .is-sub.
+             */
+            updateSectionState();
 
             state.ticking = false;
         });
@@ -2501,49 +2439,8 @@
 
     window.addEventListener(
         'resize',
-        () => {
-
-            updateHeroRange();
-
-            updateScrollState();
-        }
+        updateSectionState
     );
-
-
-
-    /* =====================================================
-       VIEWPORT
-    ===================================================== */
-
-    /*
-     * visualViewport is used only for viewport geometry.
-     *
-     * No device / browser / UA detection is used.
-     *
-     * CSS env(safe-area-inset-*) handles the actual
-     * safe-area spacing.
-     */
-
-    function handleViewportChange() {
-
-        updateHeroRange();
-
-        updateScrollState();
-    }
-
-
-    if (window.visualViewport) {
-
-        window.visualViewport.addEventListener(
-            'resize',
-            handleViewportChange
-        );
-
-        window.visualViewport.addEventListener(
-            'scroll',
-            handleViewportChange
-        );
-    }
 
 
 
@@ -2746,9 +2643,7 @@
 
         initializeKeyboard();
 
-        updateHeroRange();
-
-        updateScrollState();
+        updateSectionState();
 
         renderPanel();
     }
