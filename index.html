@@ -280,22 +280,14 @@
 
 
     /* =====================================================
-       HERO
-
-       Position and scale are driven continuously by scroll.
-       The hero elements themselves do not transition between
-       two CSS states, which avoids the visible jump on iOS.
+       HOME HERO
     ===================================================== */
 
-    .hero-section h2,
-    .hero-section p {
-        will-change: transform, opacity;
-        transform-origin: left top;
-    }
+    body.is-home #catchword {
+        top: 280px;
+        left: 7vw;
 
-    #catchword {
-        top: 0;
-        left: 0;
+        transform: translateY(-50%);
 
         font-size: 7vw;
         font-weight: 700;
@@ -304,9 +296,11 @@
         letter-spacing: 0.02em;
     }
 
-    #subtitle {
-        top: 0;
-        left: 0;
+    body.is-home #subtitle {
+        top: 45px;
+        left: 110px;
+
+        transform: translateY(-50%);
 
         max-width: calc(100vw - 140px);
 
@@ -316,7 +310,37 @@
         letter-spacing: 0.3em;
 
         white-space: normal;
+
         opacity: 0.6;
+    }
+
+
+
+    /* =====================================================
+       SUB HERO
+    ===================================================== */
+
+    body.is-sub #catchword {
+        top: 160px;
+        left: 25px;
+
+        transform: none;
+
+        font-size: 24px;
+        line-height: 0.9;
+    }
+
+    body.is-sub #subtitle {
+        top: 135px;
+        left: 25px;
+
+        transform: none;
+
+        font-size: 8px;
+
+        letter-spacing: 0.1em;
+
+        opacity: 0.5;
     }
 
 
@@ -1130,6 +1154,7 @@
 
 
         /* HERO */
+
         .hero-section {
             position: fixed;
 
@@ -1140,7 +1165,12 @@
             height: 100vh;
         }
 
-        #catchword {
+        body.is-home #catchword {
+            top: calc(280px + var(--hero-catchword-shift, 0px));
+            left: 7vw;
+
+            transform: translateY(-50%);
+
             font-size:
                 clamp(
                     50px,
@@ -1149,12 +1179,51 @@
                 );
         }
 
-        #subtitle {
+        body.is-home #subtitle {
+            top: calc(110px + var(--hero-subtitle-shift, 0px));
+            left: 50%;
+
+            transform: translateX(-50%);
+
             width: calc(100vw - 50px);
+
             max-width: 500px;
-            line-height: 1.5;
+
             text-align: center;
+
+            line-height: 1.5;
         }
+
+
+
+        /* SUB HERO */
+
+        body.is-sub #catchword {
+            top: 40px;
+            left: 110px;
+
+            transform: none;
+
+            font-size: 23px;
+            line-height: 0.9;
+
+            letter-spacing: 0.02em;
+        }
+
+        body.is-sub #subtitle {
+            top: 25px;
+            left: 110px;
+
+            transform: none;
+
+            font-size: 8px;
+            line-height: 1.3;
+
+            letter-spacing: 0.1em;
+
+            white-space: nowrap;
+        }
+
 
 
         /* SUB CONTENT */
@@ -1183,17 +1252,30 @@
         /* STICKY */
 
         #side-sticky {
-            top: 60px;
-            bottom: auto;
+            top: auto;
+            right: 0;
+            bottom: var(--mobile-menu-height);
 
+            transform: none;
+        }
+
+        #side-sticky .sticky-tape {
             transform:
-                translateY(
-                    calc(
-                        100vh
-                        - 160px
-                        - 100%
-                    )
-                );
+                translateX(
+                    calc(100% - var(--sticky-peek))
+                )
+                rotate(var(--random-rotate, 0deg));
+        }
+
+        #side-sticky .sticky-tape:hover,
+        #side-sticky .sticky-tape.is-open {
+            transform:
+                translateX(0)
+                rotate(0deg);
+        }
+
+        #side-sticky > ul {
+            margin-bottom: 8px;
         }
 
 
@@ -1939,13 +2021,7 @@
             document.querySelectorAll('.panel-page'),
 
         grids:
-            document.querySelectorAll('.dynamic-grid'),
-
-        catchword:
-            document.getElementById('catchword'),
-
-        subtitle:
-            document.getElementById('subtitle')
+            document.querySelectorAll('.dynamic-grid')
     };
 
 
@@ -2064,140 +2140,6 @@
 
     function getNavigationSection() {
         return getSectionAtViewportPoint(0.5);
-    }
-
-
-
-    /* =====================================================
-       HERO SCROLL POSITION
-    ===================================================== */
-
-    function clamp(value, min, max) {
-        return Math.min(Math.max(value, min), max);
-    }
-
-
-    function interpolate(from, to, progress) {
-        return from + (to - from) * progress;
-    }
-
-
-    function updateHero() {
-
-        const section = DOM.sections[1];
-
-        if (!section) {
-            return;
-        }
-
-        /*
-         * Preserve the existing visual trigger: movement starts when
-         * the next section reaches 90% of the viewport. The movement
-         * itself is now tied continuously to scroll position rather
-         * than to a CSS class transition.
-         */
-        const start =
-            section.offsetTop -
-            window.innerHeight * 0.9;
-
-        const range =
-            window.innerWidth <= 850
-                ? Math.max(140, window.innerHeight * 0.18)
-                : Math.max(180, window.innerHeight * 0.18);
-
-        const progress = clamp(
-            (window.scrollY - start) / range,
-            0,
-            1
-        );
-
-        const isMobile =
-            window.innerWidth <= 850;
-
-        /* Catchword ------------------------------------------------ */
-
-        const homeCatchSize = isMobile
-            ? Math.min(
-                Math.max(50, window.innerWidth * 0.0179 + 44.27),
-                59.5
-            )
-            : window.innerWidth * 0.07;
-
-        const subCatchSize =
-            isMobile ? 23 : 24;
-
-        DOM.catchword.style.fontSize =
-            `${homeCatchSize}px`;
-
-        const catchScale =
-            subCatchSize / homeCatchSize;
-
-        const catchHeight =
-            DOM.catchword.offsetHeight;
-
-        const homeCatchX =
-            window.innerWidth * 0.07;
-
-        const homeCatchY =
-            280 - catchHeight / 2;
-
-        const subCatchX =
-            isMobile ? 110 : 25;
-
-        const subCatchY =
-            isMobile ? 40 : 160;
-
-        const catchX =
-            interpolate(homeCatchX, subCatchX, progress);
-
-        const catchY =
-            interpolate(homeCatchY, subCatchY, progress);
-
-        const scale =
-            interpolate(1, catchScale, progress);
-
-        DOM.catchword.style.transform =
-            `translate3d(${catchX}px, ${catchY}px, 0) scale(${scale})`;
-
-        /* Subtitle ------------------------------------------------- */
-
-        const subtitleWidth =
-            DOM.subtitle.getBoundingClientRect().width;
-
-        const homeSubtitleX =
-            (window.innerWidth - subtitleWidth) / 2;
-
-        const homeSubtitleY =
-            isMobile ? 110 : 45;
-
-        const subSubtitleX =
-            isMobile ? 110 : 25;
-
-        const subSubtitleY =
-            isMobile ? 25 : 135;
-
-        const subtitleX =
-            interpolate(
-                homeSubtitleX,
-                subSubtitleX,
-                progress
-            );
-
-        const subtitleY =
-            interpolate(
-                homeSubtitleY,
-                subSubtitleY,
-                progress
-            );
-
-        const subtitleScale =
-            interpolate(1, 0.8, progress);
-
-        DOM.subtitle.style.transform =
-            `translate3d(${subtitleX}px, ${subtitleY}px, 0) scale(${subtitleScale})`;
-
-        DOM.subtitle.style.opacity =
-            interpolate(0.6, 0.5, progress);
     }
 
 
@@ -2330,6 +2272,49 @@
        SCROLL
     ===================================================== */
 
+    function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+    }
+
+    function smoothStep(value) {
+        return value * value * (3 - 2 * value);
+    }
+
+    function updateHeroOnScroll() {
+        if (!window.matchMedia('(max-width: 850px)').matches) {
+            return;
+        }
+
+        const scrollY = window.scrollY;
+        const homeHeight = Math.max(
+            document.getElementById('section-01')?.offsetHeight || window.innerHeight,
+            window.innerHeight
+        );
+
+        const progress = clamp(
+            scrollY / Math.max(homeHeight * 0.9, 1),
+            0,
+            1
+        );
+
+        const eased = smoothStep(progress);
+
+        // Move the mobile hero continuously rather than switching
+        // between two fixed positions at a section boundary.
+        const catchwordShift = -eased * 240;
+        const subtitleShift = -eased * 85;
+
+        DOM.body.style.setProperty(
+            '--hero-catchword-shift',
+            `${catchwordShift}px`
+        );
+
+        DOM.body.style.setProperty(
+            '--hero-subtitle-shift',
+            `${subtitleShift}px`
+        );
+    }
+
     function handleScroll() {
 
         if (state.ticking) {
@@ -2340,8 +2325,8 @@
 
         requestAnimationFrame(() => {
 
-            updateHero();
             updateSectionState();
+            updateHeroOnScroll();
 
             state.ticking = false;
         });
@@ -2358,8 +2343,8 @@
     window.addEventListener(
         'resize',
         () => {
-            updateHero();
             updateSectionState();
+            updateHeroOnScroll();
         }
     );
 
@@ -2564,8 +2549,8 @@
 
         initializeKeyboard();
 
-        updateHero();
         updateSectionState();
+        updateHeroOnScroll();
 
         renderPanel();
     }
