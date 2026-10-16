@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+        content="width=device-width, initial-scale=1.0"
     >
-
-    <title>Muse — Playground by esenus</title>
+    <title>esenus - Personal Playground</title>
 
     <link
         href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap"
@@ -17,7 +14,6 @@
     >
 
     <style>
-
     /* =====================================================
        VARIABLES
     ===================================================== */
@@ -26,12 +22,10 @@
         --bg-color: #f2f2f0;
         --line-color: rgba(43, 42, 41, 0.15);
         --accent-red: #cc3300;
-
         --text-dark: #2b2a29;
         --text-light: #7a7977;
 
         --ease: cubic-bezier(0.16, 1, 0.3, 1);
-
         --transition-speed: 0.9s;
         --sticky-speed: 0.7s;
 
@@ -58,11 +52,7 @@
             clamp(10px, calc(0.566vw + 8.19px), 13px);
 
         --mobile-top-shield-height: 110px;
-
-        --safe-area-bottom:
-            env(safe-area-inset-bottom, 0px);
     }
-
 
 
     /* =====================================================
@@ -77,7 +67,6 @@
         min-height: 100vh;
         margin: 0;
         padding: 0;
-
         overflow-x: hidden;
 
         background: var(--bg-color);
@@ -85,7 +74,6 @@
 
         font-family: 'Average', serif;
     }
-
 
 
     /* =====================================================
@@ -125,15 +113,15 @@
         font-weight: 700;
 
         white-space: nowrap;
+
         pointer-events: none;
 
-        transition:
-            top var(--transition-speed) var(--ease),
-            left var(--transition-speed) var(--ease),
-            transform var(--transition-speed) var(--ease),
-            opacity var(--transition-speed) var(--ease);
+        /*
+         * Scroll-linked elements are updated directly by JS.
+         * Do not add CSS transition here.
+         */
+        will-change: transform, opacity;
     }
-
 
 
     /* =====================================================
@@ -153,6 +141,10 @@
 
         background: var(--bg-color);
 
+        /*
+         * Header itself is state-driven.
+         * This transition is intentionally retained.
+         */
         transition:
             top var(--transition-speed) var(--ease),
             bottom var(--transition-speed) var(--ease),
@@ -201,18 +193,6 @@
             background-color 0.3s ease;
     }
 
-    .nav-list a:hover {
-        opacity: 1;
-        color: var(--accent-red);
-    }
-
-    .nav-list a.is-active {
-        opacity: 1;
-
-        background: var(--text-dark);
-        color: #fff !important;
-    }
-
     .nav-bar-label {
         display: flex;
         align-items: center;
@@ -223,11 +203,13 @@
 
         letter-spacing: 0.3em;
 
-        transition:
-            top var(--transition-speed) var(--ease),
-            left var(--transition-speed) var(--ease),
-            transform var(--transition-speed) var(--ease),
-            opacity 0.5s ease;
+        /*
+         * IMPORTANT:
+         * No transition.
+         * Position / rotation / opacity are entirely
+         * controlled by updateHeroMotion().
+         */
+        will-change: transform, opacity;
     }
 
     .nav-bar-label::after {
@@ -239,11 +221,45 @@
 
         background: var(--text-dark);
 
-        transition:
-            width var(--transition-speed) var(--ease),
-            height var(--transition-speed) var(--ease);
+        width: var(--nav-line-width, 60px);
+        height: 1px;
     }
 
+
+    /* =====================================================
+       POINTER HOVER
+    ===================================================== */
+
+    @media (hover: hover) and (pointer: fine) {
+
+        .nav-list a:hover {
+            opacity: 1;
+            color: var(--accent-red);
+        }
+
+        .panel-link:hover {
+            padding-left: 10px;
+            color: var(--accent-red);
+        }
+
+        .sticky-tape:hover {
+            transform:
+                translate3d(0, 0, 0)
+                rotate(var(--random-rotate, 0deg));
+        }
+    }
+
+
+    /* =====================================================
+       ACTIVE NAVIGATION
+    ===================================================== */
+
+    .nav-list a.is-active {
+        opacity: 1;
+
+        background: var(--text-dark);
+        color: #fff !important;
+    }
 
 
     /* =====================================================
@@ -272,14 +288,17 @@
 
         font-family: 'Syncopate';
 
-        transition:
-            top var(--transition-speed) var(--ease),
-            left var(--transition-speed) var(--ease),
-            transform var(--transition-speed) var(--ease),
-            font-size var(--transition-speed) var(--ease),
-            opacity var(--transition-speed) var(--ease);
+        /*
+         * These properties are continuously updated by JS.
+         * There is deliberately NO transition.
+         */
+        will-change:
+            top,
+            left,
+            transform,
+            font-size,
+            opacity;
     }
-
 
 
     /* =====================================================
@@ -290,33 +309,34 @@
         top: 280px;
         left: 7vw;
 
-        transform: translateY(-50%);
+        transform: translate3d(0, -50%, 0);
 
         font-size: 7vw;
         font-weight: 700;
-        line-height: 0.9;
 
+        line-height: 0.9;
         letter-spacing: 0.02em;
     }
 
     body.is-home #subtitle {
         top: 45px;
-        left: 110px;
+        left: 50%;
 
-        transform: translateY(-50%);
+        transform: translate3d(-50%, -50%, 0);
 
+        width: min(620px, calc(100vw - 140px));
         max-width: calc(100vw - 140px);
 
         font-size: 10px;
         line-height: 1.4;
-
         letter-spacing: 0.3em;
 
         white-space: normal;
 
+        text-align: center;
+
         opacity: 0.6;
     }
-
 
 
     /* =====================================================
@@ -327,7 +347,7 @@
         top: 160px;
         left: 25px;
 
-        transform: none;
+        transform: translate3d(0, 0, 0);
 
         font-size: 24px;
         line-height: 0.9;
@@ -337,15 +357,18 @@
         top: 135px;
         left: 25px;
 
-        transform: none;
+        transform: translate3d(0, 0, 0);
+
+        width: auto;
+        max-width: none;
 
         font-size: 8px;
-
         letter-spacing: 0.1em;
 
         opacity: 0.5;
-    }
 
+        text-align: left;
+    }
 
 
     /* =====================================================
@@ -422,13 +445,16 @@
     .home-update-item {
         display: grid;
 
-        grid-template-columns: 105px minmax(0, 1fr);
+        grid-template-columns:
+            105px
+            minmax(0, 1fr);
 
         gap: 15px;
 
         padding: 8px 0;
 
-        border-bottom: 1px solid var(--line-color);
+        border-bottom:
+            1px solid var(--line-color);
 
         font-size: 15px;
         line-height: 1.35;
@@ -446,7 +472,6 @@
     .home-update-text {
         min-width: 0;
     }
-
 
 
     /* =====================================================
@@ -481,7 +506,6 @@
     }
 
 
-
     /* =====================================================
        PAGE CONTENT
     ===================================================== */
@@ -491,7 +515,8 @@
 
         padding-left: 15px;
 
-        border-left: 6px solid var(--accent-red);
+        border-left:
+            6px solid var(--accent-red);
 
         font-family: 'Syncopate';
         font-size: 1.5rem;
@@ -500,14 +525,18 @@
     .page-intro-grid {
         display: grid;
 
-        grid-template-columns: 1fr 200px;
+        grid-template-columns:
+            1fr
+            200px;
 
         gap: 60px;
 
         margin-bottom: 60px;
+
         padding-bottom: 40px;
 
-        border-bottom: 1px solid var(--line-color);
+        border-bottom:
+            1px solid var(--line-color);
     }
 
     .page-main-text p {
@@ -520,7 +549,8 @@
     .page-meta {
         padding-left: 20px;
 
-        border-left: 1px solid var(--line-color);
+        border-left:
+            1px solid var(--line-color);
 
         color: var(--text-light);
 
@@ -541,7 +571,6 @@
 
         letter-spacing: 0.2em;
     }
-
 
 
     /* =====================================================
@@ -565,11 +594,13 @@
     .grid-item {
         padding-bottom: 20px;
 
-        border-bottom: 1px solid var(--line-color);
+        border-bottom:
+            1px solid var(--line-color);
     }
 
     .grid-item .thumb {
         display: flex;
+
         align-items: center;
         justify-content: center;
 
@@ -581,7 +612,8 @@
 
         background: #ddd;
 
-        border: 1px solid var(--line-color);
+        border:
+            1px solid var(--line-color);
 
         color: #999;
 
@@ -594,6 +626,7 @@
 
         font-family: 'Syncopate';
         font-size: 12px;
+
         line-height: 1.4;
     }
 
@@ -605,28 +638,28 @@
     }
 
 
-
     /* =====================================================
        STICKY ACTIONS
     ===================================================== */
 
     #side-sticky {
         position: fixed;
+
         top: 60px;
         right: 0;
+
         z-index: 1800;
 
         display: flex;
         flex-direction: column;
         align-items: flex-end;
 
-        transition:
-            transform var(--transition-speed) var(--ease),
-            opacity 0.5s ease;
+        will-change: transform;
     }
 
     #side-sticky > ul {
         display: flex;
+
         flex-direction: column;
         align-items: flex-end;
 
@@ -642,8 +675,10 @@
         margin-bottom: 10px;
 
         transform:
-            translateX(
-                calc(100% - var(--sticky-peek))
+            translate3d(
+                calc(100% - var(--sticky-peek)),
+                0,
+                0
             )
             rotate(var(--random-rotate, 0deg));
 
@@ -651,29 +686,17 @@
             transform var(--sticky-speed) var(--ease);
     }
 
-    /*
-     * Touch environments do not use hover to open
-     * the sticky note.
-     */
-    @media (hover: hover) and (pointer: fine) {
-
-        .sticky-tape:hover {
-            transform:
-                translateX(0)
-                rotate(0deg);
-        }
-    }
-
     .sticky-tape.is-open {
         transform:
-            translateX(0)
-            rotate(0deg);
+            translate3d(0, 0, 0)
+            rotate(var(--random-rotate, 0deg));
     }
 
     .sticky-tape a {
         position: relative;
 
         display: flex;
+
         align-items: center;
 
         min-width: 130px;
@@ -692,13 +715,32 @@
 
         font-family: 'Vast Shadow';
         font-size: 13px;
-
-        transition:
-            padding-right var(--sticky-speed) var(--ease);
     }
 
     .sticky-tape--behind a {
         background: var(--text-dark);
+    }
+
+    .sticky-tape a::after {
+        content: '×';
+
+        position: absolute;
+
+        top: 50%;
+        right: 13px;
+
+        transform:
+            translate3d(0, -50%, 0);
+
+        font-family: Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1;
+
+        opacity: 0;
+
+        transition:
+            opacity 0.2s ease;
     }
 
     .sticky-tape.is-open a {
@@ -706,18 +748,7 @@
     }
 
     .sticky-tape.is-open a::after {
-        content: '×';
-
-        position: absolute;
-        top: 50%;
-        right: 13px;
-
-        transform: translateY(-50%);
-
-        font-family: Arial, sans-serif;
-        font-size: 20px;
-        font-weight: 400;
-        line-height: 1;
+        opacity: 1;
     }
 
     .tape-icon {
@@ -733,16 +764,17 @@
     }
 
 
-
     /* =====================================================
        ACTION PANEL
     ===================================================== */
 
     #content-panel {
         position: fixed;
+
         top: 0;
         right: 0;
         bottom: var(--desktop-menu-height);
+
         z-index: 1700;
 
         width: var(--panel-width);
@@ -751,16 +783,19 @@
 
         background: var(--bg-color);
 
-        border-left: 1px solid var(--line-color);
+        border-left:
+            1px solid var(--line-color);
 
         box-shadow:
             -12px 0 35px rgba(0, 0, 0, 0.08);
 
-        transform: translateX(100%);
+        transform:
+            translate3d(100%, 0, 0);
 
         opacity: 0;
 
         visibility: hidden;
+
         pointer-events: none;
 
         transition:
@@ -770,11 +805,13 @@
     }
 
     #content-panel.is-open {
-        transform: translateX(0);
+        transform:
+            translate3d(0, 0, 0);
 
         opacity: 1;
 
         visibility: visible;
+
         pointer-events: auto;
 
         transition:
@@ -812,7 +849,9 @@
     }
 
     .panel-page .page-intro-grid {
-        grid-template-columns: 1fr 150px;
+        grid-template-columns:
+            1fr
+            150px;
     }
 
     .panel-page .page-main-text p {
@@ -821,6 +860,7 @@
 
     .panel-close-label {
         position: absolute;
+
         top: 25px;
         right: 30px;
 
@@ -835,28 +875,31 @@
     }
 
 
-
     /* =====================================================
        EXTERNAL LINKS
     ===================================================== */
 
     .panel-links {
         display: flex;
+
         flex-direction: column;
 
         margin-top: 35px;
 
-        border-top: 1px solid var(--line-color);
+        border-top:
+            1px solid var(--line-color);
     }
 
     .panel-link {
         display: flex;
+
         align-items: center;
         justify-content: space-between;
 
         padding: 16px 0;
 
-        border-bottom: 1px solid var(--line-color);
+        border-bottom:
+            1px solid var(--line-color);
 
         color: var(--text-dark);
 
@@ -871,12 +914,6 @@
         transition:
             color 0.3s ease,
             padding-left 0.4s var(--ease);
-    }
-
-    .panel-link:hover {
-        padding-left: 10px;
-
-        color: var(--accent-red);
     }
 
     .panel-link::after {
@@ -901,7 +938,6 @@
     }
 
 
-
     /* =====================================================
        FOOTER
     ===================================================== */
@@ -909,7 +945,8 @@
     #site-footer {
         z-index: 1200;
 
-        max-width: calc(100vw - 40px);
+        max-width:
+            calc(100vw - 40px);
 
         color: var(--text-dark);
 
@@ -923,7 +960,6 @@
 
         opacity: 0.25 !important;
     }
-
 
 
     /* =====================================================
@@ -946,7 +982,6 @@
     }
 
 
-
     /* =====================================================
        DESKTOP
     ===================================================== */
@@ -964,7 +999,8 @@
             width: 100%;
             height: var(--desktop-menu-height);
 
-            border-top: 1px solid var(--line-color);
+            border-top:
+                1px solid var(--line-color);
         }
 
         body.is-home .nav-list {
@@ -975,27 +1011,6 @@
 
             gap: var(--nav-gap);
         }
-
-        body.is-home .nav-bar-label {
-            top:
-                calc(
-                    100% -
-                    var(--desktop-menu-height)
-                );
-
-            left: 50%;
-
-            transform:
-                translate(-50%, -50%);
-
-            opacity: 0.6;
-        }
-
-        body.is-home .nav-bar-label::after {
-            width: 60px;
-            height: 1px;
-        }
-
 
 
         /* -------------------------------------------------
@@ -1010,7 +1025,8 @@
             width: var(--sidebar-width);
             height: 100vh;
 
-            border-right: 1px solid var(--line-color);
+            border-right:
+                1px solid var(--line-color);
         }
 
         body.is-sub .nav-list {
@@ -1022,23 +1038,6 @@
 
             gap: 10px;
         }
-
-        body.is-sub .nav-bar-label {
-            top: 50%;
-            left: var(--sidebar-width);
-
-            transform:
-                translate(-50%, -50%)
-                rotate(90deg);
-
-            opacity: 0.5;
-        }
-
-        body.is-sub .nav-bar-label::after {
-            width: 140px;
-            height: 1px;
-        }
-
 
 
         /* -------------------------------------------------
@@ -1054,7 +1053,6 @@
         }
 
 
-
         /* -------------------------------------------------
            FOOTER
         ------------------------------------------------- */
@@ -1068,12 +1066,6 @@
             transform:
                 translate(-50%, -50%)
                 rotate(-90deg);
-
-            width: max-content;
-
-            max-width: calc(100vw - 40px);
-
-            white-space: nowrap;
         }
 
         body.is-sub #site-footer {
@@ -1091,34 +1083,16 @@
                     var(--sidebar-width) / 2
                 );
 
-            width:
-                min(
-                    210px,
-                    calc(
-                        var(--sidebar-width) -
-                        40px
-                    )
-                );
+            transform:
+                translate(-50%, 0);
 
-            max-width:
-                calc(
-                    var(--sidebar-width) -
-                    40px
-                );
-
-            box-sizing: border-box;
+            max-width: 210px;
 
             text-align: center;
 
             white-space: normal;
-
-            overflow-wrap: break-word;
-
-            transform:
-                translate(-50%, 0);
         }
     }
-
 
 
     /* =====================================================
@@ -1137,20 +1111,13 @@
             left: 0 !important;
 
             width: 100% !important;
+            height: var(--mobile-menu-height) !important;
 
-            height:
-                calc(
-                    var(--mobile-menu-height) +
-                    var(--safe-area-bottom)
-                ) !important;
+            border-top:
+                1px solid var(--line-color);
 
-            padding-bottom:
-                var(--safe-area-bottom);
-
-            border-top: 1px solid var(--line-color);
             border-right: none !important;
         }
-
 
 
         /* -------------------------------------------------
@@ -1161,6 +1128,7 @@
             content: '';
 
             position: fixed;
+
             top: 0;
             left: 0;
 
@@ -1181,6 +1149,11 @@
             z-index: 0;
         }
 
+
+        /* -------------------------------------------------
+           MOBILE NAV
+        ------------------------------------------------- */
+
         .nav-list {
             top: 0 !important;
 
@@ -1196,9 +1169,7 @@
 
         .nav-bar-label {
             display: none !important;
-            transition: none !important;
         }
-
 
 
         /* -------------------------------------------------
@@ -1208,9 +1179,9 @@
         #section-01 {
             min-height: 100vh;
 
-            padding-top: var(--home-updates-start);
+            padding-top:
+                var(--home-updates-start);
         }
-
 
 
         /* -------------------------------------------------
@@ -1231,7 +1202,8 @@
             top: 280px;
             left: 7vw;
 
-            transform: translateY(-50%);
+            transform:
+                translate3d(0, -50%, 0);
 
             font-size:
                 clamp(
@@ -1245,9 +1217,11 @@
             top: 110px;
             left: 50%;
 
-            transform: translateX(-50%);
+            transform:
+                translate3d(-50%, -50%, 0);
 
-            width: calc(100vw - 50px);
+            width:
+                calc(100vw - 50px);
 
             max-width: 500px;
 
@@ -1255,7 +1229,6 @@
 
             line-height: 1.5;
         }
-
 
 
         /* -------------------------------------------------
@@ -1266,9 +1239,11 @@
             top: 40px;
             left: 110px;
 
-            transform: none;
+            transform:
+                translate3d(0, 0, 0);
 
             font-size: 23px;
+
             line-height: 0.9;
 
             letter-spacing: 0.02em;
@@ -1278,16 +1253,22 @@
             top: 25px;
             left: 110px;
 
-            transform: none;
+            transform:
+                translate3d(0, 0, 0);
+
+            width: auto;
+            max-width: none;
 
             font-size: 8px;
+
             line-height: 1.3;
 
             letter-spacing: 0.1em;
 
             white-space: nowrap;
-        }
 
+            text-align: left;
+        }
 
 
         /* -------------------------------------------------
@@ -1314,24 +1295,25 @@
         }
 
 
-
         /* -------------------------------------------------
            STICKY
         ------------------------------------------------- */
 
         #side-sticky {
-            top: auto;
-            right: 0;
+            top: 60px;
+            bottom: auto;
 
-            bottom:
-                calc(
-                    var(--mobile-menu-height) +
-                    var(--safe-area-bottom)
+            transform:
+                translate3d(
+                    0,
+                    calc(
+                        100vh
+                        - 160px
+                        - 100%
+                    ),
+                    0
                 );
-
-            transform: none;
         }
-
 
 
         /* -------------------------------------------------
@@ -1343,12 +1325,10 @@
             right: 0;
 
             bottom:
-                calc(
-                    var(--mobile-menu-height) +
-                    var(--safe-area-bottom)
-                );
+                var(--mobile-menu-height);
 
-            width: calc(100vw - 20px);
+            width:
+                calc(100vw - 20px);
 
             box-shadow:
                 -10px 0 25px rgba(0, 0, 0, 0.08);
@@ -1391,7 +1371,6 @@
         }
 
 
-
         /* -------------------------------------------------
            FOOTER
         ------------------------------------------------- */
@@ -1404,109 +1383,32 @@
                     90px,
                     50vh,
                     calc(100vh - 90px)
-                );
+                ) !important;
 
             left:
                 clamp(
                     12px,
                     1vw,
                     20px
-                );
+                ) !important;
 
-            width:
-                min(
-                    210px,
-                    calc(100vw - 40px)
-                );
+            width: max-content;
 
-            max-width:
-                calc(100vw - 40px);
+            max-width: none;
 
-            box-sizing: border-box;
-
-            white-space: normal;
-
-            overflow-wrap: break-word;
+            white-space: nowrap;
 
             text-align: left;
 
             transform:
                 translate(-50%, -50%)
-                rotate(-90deg);
+                rotate(-90deg) !important;
         }
     }
-
-
-
-    /* =====================================================
-       SHORT MOBILE VIEWPORT
-    ===================================================== */
-
-    @media screen
-        and (max-width: 850px)
-        and (max-height: 700px) {
-
-        :root {
-            --mobile-top-shield-height: 90px;
-        }
-
-        body.is-home #catchword {
-            top: 230px;
-        }
-
-        body.is-home #subtitle {
-            top: 90px;
-        }
-
-        body.is-sub #catchword {
-            top: 35px;
-        }
-
-        body.is-sub #subtitle {
-            top: 22px;
-        }
-    }
-
-
-
-    /* =====================================================
-       NARROW / SHORT VIEWPORT
-    ===================================================== */
-
-    /*
-     * When the viewport is too short for the normal
-     * horizontal footer treatment, the footer uses its own
-     * width as the wrapping box.
-     */
-    @media screen
-        and (max-width: 850px)
-        and (max-height: 500px) {
-
-        #site-footer {
-            width:
-                min(
-                    180px,
-                    calc(100vw - 40px)
-                );
-
-            max-width:
-                min(
-                    180px,
-                    calc(100vw - 40px)
-                );
-
-            white-space: normal;
-        }
-    }
-
     </style>
 </head>
 
-
-
 <body class="is-home">
-
-
 
 <!-- =====================================================
      HEADER
@@ -1519,7 +1421,7 @@
         type="button"
         aria-label="Go to Home"
     >
-        MUSE ::<br>ESENUS
+        ESENUS<br>logs
     </button>
 
     <div class="ui-label nav-bar-label">
@@ -1527,35 +1429,42 @@
     </div>
 
     <nav aria-label="Main Navigation">
-
         <ul id="main-nav-list" class="nav-list">
 
             <li>
-                <a href="#section-01">HOME</a>
+                <a href="#section-01">
+                    HOME
+                </a>
             </li>
 
             <li>
-                <a href="#section-02">PLAY</a>
+                <a href="#section-02">
+                    PLAY
+                </a>
             </li>
 
             <li>
-                <a href="#section-03">MAKE</a>
+                <a href="#section-03">
+                    MAKE
+                </a>
             </li>
 
             <li>
-                <a href="#section-04">NOTE</a>
+                <a href="#section-04">
+                    NOTE
+                </a>
             </li>
 
             <li>
-                <a href="#section-05">ARCHIVE</a>
+                <a href="#section-05">
+                    ARCHIVE
+                </a>
             </li>
 
         </ul>
-
     </nav>
 
 </header>
-
 
 
 <!-- =====================================================
@@ -1566,7 +1475,6 @@
     class="hero-section"
     aria-hidden="true"
 >
-
     <p id="subtitle">
         A PERSONAL PLACE TO MAKE THINGS
     </p>
@@ -1574,9 +1482,7 @@
     <h2 id="catchword">
         JUST<br>BECAUSE.
     </h2>
-
 </section>
-
 
 
 <!-- =====================================================
@@ -1585,7 +1491,9 @@
 
 <main>
 
-    <!-- HOME -->
+    <!-- =================================================
+         HOME
+    ================================================== -->
 
     <section
         id="section-01"
@@ -1606,6 +1514,7 @@
             <ul class="home-updates-list">
 
                 <li class="home-update-item">
+
                     <time
                         class="home-update-date"
                         datetime="2026-09-18"
@@ -1616,9 +1525,11 @@
                     <span class="home-update-text">
                         The Playground website started.
                     </span>
+
                 </li>
 
                 <li class="home-update-item">
+
                     <time
                         class="home-update-date"
                         datetime="2026-09-16"
@@ -1629,9 +1540,11 @@
                     <span class="home-update-text">
                         Furby Rebuild project updated.
                     </span>
+
                 </li>
 
                 <li class="home-update-item">
+
                     <time
                         class="home-update-date"
                         datetime="2026-09-12"
@@ -1642,6 +1555,7 @@
                     <span class="home-update-text">
                         Started building things again.
                     </span>
+
                 </li>
 
             </ul>
@@ -1651,8 +1565,9 @@
     </section>
 
 
-
-    <!-- PLAY -->
+    <!-- =================================================
+         PLAY
+    ================================================== -->
 
     <section
         id="section-02"
@@ -1710,8 +1625,9 @@
     </section>
 
 
-
-    <!-- MAKE -->
+    <!-- =================================================
+         MAKE
+    ================================================== -->
 
     <section
         id="section-03"
@@ -1768,8 +1684,9 @@
     </section>
 
 
-
-    <!-- NOTE -->
+    <!-- =================================================
+         NOTE
+    ================================================== -->
 
     <section
         id="section-04"
@@ -1825,8 +1742,9 @@
     </section>
 
 
-
-    <!-- ARCHIVE -->
+    <!-- =================================================
+         ARCHIVE
+    ================================================== -->
 
     <section
         id="section-05"
@@ -1887,7 +1805,6 @@
 </main>
 
 
-
 <!-- =====================================================
      STICKY ACTIONS
 ===================================================== -->
@@ -1903,6 +1820,7 @@
             class="sticky-tape"
             data-action="01"
         >
+
             <a
                 href="#"
                 aria-controls="content-panel"
@@ -1915,12 +1833,14 @@
 
                 KNOCK
             </a>
+
         </li>
 
         <li
             class="sticky-tape sticky-tape--behind"
             data-action="02"
         >
+
             <a
                 href="#"
                 aria-controls="content-panel"
@@ -1933,12 +1853,12 @@
 
                 BEHIND
             </a>
+
         </li>
 
     </ul>
 
 </aside>
-
 
 
 <!-- =====================================================
@@ -1958,8 +1878,9 @@
         </div>
 
 
-
-        <!-- KNOCK -->
+        <!-- =============================================
+             KNOCK
+        ============================================== -->
 
         <section
             class="panel-page"
@@ -2042,8 +1963,9 @@
         </section>
 
 
-
-        <!-- BEHIND -->
+        <!-- =============================================
+             BEHIND
+        ============================================== -->
 
         <section
             class="panel-page"
@@ -2115,7 +2037,6 @@
 </aside>
 
 
-
 <!-- =====================================================
      FOOTER
 ===================================================== -->
@@ -2124,536 +2045,1056 @@
     id="site-footer"
     class="ui-label"
 >
-    © 2026 KUMI FELT LIKE MAKING THE PLAYGROUND BY ESENUS
+    ©2026 ESENUS LOGS / THE PLAYGROUND - KUMI FELT LIKE MAKING
 </footer>
 
 
-
 <script>
+/* =====================================================
+   DOM
+===================================================== */
 
-    /* =====================================================
-       DOM
-    ===================================================== */
+const DOM = {
+    body: document.body,
 
-    const DOM = {
-        body: document.body,
+    logo:
+        document.getElementById('logo'),
 
-        logo: document.getElementById('logo'),
+    mainNav:
+        document.querySelectorAll(
+            '#main-nav-list a'
+        ),
 
-        mainNav:
-            document.querySelectorAll('#main-nav-list a'),
+    sections:
+        document.querySelectorAll(
+            'main .page-section'
+        ),
 
-        sections:
-            document.querySelectorAll('main .page-section'),
+    stickyItems:
+        document.querySelectorAll(
+            '#side-sticky .sticky-tape'
+        ),
 
-        stickyItems:
-            document.querySelectorAll('#side-sticky .sticky-tape'),
+    panel:
+        document.getElementById(
+            'content-panel'
+        ),
 
-        panel:
-            document.getElementById('content-panel'),
+    panelPages:
+        document.querySelectorAll(
+            '.panel-page'
+        ),
 
-        panelPages:
-            document.querySelectorAll('.panel-page'),
+    grids:
+        document.querySelectorAll(
+            '.dynamic-grid'
+        ),
 
-        grids:
-            document.querySelectorAll('.dynamic-grid')
-    };
+    catchword:
+        document.getElementById(
+            'catchword'
+        ),
+
+    subtitle:
+        document.getElementById(
+            'subtitle'
+        ),
+
+    navBarLabel:
+        document.querySelector(
+            '.nav-bar-label'
+        )
+};
 
 
+/* =====================================================
+   STATE
+===================================================== */
 
-    /* =====================================================
-       STATE
-    ===================================================== */
+const state = {
+    section: null,
+    action: null,
 
-    const state = {
-        section: null,
-        action: null,
-        ticking: false
-    };
+    motionFrame: 0,
+
+    viewportWidth:
+        window.innerWidth,
+
+    viewportHeight:
+        window.innerHeight
+};
 
 
+/* =====================================================
+   GRID
+===================================================== */
 
-    /* =====================================================
-       GRID
-    ===================================================== */
+function createGridItem(prefix, index) {
+    const number =
+        String(index + 1).padStart(2, '0');
 
-    function createGridItem(prefix, index) {
+    return `
+        <div class="grid-item">
 
-        const number =
-            String(index + 1).padStart(2, '0');
-
-        return `
-            <div class="grid-item">
-
-                <div class="thumb">
-                    ${prefix} ${number}
-                </div>
-
-                <h3>
-                    ${prefix} ${index + 1}
-                </h3>
-
-                <p>
-                    Try something.
-                    See what happens.
-                </p>
-
+            <div class="thumb">
+                ${prefix} ${number}
             </div>
-        `;
-    }
+
+            <h3>
+                ${prefix} ${index + 1}
+            </h3>
+
+            <p>
+                Try something.
+                See what happens.
+            </p>
+
+        </div>
+    `;
+}
 
 
-    function initializeGrids() {
+function initializeGrids() {
+    DOM.grids.forEach(grid => {
 
-        DOM.grids.forEach(grid => {
-
-            const count =
-                Number(grid.dataset.gridCount);
-
-            const prefix =
-                grid.dataset.gridPrefix;
-
-            grid.innerHTML =
-                Array.from(
-                    { length: count },
-                    (_, index) =>
-                        createGridItem(prefix, index)
-                ).join('');
-        });
-    }
-
-
-
-    /* =====================================================
-       SECTION DETECTION
-    ===================================================== */
-
-    /*
-     * Visual state:
-     * Used for the HOME → SUB header transition.
-     *
-     * Keep this at 90%.
-     */
-
-    function getSectionAtViewportPoint(ratio) {
-
-        if (!DOM.sections.length) {
-            return null;
-        }
-
-        const position =
-            window.scrollY +
-            window.innerHeight * ratio;
-
-        let active =
-            DOM.sections[0];
-
-        for (const section of DOM.sections) {
-
-            if (section.offsetTop <= position) {
-                active = section;
-                continue;
-            }
-
-            break;
-        }
-
-        return active;
-    }
-
-
-    function getVisualSection() {
-        return getSectionAtViewportPoint(0.9);
-    }
-
-
-    /*
-     * Navigation state:
-     * Uses a later threshold so HOME does not immediately
-     * become PLAY when PLAY has only just entered the viewport.
-     */
-
-    function getNavigationSection() {
-        return getSectionAtViewportPoint(0.5);
-    }
-
-
-
-    /* =====================================================
-       HEADER / SECTION STATE
-    ===================================================== */
-
-    function updateSectionState() {
-
-        const section =
-            getVisualSection();
-
-        if (!section) {
-            return;
-        }
-
-        const sectionId =
-            section.dataset.section;
-
-        if (state.section === sectionId) {
-            updateMainNav();
-            return;
-        }
-
-        state.section =
-            sectionId;
-
-        const isHome =
-            sectionId === '01';
-
-        DOM.body.classList.toggle(
-            'is-home',
-            isHome
-        );
-
-        DOM.body.classList.toggle(
-            'is-sub',
-            !isHome
-        );
-
-        updateMainNav();
-    }
-
-
-
-    /* =====================================================
-       MAIN NAVIGATION
-    ===================================================== */
-
-    function updateMainNav() {
-
-        const section =
-            getNavigationSection();
-
-        const sectionId =
-            section?.dataset.section;
-
-        DOM.mainNav.forEach(link => {
-
-            const target =
-                link.getAttribute('href');
-
-            const isActive =
-                !state.action &&
-                target ===
-                    `#section-${sectionId}`;
-
-            link.classList.toggle(
-                'is-active',
-                isActive
+        const count =
+            Number(
+                grid.dataset.gridCount
             );
-        });
+
+        const prefix =
+            grid.dataset.gridPrefix;
+
+        grid.innerHTML =
+            Array.from(
+                { length: count },
+                (_, index) =>
+                    createGridItem(
+                        prefix,
+                        index
+                    )
+            ).join('');
+    });
+}
+
+
+/* =====================================================
+   SECTION DETECTION
+===================================================== */
+
+function getSectionAtViewportPoint(ratio) {
+
+    if (!DOM.sections.length) {
+        return null;
     }
 
+    const position =
+        window.scrollY +
+        window.innerHeight * ratio;
 
-    function goToSection(sectionId) {
+    let active =
+        DOM.sections[0];
+
+    for (const section of DOM.sections) {
+
+        if (
+            section.offsetTop <=
+            position
+        ) {
+            active = section;
+            continue;
+        }
+
+        break;
+    }
+
+    return active;
+}
+
+
+function getVisualSection() {
+    return getSectionAtViewportPoint(0.9);
+}
+
+
+function getNavigationSection() {
+    return getSectionAtViewportPoint(0.5);
+}
+
+
+/* =====================================================
+   HEADER / SECTION STATE
+===================================================== */
+
+function updateSectionState() {
+
+    const section =
+        getVisualSection();
+
+    if (!section) {
+        return;
+    }
+
+    const sectionId =
+        section.dataset.section;
+
+    if (
+        state.section === sectionId
+    ) {
+        updateMainNav();
+        return;
+    }
+
+    state.section =
+        sectionId;
+
+    const isHome =
+        sectionId === '01';
+
+    DOM.body.classList.toggle(
+        'is-home',
+        isHome
+    );
+
+    DOM.body.classList.toggle(
+        'is-sub',
+        !isHome
+    );
+
+    updateMainNav();
+}
+
+
+/* =====================================================
+   MAIN NAVIGATION
+===================================================== */
+
+function updateMainNav() {
+
+    const section =
+        getNavigationSection();
+
+    const sectionId =
+        section?.dataset.section;
+
+    DOM.mainNav.forEach(link => {
 
         const target =
-            document.getElementById(
-                `section-${sectionId}`
-            );
+            link.getAttribute('href');
 
-        if (!target) {
-            return;
-        }
+        const isActive =
+            !state.action &&
+            target ===
+                `#section-${sectionId}`;
 
-        closePanel();
-
-        target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-
-
-    function initializeMainNavigation() {
-
-        DOM.mainNav.forEach(link => {
-
-            link.addEventListener(
-                'click',
-                event => {
-
-                    event.preventDefault();
-
-                    const href =
-                        link.getAttribute('href');
-
-                    const sectionId =
-                        href.replace(
-                            '#section-',
-                            ''
-                        );
-
-                    goToSection(sectionId);
-                }
-            );
-        });
-
-        DOM.logo.addEventListener(
-            'click',
-            () => goToSection('01')
+        link.classList.toggle(
+            'is-active',
+            isActive
         );
+    });
+}
+
+
+function goToSection(sectionId) {
+
+    const target =
+        document.getElementById(
+            `section-${sectionId}`
+        );
+
+    if (!target) {
+        return;
+    }
+
+    closePanel();
+
+    target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+}
+
+
+function initializeMainNavigation() {
+
+    DOM.mainNav.forEach(link => {
+
+        link.addEventListener(
+            'click',
+            event => {
+
+                event.preventDefault();
+
+                const href =
+                    link.getAttribute(
+                        'href'
+                    );
+
+                const sectionId =
+                    href.replace(
+                        '#section-',
+                        ''
+                    );
+
+                goToSection(
+                    sectionId
+                );
+            }
+        );
+    });
+
+
+    DOM.logo.addEventListener(
+        'click',
+        () => goToSection('01')
+    );
+}
+
+
+/* =====================================================
+   MATH
+===================================================== */
+
+function clamp(
+    value,
+    min,
+    max
+) {
+    return Math.min(
+        Math.max(value, min),
+        max
+    );
+}
+
+
+function lerp(
+    start,
+    end,
+    progress
+) {
+    return (
+        start +
+        (end - start) *
+        progress
+    );
+}
+
+
+/* =====================================================
+   SCROLL PROGRESS
+===================================================== */
+
+function getScrollProgress() {
+
+    const homeHeight =
+        Math.max(
+            DOM.sections[0]?.offsetHeight ||
+                window.innerHeight,
+
+            window.innerHeight
+        );
+
+    return clamp(
+        window.scrollY /
+            homeHeight,
+
+        0,
+        1
+    );
+}
+
+
+/* =====================================================
+   SCROLL-LINKED HERO MOTION
+===================================================== */
+
+/*
+ * IMPORTANT
+ *
+ * This function is the sole animation driver for:
+ *
+ *   #catchword
+ *   #subtitle
+ *   .nav-bar-label
+ *
+ * There is intentionally NO CSS transition on these
+ * elements.
+ *
+ * Every frame is derived directly from scroll progress.
+ *
+ * This prevents Safari from having to reconcile:
+ *
+ *   scroll → JS position
+ *   + CSS transition
+ *   + body class state
+ *
+ * at the same time.
+ */
+
+function updateHeroMotion() {
+
+    const progress =
+        getScrollProgress();
+
+    const isMobile =
+        window.innerWidth <= 850;
+
+
+    /* =================================================
+       CATCHWORD
+    ================================================= */
+
+    if (isMobile) {
+
+        const homeTop = 280;
+        const subTop = 40;
+
+        const homeLeft =
+            window.innerWidth * 0.07;
+
+        const subLeft = 110;
+
+        const homeSize =
+            Math.min(
+                59.5,
+
+                Math.max(
+                    50,
+
+                    window.innerWidth *
+                        0.0179 +
+                    44.27
+                )
+            );
+
+        const subSize = 23;
+
+        const top =
+            lerp(
+                homeTop,
+                subTop,
+                progress
+            );
+
+        const left =
+            lerp(
+                homeLeft,
+                subLeft,
+                progress
+            );
+
+        const size =
+            lerp(
+                homeSize,
+                subSize,
+                progress
+            );
+
+        const translateY =
+            lerp(
+                -50,
+                0,
+                progress
+            );
+
+        DOM.catchword.style.top =
+            `${top}px`;
+
+        DOM.catchword.style.left =
+            `${left}px`;
+
+        DOM.catchword.style.fontSize =
+            `${size}px`;
+
+        DOM.catchword.style.transform =
+            `translate3d(0, ${translateY}%, 0)`;
+
+    } else {
+
+        const homeTop = 280;
+        const subTop = 160;
+
+        const homeLeft =
+            window.innerWidth * 0.07;
+
+        const subLeft = 25;
+
+        const homeSize =
+            window.innerWidth * 0.07;
+
+        const subSize = 24;
+
+        const top =
+            lerp(
+                homeTop,
+                subTop,
+                progress
+            );
+
+        const left =
+            lerp(
+                homeLeft,
+                subLeft,
+                progress
+            );
+
+        const size =
+            lerp(
+                homeSize,
+                subSize,
+                progress
+            );
+
+        const translateY =
+            lerp(
+                -50,
+                0,
+                progress
+            );
+
+        DOM.catchword.style.top =
+            `${top}px`;
+
+        DOM.catchword.style.left =
+            `${left}px`;
+
+        DOM.catchword.style.fontSize =
+            `${size}px`;
+
+        DOM.catchword.style.transform =
+            `translate3d(0, ${translateY}%, 0)`;
     }
 
 
+    /* =================================================
+       SUBTITLE
+    ================================================= */
 
-    /* =====================================================
-       SCROLL
-    ===================================================== */
+    if (isMobile) {
 
-    function handleScroll() {
+        const homeTop = 110;
+        const subTop = 25;
 
-        if (state.ticking) {
-            return;
-        }
+        const homeLeft =
+            window.innerWidth / 2;
 
-        state.ticking = true;
+        const subLeft = 110;
 
+        const homeWidth =
+            Math.max(
+                250,
+                window.innerWidth - 50
+            );
+
+        const subWidth =
+            DOM.subtitle.scrollWidth;
+
+        const top =
+            lerp(
+                homeTop,
+                subTop,
+                progress
+            );
+
+        const left =
+            lerp(
+                homeLeft,
+                subLeft,
+                progress
+            );
+
+        const width =
+            lerp(
+                homeWidth,
+                subWidth,
+                progress
+            );
+
+        const translateX =
+            lerp(
+                -50,
+                0,
+                progress
+            );
+
+        const translateY =
+            lerp(
+                -50,
+                0,
+                progress
+            );
+
+        const fontSize =
+            lerp(
+                10,
+                8,
+                progress
+            );
+
+        DOM.subtitle.style.top =
+            `${top}px`;
+
+        DOM.subtitle.style.left =
+            `${left}px`;
+
+        DOM.subtitle.style.width =
+            `${width}px`;
+
+        DOM.subtitle.style.maxWidth =
+            'none';
+
+        DOM.subtitle.style.fontSize =
+            `${fontSize}px`;
+
+        DOM.subtitle.style.transform =
+            `translate3d(${translateX}%, ${translateY}%, 0)`;
+
+        DOM.subtitle.style.textAlign =
+            progress < 0.5
+                ? 'center'
+                : 'left';
+
+    } else {
+
+        const homeTop = 45;
+        const subTop = 135;
+
+        const homeLeft =
+            window.innerWidth / 2;
+
+        const subLeft = 25;
+
+        const homeWidth =
+            Math.min(
+                620,
+                Math.max(
+                    0,
+                    window.innerWidth - 140
+                )
+            );
+
+        const subWidth =
+            DOM.subtitle.scrollWidth;
+
+        const top =
+            lerp(
+                homeTop,
+                subTop,
+                progress
+            );
+
+        const left =
+            lerp(
+                homeLeft,
+                subLeft,
+                progress
+            );
+
+        const width =
+            lerp(
+                homeWidth,
+                subWidth,
+                progress
+            );
+
+        const translateX =
+            lerp(
+                -50,
+                0,
+                progress
+            );
+
+        const translateY =
+            lerp(
+                -50,
+                0,
+                progress
+            );
+
+        const fontSize =
+            lerp(
+                10,
+                8,
+                progress
+            );
+
+        DOM.subtitle.style.top =
+            `${top}px`;
+
+        DOM.subtitle.style.left =
+            `${left}px`;
+
+        DOM.subtitle.style.width =
+            `${width}px`;
+
+        DOM.subtitle.style.maxWidth =
+            'none';
+
+        DOM.subtitle.style.fontSize =
+            `${fontSize}px`;
+
+        DOM.subtitle.style.transform =
+            `translate3d(${translateX}%, ${translateY}%, 0)`;
+
+        DOM.subtitle.style.textAlign =
+            progress < 0.5
+                ? 'center'
+                : 'left';
+    }
+
+
+    /* =================================================
+       NAV BAR LABEL
+    ================================================= */
+
+    if (isMobile) {
+        return;
+    }
+
+    const menuHeight =
+        Math.min(
+            120,
+            Math.max(
+                80,
+                window.innerWidth *
+                    0.08333 +
+                50
+            )
+        );
+
+    const homeTop =
+        window.innerHeight -
+        menuHeight;
+
+    const subTop =
+        window.innerHeight / 2;
+
+    const homeLeft =
+        window.innerWidth / 2;
+
+    const subLeft = 260;
+
+    const top =
+        lerp(
+            homeTop,
+            subTop,
+            progress
+        );
+
+    const left =
+        lerp(
+            homeLeft,
+            subLeft,
+            progress
+        );
+
+    const rotation =
+        lerp(
+            0,
+            90,
+            progress
+        );
+
+    const lineWidth =
+        lerp(
+            60,
+            140,
+            progress
+        );
+
+    const opacity =
+        lerp(
+            0.6,
+            0.5,
+            progress
+        );
+
+
+    DOM.navBarLabel.style.top =
+        `${top}px`;
+
+    DOM.navBarLabel.style.left =
+        `${left}px`;
+
+    DOM.navBarLabel.style.transform =
+        `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
+
+    DOM.navBarLabel.style.opacity =
+        opacity;
+
+    DOM.navBarLabel.style.setProperty(
+        '--nav-line-width',
+        `${lineWidth}px`
+    );
+}
+
+
+/* =====================================================
+   SCROLL UPDATE
+===================================================== */
+
+function requestScrollUpdate() {
+
+    if (state.motionFrame) {
+        return;
+    }
+
+    state.motionFrame =
         requestAnimationFrame(() => {
 
+            state.motionFrame = 0;
+
             /*
-             * Scroll only determines which section is active.
+             * Order matters:
              *
-             * Hero / footer positions themselves are controlled
-             * entirely by CSS through .is-home / .is-sub.
+             * 1. derive visual position from scroll
+             * 2. update section state
+             *
+             * No CSS transition is involved in the
+             * scroll-linked hero elements.
              */
+
+            updateHeroMotion();
             updateSectionState();
-
-            state.ticking = false;
         });
+}
+
+
+function handleScroll() {
+    requestScrollUpdate();
+}
+
+
+window.addEventListener(
+    'scroll',
+    handleScroll,
+    { passive: true }
+);
+
+
+window.addEventListener(
+    'resize',
+    () => {
+
+        state.viewportWidth =
+            window.innerWidth;
+
+        state.viewportHeight =
+            window.innerHeight;
+
+        requestScrollUpdate();
     }
+);
 
 
-    window.addEventListener(
-        'scroll',
-        handleScroll,
-        { passive: true }
-    );
+/* =====================================================
+   ACTION PANEL
+===================================================== */
+
+function updatePanelPages() {
+
+    DOM.panelPages.forEach(page => {
+
+        const isActive =
+            page.dataset.actionPage ===
+            state.action;
+
+        page.classList.toggle(
+            'is-active',
+            isActive
+        );
+    });
+}
 
 
-    window.addEventListener(
-        'resize',
-        updateSectionState
-    );
+function updateStickyItems() {
 
+    DOM.stickyItems.forEach(item => {
 
+        const isActive =
+            item.dataset.action ===
+            state.action;
 
-    /* =====================================================
-       ACTION PANEL
-    ===================================================== */
-
-    function updatePanelPages() {
-
-        DOM.panelPages.forEach(page => {
-
-            const isActive =
-                page.dataset.actionPage ===
-                state.action;
-
-            page.classList.toggle(
-                'is-active',
-                isActive
-            );
-        });
-    }
-
-
-    function updateStickyItems() {
-
-        DOM.stickyItems.forEach(item => {
-
-            const isActive =
-                item.dataset.action ===
-                state.action;
-
-            item.classList.toggle(
-                'is-open',
-                isActive
-            );
-
-            item.querySelector('a')
-                ?.setAttribute(
-                    'aria-expanded',
-                    String(isActive)
-                );
-        });
-    }
-
-
-    function updatePanelVisibility() {
-
-        const isOpen =
-            Boolean(state.action);
-
-        DOM.panel.classList.toggle(
+        item.classList.toggle(
             'is-open',
-            isOpen
+            isActive
         );
 
-        DOM.panel.setAttribute(
-            'aria-hidden',
-            String(!isOpen)
-        );
+        item.querySelector('a')
+            ?.setAttribute(
+                'aria-expanded',
+                String(isActive)
+            );
+    });
+}
+
+
+function updatePanelVisibility() {
+
+    const isOpen =
+        Boolean(state.action);
+
+    DOM.panel.classList.toggle(
+        'is-open',
+        isOpen
+    );
+
+    DOM.panel.setAttribute(
+        'aria-hidden',
+        String(!isOpen)
+    );
+}
+
+
+function renderPanel() {
+
+    updatePanelPages();
+    updateStickyItems();
+    updateMainNav();
+    updatePanelVisibility();
+}
+
+
+function openPanel(actionId) {
+
+    if (
+        state.action === actionId
+    ) {
+        closePanel();
+        return;
     }
 
-
-    function renderPanel() {
-
-        updatePanelPages();
-
-        updateStickyItems();
-
-        updateMainNav();
-
-        updatePanelVisibility();
-    }
-
-
-    function openPanel(actionId) {
-
-        if (state.action === actionId) {
-            closePanel();
-            return;
-        }
-
-        if (state.action) {
-
-            state.action = null;
-
-            renderPanel();
-
-            setTimeout(() => {
-
-                state.action = actionId;
-
-                renderPanel();
-
-            }, 100);
-
-            return;
-        }
-
-        state.action = actionId;
-
-        renderPanel();
-    }
-
-
-    function closePanel() {
-
-        if (!state.action) {
-            return;
-        }
+    if (state.action) {
 
         state.action = null;
 
         renderPanel();
+
+        setTimeout(() => {
+
+            state.action =
+                actionId;
+
+            renderPanel();
+
+        }, 100);
+
+        return;
     }
 
+    state.action =
+        actionId;
+
+    renderPanel();
+}
 
 
-    /* =====================================================
-       STICKY NAVIGATION
-    ===================================================== */
+function closePanel() {
 
-    function initializeStickyNavigation() {
-
-        DOM.stickyItems.forEach(item => {
-
-            const link =
-                item.querySelector('a');
-
-            link?.addEventListener(
-                'click',
-                event => {
-
-                    event.preventDefault();
-
-                    openPanel(
-                        item.dataset.action
-                    );
-                }
-            );
-        });
+    if (!state.action) {
+        return;
     }
 
+    state.action = null;
+
+    renderPanel();
+}
 
 
-    /* =====================================================
-       KEYBOARD
-    ===================================================== */
+/* =====================================================
+   STICKY NAVIGATION
+===================================================== */
 
-    function initializeKeyboard() {
+function initializeStickyNavigation() {
 
-        document.addEventListener(
-            'keydown',
+    DOM.stickyItems.forEach(item => {
+
+        const link =
+            item.querySelector('a');
+
+        link?.addEventListener(
+            'click',
             event => {
 
-                if (
-                    event.key === 'Escape' &&
-                    state.action
-                ) {
-                    closePanel();
-                }
+                event.preventDefault();
+
+                openPanel(
+                    item.dataset.action
+                );
             }
         );
-    }
+    });
+}
 
 
+/* =====================================================
+   KEYBOARD
+===================================================== */
 
-    /* =====================================================
-       STICKY ROTATION
-    ===================================================== */
+function initializeKeyboard() {
 
-    function applyRandomRotation() {
+    document.addEventListener(
+        'keydown',
+        event => {
 
-        DOM.stickyItems.forEach(item => {
-
-            const rotation =
-                (Math.random() - 0.5) * 6;
-
-            item.style.setProperty(
-                '--random-rotate',
-                `${rotation}deg`
-            );
-        });
-    }
-
-
-
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-
-    function initialize() {
-
-        initializeGrids();
-
-        applyRandomRotation();
-
-        initializeMainNavigation();
-
-        initializeStickyNavigation();
-
-        initializeKeyboard();
-
-        updateSectionState();
-
-        renderPanel();
-    }
-
-
-    window.addEventListener(
-        'DOMContentLoaded',
-        initialize
+            if (
+                event.key === 'Escape' &&
+                state.action
+            ) {
+                closePanel();
+            }
+        }
     );
+}
 
+
+/* =====================================================
+   STICKY ROTATION
+===================================================== */
+
+function applyRandomRotation() {
+
+    DOM.stickyItems.forEach(item => {
+
+        const rotation =
+            (Math.random() - 0.5) * 6;
+
+        item.style.setProperty(
+            '--random-rotate',
+            `${rotation}deg`
+        );
+    });
+}
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+function initialize() {
+
+    initializeGrids();
+
+    applyRandomRotation();
+
+    initializeMainNavigation();
+
+    initializeStickyNavigation();
+
+    initializeKeyboard();
+
+    updateSectionState();
+
+    updateHeroMotion();
+
+    renderPanel();
+}
+
+
+window.addEventListener(
+    'DOMContentLoaded',
+    initialize
+);
 </script>
 
 </body>
