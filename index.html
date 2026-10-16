@@ -504,6 +504,25 @@
             rotate(var(--random-rotate, 0deg));
     }
 
+    /* HOME: at the top, show the complete sticky notes.
+       Once scrolling begins, retract them to the right and
+       leave only the icon visible. */
+    body.is-home:not(.has-scrolled) #side-sticky .sticky-tape {
+        transform:
+            translate3d(0, 0, 0)
+            rotate(var(--random-rotate, 0deg));
+    }
+
+    body.is-home.has-scrolled #side-sticky .sticky-tape:not(.is-open) {
+        transform:
+            translate3d(
+                calc(100% - var(--sticky-peek)),
+                0,
+                0
+            )
+            rotate(var(--random-rotate, 0deg));
+    }
+
     .sticky-tape a {
         position: relative;
         display: flex;
@@ -891,20 +910,15 @@
             font-size: 1.25rem;
         }
 
-        /* STICKY */
+        /* STICKY
+           The sticky notes use the same top-right behavior
+           on every viewport width. There is no mobile-only
+           bottom placement. */
         #side-sticky {
             top: 60px;
+            right: 0;
             bottom: auto;
-            transform:
-                translate3d(
-                    0,
-                    calc(
-                        100vh
-                        - 160px
-                        - 100%
-                    ),
-                    0
-                );
+            transform: none;
         }
 
         /* ACTION PANEL */
@@ -2464,88 +2478,33 @@
 
     /* =====================================================
        STICKY POSITION
-       
+
+       All viewport widths:
+       画面上部60px。
+
        HOME:
-       画面下のnavigation bar直上。
+       最上部では付箋を完全表示。
+       スクロール開始後は右へ収納してアイコンだけ表示。
 
        SUB:
-       画面上部60px。
+       右側へ収納した状態を維持。
     ===================================================== */
     function updateStickyMotion() {
         const progress =
             getScrollProgress();
 
-        const isMobile =
-            window.innerWidth <= 850;
-
-        if (isMobile) {
-            /*
-             * Mobileは従来の位置を維持。
-             */
-            const stickyHeight =
-                DOM.sticky.offsetHeight;
-
-            const top = 60;
-
-            const targetY =
-                window.innerHeight -
-                160 -
-                stickyHeight;
-
-            DOM.sticky.style.top =
-                `${top}px`;
-
-            DOM.sticky.style.bottom =
-                'auto';
-
-            DOM.sticky.style.transform =
-                `translate3d(0, ${targetY}px, 0)`;
-
-            return;
-        }
-
-        const menuHeight =
-            Math.min(
-                120,
-                Math.max(
-                    80,
-                    window.innerWidth *
-                        0.08333 +
-                        50
-                )
-            );
-
-        const stickyHeight =
-            DOM.sticky.offsetHeight;
-
         /*
-         * HOME:
-         * stickyの下端を
-         * navigation barの上端へ。
+         * STICKY NOTES:
+         * Always anchored near the top-right on every
+         * viewport width. There is no mobile-only bottom
+         * placement.
          *
-         * margin分だけ空ける。
+         * HOME / SUB both use the same 60px top position.
+         * The visible / retracted state is handled separately
+         * by updateHomeStickyState() and CSS.
          */
-        const homeTop =
-            window.innerHeight -
-            menuHeight -
-            stickyHeight -
-            18;
-
-        /*
-         * SUB:
-         * 従来の60px。
-         */
-        const subTop = 60;
-
-        const top =
-            lerp(
-                homeTop,
-                subTop,
-                progress
-            );
-
         DOM.sticky.style.top =
-            `${top}px`;
+            '60px';
 
         DOM.sticky.style.bottom =
             'auto';
@@ -2699,6 +2658,26 @@
     }
 
     /* =====================================================
+       HOME STICKY STATE
+
+       At scroll position 0 the two sticky notes are fully
+       visible. As soon as scrolling begins they retract to
+       the right, leaving only the icon visible.
+    ===================================================== */
+    function updateHomeStickyState() {
+        const isHome =
+            DOM.body.classList.contains('is-home');
+
+        const hasScrolled =
+            window.scrollY > 1;
+
+        DOM.body.classList.toggle(
+            'has-scrolled',
+            isHome && hasScrolled
+        );
+    }
+
+    /* =====================================================
        SCROLL
     ===================================================== */
     function requestScrollUpdate() {
@@ -2711,9 +2690,10 @@
                 state.motionFrame = 0;
 
                 updateHeroMotion();
+                updateSectionState();
+                updateHomeStickyState();
                 updateStickyMotion();
                 updateFooterMotion();
-                updateSectionState();
             });
     }
 
@@ -2751,6 +2731,7 @@
         initializeKeyboard();
 
         updateSectionState();
+        updateHomeStickyState();
         updateHeroMotion();
         updateStickyMotion();
         updateFooterMotion();
