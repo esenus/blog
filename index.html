@@ -7,12 +7,10 @@
         content="width=device-width, initial-scale=1.0"
     >
     <title>esenus - Personal Playground</title>
-
     <link
         href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap"
         rel="stylesheet"
     >
-
     <style>
     /* =====================================================
        VARIABLES
@@ -23,38 +21,24 @@
         --accent-red: #cc3300;
         --text-dark: #2b2a29;
         --text-light: #7a7977;
-
         --ease: cubic-bezier(0.16, 1, 0.3, 1);
-
         --transition-speed: 0.9s;
         --sticky-speed: 0.7s;
-
         --sidebar-width: 260px;
-
         --desktop-menu-height:
             clamp(80px, calc(8.333vw + 50px), 120px);
-
         --mobile-menu-height: 64px;
-
-        --panel-width:
-            min(640px, 70vw);
-
+        --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
-
         --home-updates-start: 420px;
-
         --nav-gap:
             clamp(10px, calc(1.887vw + 3.96px), 20px);
-
         --nav-link-horizontal-padding:
             clamp(5px, calc(0.943vw + 1.98px), 10px);
-
         --nav-link-font-size:
             clamp(10px, calc(0.566vw + 8.19px), 13px);
-
         --mobile-top-shield-height: 110px;
     }
-
 
     /* =====================================================
        BASE
@@ -68,13 +52,10 @@
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-
         background: var(--bg-color);
         color: var(--text-dark);
-
         font-family: 'Average', serif;
     }
-
 
     /* =====================================================
        FIXED UI
@@ -83,63 +64,50 @@
         position: fixed;
         top: 25px;
         left: 25px;
-
         z-index: 2000;
-
         padding: 15px 10px;
-
         border: 0;
-
         background: var(--text-dark);
         color: #fff;
-
         font-family: 'Syncopate';
         font-size: 9px;
         font-weight: 800;
         line-height: 1.2;
-
         cursor: pointer;
-
         box-shadow:
             0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
     .ui-label {
         position: fixed;
-
         z-index: 1005;
-
         font-family: 'Syncopate';
         font-size: 8px;
         font-weight: 700;
-
         white-space: nowrap;
         pointer-events: none;
-
         will-change:
+            top,
+            left,
+            right,
+            bottom,
+            width,
             transform,
             opacity;
     }
-
 
     /* =====================================================
        HEADER / NAVIGATION
     ===================================================== */
     #site-header {
         position: fixed;
-
         bottom: 0;
         left: 0;
-
         z-index: 1000;
-
         width: 100%;
         height: var(--desktop-menu-height);
-
         box-sizing: border-box;
-
         background: var(--bg-color);
-
         transition:
             top var(--transition-speed) var(--ease),
             bottom var(--transition-speed) var(--ease),
@@ -150,17 +118,12 @@
 
     .nav-list {
         position: absolute;
-
         display: flex;
-
         width: 100%;
         height: 100%;
-
         margin: 0;
         padding: 0;
-
         list-style: none;
-
         transition:
             opacity 0.4s ease,
             transform 0.4s var(--ease);
@@ -168,20 +131,14 @@
 
     .nav-list a {
         display: inline-block;
-
         padding:
             5px
             var(--nav-link-horizontal-padding);
-
         color: var(--text-dark);
-
         text-decoration: none;
-
         font-family: 'Syncopate';
         font-size: var(--nav-link-font-size);
-
         opacity: 0.4;
-
         transition:
             opacity 0.3s ease,
             color 0.3s ease,
@@ -191,31 +148,24 @@
     .nav-bar-label {
         display: flex;
         align-items: center;
-
         padding: 0 15px;
-
         background: var(--bg-color);
-
         letter-spacing: 0.3em;
-
         will-change:
+            top,
+            left,
             transform,
             opacity;
     }
 
     .nav-bar-label::after {
         content: '';
-
         display: block;
-
         margin-left: 10px;
-
         background: var(--text-dark);
-
         width: var(--nav-line-width, 60px);
         height: 1px;
     }
-
 
     /* =====================================================
        POINTER HOVER
@@ -238,45 +188,34 @@
         }
     }
 
-
     /* =====================================================
        ACTIVE NAVIGATION
     ===================================================== */
     .nav-list a.is-active {
         opacity: 1;
-
         background: var(--text-dark);
         color: #fff !important;
     }
-
 
     /* =====================================================
        HERO
     ===================================================== */
     .hero-section {
         position: fixed;
-
         top: 0;
         left: 0;
-
         z-index: 1100;
-
         width: 100vw;
         height: 100vh;
-
         pointer-events: none;
     }
 
     .hero-section h2,
     .hero-section p {
         position: absolute;
-
         margin: 0;
-
         white-space: nowrap;
-
         font-family: 'Syncopate';
-
         will-change:
             top,
             left,
@@ -285,17 +224,13 @@
             opacity;
     }
 
-
     /* =====================================================
        HOME HERO
     ===================================================== */
     body.is-home #catchword {
         top: 280px;
         left: 7vw;
-
-        transform:
-            translate3d(0, -50%, 0);
-
+        transform: translate3d(0, -50%, 0);
         font-size: 7vw;
         font-weight: 700;
         line-height: 0.9;
@@ -305,27 +240,16 @@
     body.is-home #subtitle {
         top: 45px;
         left: 50%;
-
-        transform:
-            translate3d(-50%, -50%, 0);
-
-        width:
-            min(620px, calc(100vw - 140px));
-
-        max-width:
-            calc(100vw - 140px);
-
+        transform: translate3d(-50%, -50%, 0);
+        width: min(620px, calc(100vw - 140px));
+        max-width: calc(100vw - 140px);
         font-size: 10px;
         line-height: 1.4;
         letter-spacing: 0.3em;
-
         white-space: normal;
-
         text-align: center;
-
         opacity: 0.6;
     }
-
 
     /* =====================================================
        SUB HERO
@@ -333,10 +257,7 @@
     body.is-sub #catchword {
         top: 160px;
         left: 25px;
-
-        transform:
-            translate3d(0, 0, 0);
-
+        transform: translate3d(0, 0, 0);
         font-size: 24px;
         line-height: 0.9;
     }
@@ -344,120 +265,80 @@
     body.is-sub #subtitle {
         top: 135px;
         left: 25px;
-
-        transform:
-            translate3d(0, 0, 0);
-
+        transform: translate3d(0, 0, 0);
         width: auto;
         max-width: none;
-
         font-size: 8px;
         letter-spacing: 0.1em;
-
         opacity: 0.5;
-
         text-align: left;
     }
-
 
     /* =====================================================
        HOME
     ===================================================== */
     #section-01 {
         position: relative;
-
         min-height: 100vh;
-
-        padding-top:
-            var(--home-updates-start);
-
+        padding-top: var(--home-updates-start);
         box-sizing: border-box;
     }
 
     #home-updates {
         position: relative;
-
-        width:
-            min(620px, 86vw);
-
+        width: min(620px, 86vw);
         margin-left: 7vw;
-
         min-height:
             calc(
                 100vh -
                 var(--home-updates-start)
             );
-
         padding-bottom: 4px;
-
         box-sizing: border-box;
-
         background: var(--bg-color);
-
         overflow: visible;
-
         transition:
-            margin-left
-            var(--transition-speed)
-            var(--ease);
+            margin-left var(--transition-speed) var(--ease);
     }
 
     .home-updates-label {
         display: flex;
         align-items: center;
-
         gap: 14px;
-
         margin-bottom: 10px;
-
         font-family: 'Syncopate';
         font-size: 10px;
         font-weight: 700;
-
         letter-spacing: 0.25em;
     }
 
     .home-updates-label::after {
         content: '';
-
         flex: 1;
-
         height: 1px;
-
-        background:
-            var(--line-color);
+        background: var(--line-color);
     }
 
     .home-updates-list {
         margin: 0;
         padding: 0;
-
         list-style: none;
     }
 
     .home-update-item {
         display: grid;
-
-        grid-template-columns:
-            105px minmax(0, 1fr);
-
+        grid-template-columns: 105px minmax(0, 1fr);
         gap: 15px;
-
         padding: 8px 0;
-
-        border-bottom:
-            1px solid var(--line-color);
-
+        border-bottom: 1px solid var(--line-color);
         font-size: 15px;
         line-height: 1.35;
     }
 
     .home-update-date {
         color: var(--text-light);
-
         font-family: 'Syncopate';
         font-size: 10px;
-
         letter-spacing: 0.05em;
     }
 
@@ -465,85 +346,60 @@
         min-width: 0;
     }
 
-
     /* =====================================================
        PAGE
     ===================================================== */
     .page-section {
         position: relative;
-
         min-height: 100vh;
-
         box-sizing: border-box;
     }
 
     .sub-section {
         min-height: 100vh;
-
-        margin-left:
-            var(--sidebar-width);
-
+        margin-left: var(--sidebar-width);
         padding:
             135px
             60px
             180px;
-
         box-sizing: border-box;
     }
 
     .sub-section article {
         max-width: 1400px;
-
         margin: 0 auto;
     }
-
 
     /* =====================================================
        PAGE CONTENT
     ===================================================== */
     .page-title {
         margin: 0 0 30px;
-
         padding-left: 15px;
-
-        border-left:
-            6px solid var(--accent-red);
-
+        border-left: 6px solid var(--accent-red);
         font-family: 'Syncopate';
         font-size: 1.5rem;
     }
 
     .page-intro-grid {
         display: grid;
-
-        grid-template-columns:
-            1fr 200px;
-
+        grid-template-columns: 1fr 200px;
         gap: 60px;
-
         margin-bottom: 60px;
-
         padding-bottom: 40px;
-
-        border-bottom:
-            1px solid var(--line-color);
+        border-bottom: 1px solid var(--line-color);
     }
 
     .page-main-text p {
         margin: 0;
-
         font-size: 1.6rem;
         line-height: 1.5;
     }
 
     .page-meta {
         padding-left: 20px;
-
-        border-left:
-            1px solid var(--line-color);
-
+        border-left: 1px solid var(--line-color);
         color: var(--text-light);
-
         font-family: 'Syncopate';
         font-size: 9px;
     }
@@ -554,65 +410,46 @@
 
     .page-meta h4 {
         margin: 0 0 5px;
-
         color: var(--text-dark);
-
         font-weight: 700;
-
         letter-spacing: 0.2em;
     }
-
 
     /* =====================================================
        GRID
     ===================================================== */
     .dynamic-grid {
         display: grid;
-
         grid-template-columns:
             repeat(
                 auto-fill,
                 minmax(280px, 1fr)
             );
-
         gap: 40px;
-
         width: 100%;
     }
 
     .grid-item {
         padding-bottom: 20px;
-
-        border-bottom:
-            1px solid var(--line-color);
+        border-bottom: 1px solid var(--line-color);
     }
 
     .grid-item .thumb {
         display: flex;
-
         align-items: center;
         justify-content: center;
-
         width: 100%;
-
         aspect-ratio: 16 / 9;
-
         margin-bottom: 15px;
-
         background: #ddd;
-
-        border:
-            1px solid var(--line-color);
-
+        border: 1px solid var(--line-color);
         color: #999;
-
         font-family: 'Syncopate';
         font-size: 10px;
     }
 
     .grid-item h3 {
         margin: 0 0 8px;
-
         font-family: 'Syncopate';
         font-size: 12px;
         line-height: 1.4;
@@ -620,27 +457,21 @@
 
     .grid-item p {
         margin: 0;
-
         font-size: 14px;
         line-height: 1.5;
     }
-
 
     /* =====================================================
        STICKY ACTIONS
     ===================================================== */
     #side-sticky {
         position: fixed;
-
         top: 60px;
         right: 0;
-
         z-index: 1800;
-
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-
         will-change: transform;
     }
 
@@ -648,18 +479,14 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-
         margin: 0;
         padding: 0;
-
         list-style: none;
     }
 
     .sticky-tape {
         position: relative;
-
         margin-bottom: 10px;
-
         transform:
             translate3d(
                 calc(100% - var(--sticky-peek)),
@@ -667,11 +494,8 @@
                 0
             )
             rotate(var(--random-rotate, 0deg));
-
         transition:
-            transform
-            var(--sticky-speed)
-            var(--ease);
+            transform var(--sticky-speed) var(--ease);
     }
 
     .sticky-tape.is-open {
@@ -682,25 +506,16 @@
 
     .sticky-tape a {
         position: relative;
-
         display: flex;
         align-items: center;
-
         min-width: 130px;
-
         padding: 10px;
-
         box-sizing: border-box;
-
         background: var(--accent-red);
         color: #fff;
-
         box-shadow:
-            -4px 4px 10px
-            rgba(0, 0, 0, 0.15);
-
+            -4px 4px 10px rgba(0, 0, 0, 0.15);
         text-decoration: none;
-
         font-family: 'Vast Shadow';
         font-size: 13px;
     }
@@ -709,28 +524,18 @@
         background: var(--text-dark);
     }
 
-    /*
-     * × remains in the DOM.
-     * It is only visually hidden while closed.
-     */
     .sticky-tape a::after {
         content: '×';
-
         position: absolute;
-
         top: 50%;
         right: 13px;
-
         transform:
             translate3d(0, -50%, 0);
-
         font-family: Arial, sans-serif;
         font-size: 20px;
         font-weight: 400;
         line-height: 1;
-
         opacity: 0;
-
         transition:
             opacity 0.2s ease;
     }
@@ -745,51 +550,31 @@
 
     .tape-icon {
         display: inline-block;
-
         width: 24px;
-
         margin-right: 20px;
-
         text-align: center;
-
         font-size: 20px;
     }
-
 
     /* =====================================================
        ACTION PANEL
     ===================================================== */
     #content-panel {
         position: fixed;
-
         top: 0;
         right: 0;
         bottom: var(--desktop-menu-height);
-
         z-index: 1700;
-
         width: var(--panel-width);
-
         box-sizing: border-box;
-
         background: var(--bg-color);
-
-        border-left:
-            1px solid var(--line-color);
-
+        border-left: 1px solid var(--line-color);
         box-shadow:
-            -12px 0 35px
-            rgba(0, 0, 0, 0.08);
-
-        transform:
-            translate3d(100%, 0, 0);
-
+            -12px 0 35px rgba(0, 0, 0, 0.08);
+        transform: translate3d(100%, 0, 0);
         opacity: 0;
-
         visibility: hidden;
-
         pointer-events: none;
-
         transition:
             transform 0.7s var(--ease),
             opacity 0.35s ease,
@@ -797,15 +582,10 @@
     }
 
     #content-panel.is-open {
-        transform:
-            translate3d(0, 0, 0);
-
+        transform: translate3d(0, 0, 0);
         opacity: 1;
-
         visibility: visible;
-
         pointer-events: auto;
-
         transition:
             transform 0.7s var(--ease),
             opacity 0.35s ease,
@@ -814,14 +594,10 @@
 
     .content-panel-inner {
         position: relative;
-
         width: 100%;
         height: 100%;
-
         box-sizing: border-box;
-
         overflow-y: auto;
-
         padding:
             80px
             50px
@@ -841,8 +617,7 @@
     }
 
     .panel-page .page-intro-grid {
-        grid-template-columns:
-            1fr 150px;
+        grid-template-columns: 1fr 150px;
     }
 
     .panel-page .page-main-text p {
@@ -851,20 +626,14 @@
 
     .panel-close-label {
         position: absolute;
-
         top: 25px;
         right: 30px;
-
         font-family: 'Syncopate';
         font-size: 7px;
-
         letter-spacing: 0.15em;
-
         opacity: 0.35;
-
         pointer-events: none;
     }
-
 
     /* =====================================================
        EXTERNAL LINKS
@@ -872,34 +641,22 @@
     .panel-links {
         display: flex;
         flex-direction: column;
-
         margin-top: 35px;
-
-        border-top:
-            1px solid var(--line-color);
+        border-top: 1px solid var(--line-color);
     }
 
     .panel-link {
         display: flex;
-
         align-items: center;
         justify-content: space-between;
-
         padding: 16px 0;
-
-        border-bottom:
-            1px solid var(--line-color);
-
+        border-bottom: 1px solid var(--line-color);
         color: var(--text-dark);
-
         text-decoration: none;
-
         font-family: 'Syncopate';
         font-size: 11px;
         font-weight: 700;
-
         letter-spacing: 0.08em;
-
         transition:
             color 0.3s ease,
             padding-left 0.4s var(--ease);
@@ -907,7 +664,6 @@
 
     .panel-link::after {
         content: '↗';
-
         font-family: Arial, sans-serif;
         font-size: 16px;
         font-weight: 400;
@@ -915,48 +671,33 @@
 
     .panel-note {
         margin-top: 15px;
-
         color: var(--text-light);
-
         font-family: 'Syncopate';
         font-size: 7px;
-
         line-height: 1.6;
-
         letter-spacing: 0.08em;
     }
 
-
     /* =====================================================
        FOOTER
-       Position is intentionally NOT defined here.
-       JS owns its position.
+       Position / width / transform are controlled by JS.
     ===================================================== */
     #site-footer {
         z-index: 1200;
-
-        max-width:
-            calc(100vw - 40px);
-
+        max-width: none;
         color: var(--text-dark);
-
         font-family: 'Syncopate';
         font-size: 8px;
         font-weight: 350;
-
         letter-spacing: 0.4em;
-
         text-transform: uppercase;
-
         opacity: 0.25 !important;
-
-        will-change:
-            top,
-            left,
-            transform,
-            opacity;
+        box-sizing: border-box;
+        white-space: normal;
+        text-align: center;
+        overflow-wrap: break-word;
+        word-break: normal;
     }
-
 
     /* =====================================================
        REDUCED MOTION
@@ -975,7 +716,6 @@
         }
     }
 
-
     /* =====================================================
        DESKTOP
     ===================================================== */
@@ -985,47 +725,34 @@
         body.is-home #site-header {
             bottom: 0;
             left: 0;
-
             width: 100%;
             height: var(--desktop-menu-height);
-
-            border-top:
-                1px solid var(--line-color);
+            border-top: 1px solid var(--line-color);
         }
 
         body.is-home .nav-list {
             flex-direction: row;
-
             justify-content: center;
             align-items: center;
-
             gap: var(--nav-gap);
         }
-
 
         /* SUB HEADER */
         body.is-sub #site-header {
             top: 0;
             left: 0;
             bottom: auto;
-
             width: var(--sidebar-width);
             height: 100vh;
-
-            border-right:
-                1px solid var(--line-color);
+            border-right: 1px solid var(--line-color);
         }
 
         body.is-sub .nav-list {
             top: 260px;
-
             flex-direction: column;
-
             padding-left: 35px;
-
             gap: 10px;
         }
-
 
         /* HOME UPDATE → SUB */
         body.is-sub #home-updates {
@@ -1037,7 +764,6 @@
         }
     }
 
-
     /* =====================================================
        MOBILE
     ===================================================== */
@@ -1048,32 +774,20 @@
             top: auto !important;
             bottom: 0 !important;
             left: 0 !important;
-
             width: 100% !important;
-            height:
-                var(--mobile-menu-height) !important;
-
-            border-top:
-                1px solid var(--line-color);
-
+            height: var(--mobile-menu-height) !important;
+            border-top: 1px solid var(--line-color);
             border-right: none !important;
         }
-
 
         /* MOBILE TOP SHIELD */
         #site-header::after {
             content: '';
-
             position: fixed;
-
             top: 0;
             left: 0;
-
             width: 100vw;
-
-            height:
-                var(--mobile-top-shield-height);
-
+            height: var(--mobile-top-shield-height);
             background:
                 linear-gradient(
                     to bottom,
@@ -1082,23 +796,16 @@
                     rgba(242, 242, 240, 0.55) 75%,
                     rgba(242, 242, 240, 0) 100%
                 );
-
             pointer-events: none;
-
             z-index: 0;
         }
 
-
         .nav-list {
             top: 0 !important;
-
             flex-direction: row !important;
-
             justify-content: center !important;
             align-items: center !important;
-
             padding: 0 !important;
-
             gap: var(--nav-gap) !important;
         }
 
@@ -1106,23 +813,17 @@
             display: none !important;
         }
 
-
         /* HOME */
         #section-01 {
             min-height: 100vh;
-
-            padding-top:
-                var(--home-updates-start);
+            padding-top: var(--home-updates-start);
         }
-
 
         /* HERO */
         .hero-section {
             position: fixed;
-
             top: 0;
             left: 0;
-
             width: 100vw;
             height: 100vh;
         }
@@ -1130,10 +831,7 @@
         body.is-home #catchword {
             top: 280px;
             left: 7vw;
-
-            transform:
-                translate3d(0, -50%, 0);
-
+            transform: translate3d(0, -50%, 0);
             font-size:
                 clamp(
                     50px,
@@ -1145,62 +843,39 @@
         body.is-home #subtitle {
             top: 110px;
             left: 50%;
-
-            transform:
-                translate3d(-50%, -50%, 0);
-
-            width:
-                calc(100vw - 50px);
-
+            transform: translate3d(-50%, -50%, 0);
+            width: calc(100vw - 50px);
             max-width: 500px;
-
             text-align: center;
-
             line-height: 1.5;
         }
-
 
         /* SUB HERO */
         body.is-sub #catchword {
             top: 40px;
             left: 110px;
-
-            transform:
-                translate3d(0, 0, 0);
-
+            transform: translate3d(0, 0, 0);
             font-size: 23px;
-
             line-height: 0.9;
-
             letter-spacing: 0.02em;
         }
 
         body.is-sub #subtitle {
             top: 25px;
             left: 110px;
-
-            transform:
-                translate3d(0, 0, 0);
-
+            transform: translate3d(0, 0, 0);
             width: auto;
             max-width: none;
-
             font-size: 8px;
-
             line-height: 1.3;
-
             letter-spacing: 0.1em;
-
             white-space: nowrap;
-
             text-align: left;
         }
-
 
         /* SUB CONTENT */
         .sub-section {
             margin-left: 0;
-
             padding:
                 100px
                 25px
@@ -1209,7 +884,6 @@
 
         .page-intro-grid {
             grid-template-columns: 1fr;
-
             gap: 20px;
         }
 
@@ -1217,199 +891,30 @@
             font-size: 1.25rem;
         }
 
-
-        /* =================================================
-           MOBILE STICKY
-           
-           Closed:
-             sits directly above the menu.
-           
-           Open:
-             the selected tape leaves that position and
-             flies toward the upper-right corner.
-        ================================================= */
+        /* STICKY */
         #side-sticky {
-            top: auto;
-            right: 0;
-            bottom:
-                var(--mobile-menu-height);
-
-            transform: none;
-        }
-
-        #side-sticky > ul {
-            align-items: flex-end;
-        }
-
-        .sticky-tape {
-            margin-bottom: 10px;
-
+            top: 60px;
+            bottom: auto;
             transform:
                 translate3d(
-                    calc(100% - var(--sticky-peek)),
                     0,
+                    calc(
+                        100vh
+                        - 160px
+                        - 100%
+                    ),
                     0
-                )
-                rotate(var(--random-rotate, 0deg));
-
-            transform-origin:
-                80% 50%;
-
-            transition:
-                transform
-                0.75s
-                var(--ease);
+                );
         }
-
-        /*
-         * Only the selected sticky becomes an
-         * independent flying object.
-         *
-         * The large rotation is intentional:
-         * it should feel like the paper has been
-         * physically flicked upward rather than
-         * simply translated.
-         */
-        .sticky-tape.is-open {
-            animation:
-                sticky-fly-to-corner
-                0.95s
-                var(--ease)
-                forwards;
-        }
-
-        /*
-         * While the selected tape is flying,
-         * the panel itself remains the content area.
-         * The tape is moved above it and does not
-         * participate in layout.
-         */
-        @keyframes sticky-fly-to-corner {
-            0% {
-                transform:
-                    translate3d(
-                        calc(100% - var(--sticky-peek)),
-                        0,
-                        0
-                    )
-                    rotate(var(--random-rotate, 0deg));
-            }
-
-            18% {
-                transform:
-                    translate3d(
-                        calc(75% - var(--sticky-peek)),
-                        -8vh,
-                        0
-                    )
-                    rotate(
-                        calc(
-                            var(--random-rotate, 0deg) + 95deg
-                        )
-                    );
-            }
-
-            38% {
-                transform:
-                    translate3d(
-                        calc(45% - var(--sticky-peek)),
-                        -28vh,
-                        0
-                    )
-                    rotate(
-                        calc(
-                            var(--random-rotate, 0deg) - 145deg
-                        )
-                    );
-            }
-
-            57% {
-                transform:
-                    translate3d(
-                        calc(20% - var(--sticky-peek)),
-                        -48vh,
-                        0
-                    )
-                    rotate(
-                        calc(
-                            var(--random-rotate, 0deg) + 205deg
-                        )
-                    );
-            }
-
-            74% {
-                transform:
-                    translate3d(
-                        calc(4% - var(--sticky-peek)),
-                        -62vh,
-                        0
-                    )
-                    rotate(
-                        calc(
-                            var(--random-rotate, 0deg) - 285deg
-                        )
-                    );
-            }
-
-            88% {
-                transform:
-                    translate3d(
-                        0,
-                        -68vh,
-                        0
-                    )
-                    rotate(
-                        calc(
-                            var(--random-rotate, 0deg) + 335deg
-                        )
-                    );
-            }
-
-            100% {
-                transform:
-                    translate3d(
-                        0,
-                        -70vh,
-                        0
-                    )
-                    rotate(
-                        calc(
-                            var(--random-rotate, 0deg) - 8deg
-                        )
-                    );
-            }
-        }
-
-        /*
-         * Keep the flying tape above the content panel.
-         * The panel starts underneath it.
-         */
-        .sticky-tape.is-open {
-            z-index: 2001;
-        }
-
-        /*
-         * × stays available while the tape is open.
-         */
-        .sticky-tape.is-open a::after {
-            opacity: 1;
-        }
-
 
         /* ACTION PANEL */
         #content-panel {
             top: 0;
             right: 0;
-
-            bottom:
-                var(--mobile-menu-height);
-
-            width:
-                calc(100vw - 20px);
-
+            bottom: var(--mobile-menu-height);
+            width: calc(100vw - 20px);
             box-shadow:
-                -10px 0 25px
-                rgba(0, 0, 0, 0.08);
+                -10px 0 25px rgba(0, 0, 0, 0.08);
         }
 
         .content-panel-inner {
@@ -1430,7 +935,6 @@
         .panel-close-label {
             top: 25px;
             right: 20px;
-
             font-size: 6px;
         }
 
@@ -1440,33 +944,15 @@
 
         .panel-link {
             padding: 14px 0;
-
             font-size: 9px;
         }
 
         .panel-note {
             font-size: 6px;
         }
-
-
-        /* FOOTER
-           JS controls actual position.
-        */
-        #site-footer {
-            width: max-content;
-
-            max-width: none;
-
-            white-space: nowrap;
-
-            text-align: left;
-
-            transform-origin: center center;
-        }
     }
     </style>
 </head>
-
 
 <body class="is-home">
 
@@ -1489,41 +975,25 @@
 
     <nav aria-label="Main Navigation">
         <ul id="main-nav-list" class="nav-list">
-
             <li>
-                <a href="#section-01">
-                    HOME
-                </a>
+                <a href="#section-01">HOME</a>
             </li>
-
             <li>
-                <a href="#section-02">
-                    PLAY
-                </a>
+                <a href="#section-02">PLAY</a>
             </li>
-
             <li>
-                <a href="#section-03">
-                    MAKE
-                </a>
+                <a href="#section-03">MAKE</a>
             </li>
-
             <li>
-                <a href="#section-04">
-                    NOTE
-                </a>
+                <a href="#section-04">NOTE</a>
             </li>
-
             <li>
-                <a href="#section-05">
-                    ARCHIVE
-                </a>
+                <a href="#section-05">ARCHIVE</a>
             </li>
-
         </ul>
     </nav>
-</header>
 
+</header>
 
 <!-- =====================================================
      HERO
@@ -1540,7 +1010,6 @@
         JUST<br>BECAUSE.
     </h2>
 </section>
-
 
 <!-- =====================================================
      MAIN CONTENT
@@ -1607,7 +1076,6 @@
         </section>
     </section>
 
-
     <!-- PLAY -->
     <section
         id="section-02"
@@ -1650,6 +1118,7 @@
                     </div>
 
                 </aside>
+
             </div>
 
             <div
@@ -1660,7 +1129,6 @@
 
         </article>
     </section>
-
 
     <!-- MAKE -->
     <section
@@ -1703,6 +1171,7 @@
                     </div>
 
                 </aside>
+
             </div>
 
             <div
@@ -1713,7 +1182,6 @@
 
         </article>
     </section>
-
 
     <!-- NOTE -->
     <section
@@ -1755,6 +1223,7 @@
                     </div>
 
                 </aside>
+
             </div>
 
             <div
@@ -1765,7 +1234,6 @@
 
         </article>
     </section>
-
 
     <!-- ARCHIVE -->
     <section
@@ -1810,6 +1278,7 @@
                     </div>
 
                 </aside>
+
             </div>
 
             <div
@@ -1822,7 +1291,6 @@
     </section>
 
 </main>
-
 
 <!-- =====================================================
      STICKY ACTIONS
@@ -1846,7 +1314,6 @@
                     class="tape-icon"
                     aria-hidden="true"
                 >✦</span>
-
                 KNOCK
             </a>
         </li>
@@ -1864,14 +1331,12 @@
                     class="tape-icon"
                     aria-hidden="true"
                 >☞</span>
-
                 BEHIND
             </a>
         </li>
 
     </ul>
 </aside>
-
 
 <!-- =====================================================
      ACTION PANEL
@@ -1887,13 +1352,13 @@
             CLOSE / SAME STICKY
         </div>
 
-
         <!-- KNOCK -->
         <section
             class="panel-page"
             id="panel-action-01"
             data-action-page="01"
         >
+
             <h1 class="page-title">
                 KNOCK
             </h1>
@@ -1922,6 +1387,7 @@
                     </div>
 
                 </aside>
+
             </div>
 
             <div class="panel-links">
@@ -1967,13 +1433,13 @@
 
         </section>
 
-
         <!-- BEHIND -->
         <section
             class="panel-page"
             id="panel-action-02"
             data-action-page="02"
         >
+
             <h1 class="page-title">
                 BEHIND
             </h1>
@@ -2008,6 +1474,7 @@
                     </div>
 
                 </aside>
+
             </div>
 
             <div class="panel-links">
@@ -2035,7 +1502,6 @@
     </div>
 </aside>
 
-
 <!-- =====================================================
      FOOTER
 ===================================================== -->
@@ -2045,7 +1511,6 @@
 >
     ©2026 ESENUS LOGS / THE PLAYGROUND - KUMI FELT LIKE MAKING
 </footer>
-
 
 <script>
     /* =====================================================
@@ -2065,6 +1530,11 @@
         sections:
             document.querySelectorAll(
                 'main .page-section'
+            ),
+
+        sticky:
+            document.getElementById(
+                'side-sticky'
             ),
 
         stickyItems:
@@ -2108,35 +1578,16 @@
             )
     };
 
-
     /* =====================================================
        STATE
     ===================================================== */
     const state = {
         section: null,
         action: null,
-
         motionFrame: 0,
-
-        viewportWidth:
-            window.innerWidth,
-
-        viewportHeight:
-            window.innerHeight,
-
-        /*
-         * Subtitle has three visual phases:
-         *
-         * 0 → home position
-         * 1 → fixed intermediate position
-         * 2 → sub-page position
-         *
-         * The intermediate position prevents the text
-         * from immediately moving away from center.
-         */
-        subtitlePhase: 0
+        viewportWidth: window.innerWidth,
+        viewportHeight: window.innerHeight
     };
-
 
     /* =====================================================
        GRID
@@ -2163,7 +1614,6 @@
         `;
     }
 
-
     function initializeGrids() {
         DOM.grids.forEach(grid => {
             const count =
@@ -2185,7 +1635,6 @@
                 ).join('');
         });
     }
-
 
     /* =====================================================
        SECTION DETECTION
@@ -2217,16 +1666,13 @@
         return active;
     }
 
-
     function getVisualSection() {
         return getSectionAtViewportPoint(0.9);
     }
 
-
     function getNavigationSection() {
         return getSectionAtViewportPoint(0.5);
     }
-
 
     /* =====================================================
        HEADER / SECTION STATE
@@ -2243,7 +1689,8 @@
             section.dataset.section;
 
         if (
-            state.section === sectionId
+            state.section ===
+            sectionId
         ) {
             updateMainNav();
             return;
@@ -2267,7 +1714,6 @@
 
         updateMainNav();
     }
-
 
     /* =====================================================
        MAIN NAVIGATION
@@ -2295,7 +1741,6 @@
         });
     }
 
-
     function goToSection(sectionId) {
         const target =
             document.getElementById(
@@ -2313,7 +1758,6 @@
             block: 'start'
         });
     }
-
 
     function initializeMainNavigation() {
         DOM.mainNav.forEach(link => {
@@ -2346,17 +1790,18 @@
         );
     }
 
-
     /* =====================================================
-       UTILITIES
+       MATH
     ===================================================== */
     function clamp(value, min, max) {
         return Math.min(
-            Math.max(value, min),
+            Math.max(
+                value,
+                min
+            ),
             max
         );
     }
-
 
     function lerp(start, end, progress) {
         return start +
@@ -2364,10 +1809,6 @@
             progress;
     }
 
-
-    /* =====================================================
-       SCROLL PROGRESS
-    ===================================================== */
     function getScrollProgress() {
         const homeHeight =
             Math.max(
@@ -2377,22 +1818,23 @@
             );
 
         return clamp(
-            window.scrollY / homeHeight,
+            window.scrollY /
+                homeHeight,
             0,
             1
         );
     }
 
-
     /* =====================================================
-       HERO / UI MOTION
+       HERO MOTION
        
-       Everything here is directly derived from
-       scroll position.
-
-       No CSS transition is used for these positional
-       values, preventing Safari from jumping to a
-       transition destination midway through scrolling.
+       subtitle:
+       0.0 - 0.18
+           HOME positionを維持しながら縮小
+       
+       0.18 - 1.0
+           絶対位置を固定しながら
+           SUB positionへ移動
     ===================================================== */
     function updateHeroMotion() {
         const progress =
@@ -2401,10 +1843,9 @@
         const isMobile =
             window.innerWidth <= 850;
 
-
-        /* =================================================
+        /* -------------------------------------------------
            CATCHWORD
-        ================================================= */
+        ------------------------------------------------- */
         if (isMobile) {
 
             const homeTop = 280;
@@ -2524,29 +1965,23 @@
                 `translate3d(0, ${translateY}%, 0)`;
         }
 
-
-        /* =================================================
+        /* -------------------------------------------------
            SUBTITLE
+           
+           HOME:
+           中央配置 + 10px
 
-           Phase 1:
-           Keep the original centered position.
+           PHASE 1:
+           中央位置を維持したまま縮小
 
-           Phase 2:
-           Lock the subtitle to an absolute position
-           first. The text can shrink here without
-           simultaneously moving toward the logo.
-
-           Phase 3:
-           Move from that locked position to the
-           sub-page/logo-side position.
-        ================================================= */
-        const subtitleLock =
-            isMobile ? 0.16 : 0.14;
-
+           PHASE 2:
+           その時点の絶対座標から
+           SUB位置へ移動
+        ------------------------------------------------- */
         const subtitleMoveStart =
-            isMobile ? 0.28 : 0.25;
+            0.18;
 
-        const subtitleMoveProgress =
+        const subtitleProgress =
             clamp(
                 (
                     progress -
@@ -2557,27 +1992,12 @@
                 1
             );
 
-        let subtitleTop;
-        let subtitleLeft;
-        let subtitleWidth;
-        let subtitleTranslateX;
-        let subtitleTranslateY;
-        let subtitleFontSize;
-        let subtitleAlign;
-
-
         if (isMobile) {
 
             const homeTop = 110;
-
-            const lockTop = 78;
-
             const subTop = 25;
 
             const homeLeft =
-                window.innerWidth / 2;
-
-            const lockLeft =
                 window.innerWidth / 2;
 
             const subLeft = 110;
@@ -2588,96 +2008,108 @@
                     window.innerWidth - 50
                 );
 
-            const subtitleTextWidth =
+            const subWidth =
                 DOM.subtitle.scrollWidth;
 
-            const lockWidth =
-                Math.min(
-                    330,
-                    homeWidth
+            const homeSize = 10;
+            const subSize = 8;
+
+            /*
+             * 最初の0.18までは
+             * 完全にHOME配置を維持する。
+             */
+            const holdTop =
+                homeTop;
+
+            const holdLeft =
+                homeLeft;
+
+            const holdWidth =
+                homeWidth;
+
+            const holdSize =
+                lerp(
+                    10,
+                    8,
+                    clamp(
+                        progress /
+                            subtitleMoveStart,
+                        0,
+                        1
+                    )
                 );
 
-            subtitleTop =
-                progress < subtitleLock
-                    ? lerp(
-                        homeTop,
-                        lockTop,
-                        progress /
-                            subtitleLock
-                    )
-                    : lerp(
-                        lockTop,
-                        subTop,
-                        subtitleMoveProgress
-                    );
+            const top =
+                lerp(
+                    holdTop,
+                    subTop,
+                    subtitleProgress
+                );
 
-            subtitleLeft =
-                progress < subtitleLock
-                    ? homeLeft
-                    : lerp(
-                        lockLeft,
-                        subLeft,
-                        subtitleMoveProgress
-                    );
+            const left =
+                lerp(
+                    holdLeft,
+                    subLeft,
+                    subtitleProgress
+                );
 
-            subtitleWidth =
-                progress < subtitleLock
-                    ? homeWidth
-                    : lerp(
-                        lockWidth,
-                        subtitleTextWidth,
-                        subtitleMoveProgress
-                    );
+            const width =
+                lerp(
+                    holdWidth,
+                    subWidth,
+                    subtitleProgress
+                );
 
-            subtitleTranslateX =
-                progress < subtitleLock
-                    ? -50
-                    : lerp(
-                        -50,
-                        0,
-                        subtitleMoveProgress
-                    );
+            const fontSize =
+                lerp(
+                    holdSize,
+                    subSize,
+                    subtitleProgress
+                );
 
-            subtitleTranslateY =
-                progress < subtitleLock
-                    ? -50
-                    : lerp(
-                        -50,
-                        0,
-                        subtitleMoveProgress
-                    );
+            const translateX =
+                lerp(
+                    -50,
+                    0,
+                    subtitleProgress
+                );
 
-            subtitleFontSize =
-                progress < subtitleLock
-                    ? lerp(
-                        10,
-                        9,
-                        progress /
-                            subtitleLock
-                    )
-                    : lerp(
-                        9,
-                        8,
-                        subtitleMoveProgress
-                    );
+            const translateY =
+                lerp(
+                    -50,
+                    0,
+                    subtitleProgress
+                );
 
-            subtitleAlign =
-                progress < subtitleMoveStart
+            DOM.subtitle.style.top =
+                `${top}px`;
+
+            DOM.subtitle.style.left =
+                `${left}px`;
+
+            DOM.subtitle.style.width =
+                `${width}px`;
+
+            DOM.subtitle.style.maxWidth =
+                'none';
+
+            DOM.subtitle.style.fontSize =
+                `${fontSize}px`;
+
+            DOM.subtitle.style.transform =
+                `translate3d(${translateX}%, ${translateY}%, 0)`;
+
+            DOM.subtitle.style.textAlign =
+                subtitleProgress < 0.5
                     ? 'center'
                     : 'left';
 
         } else {
 
             const homeTop = 45;
-
-            const lockTop = 70;
-
             const subTop = 135;
 
             const homeLeft =
-                window.innerWidth / 2;
-
-            const lockLeft =
                 window.innerWidth / 2;
 
             const subLeft = 25;
@@ -2691,274 +2123,134 @@
                     )
                 );
 
-            const subtitleTextWidth =
+            const subWidth =
                 DOM.subtitle.scrollWidth;
 
-            const lockWidth =
-                Math.min(
-                    520,
-                    homeWidth
+            const homeSize = 10;
+            const subSize = 8;
+
+            /*
+             * HOME直後は
+             * positionそのものを動かさない。
+             *
+             * 文字だけ縮小する。
+             */
+            const holdTop =
+                homeTop;
+
+            const holdLeft =
+                homeLeft;
+
+            const holdWidth =
+                homeWidth;
+
+            const holdSize =
+                lerp(
+                    10,
+                    8,
+                    clamp(
+                        progress /
+                            subtitleMoveStart,
+                        0,
+                        1
+                    )
                 );
 
-            subtitleTop =
-                progress < subtitleLock
-                    ? lerp(
-                        homeTop,
-                        lockTop,
-                        progress /
-                            subtitleLock
-                    )
-                    : lerp(
-                        lockTop,
-                        subTop,
-                        subtitleMoveProgress
-                    );
+            const top =
+                lerp(
+                    holdTop,
+                    subTop,
+                    subtitleProgress
+                );
 
-            subtitleLeft =
-                progress < subtitleLock
-                    ? homeLeft
-                    : lerp(
-                        lockLeft,
-                        subLeft,
-                        subtitleMoveProgress
-                    );
+            const left =
+                lerp(
+                    holdLeft,
+                    subLeft,
+                    subtitleProgress
+                );
 
-            subtitleWidth =
-                progress < subtitleLock
-                    ? homeWidth
-                    : lerp(
-                        lockWidth,
-                        subtitleTextWidth,
-                        subtitleMoveProgress
-                    );
+            const width =
+                lerp(
+                    holdWidth,
+                    subWidth,
+                    subtitleProgress
+                );
 
-            subtitleTranslateX =
-                progress < subtitleLock
-                    ? -50
-                    : lerp(
-                        -50,
-                        0,
-                        subtitleMoveProgress
-                    );
+            const fontSize =
+                lerp(
+                    holdSize,
+                    subSize,
+                    subtitleProgress
+                );
 
-            subtitleTranslateY =
-                progress < subtitleLock
-                    ? -50
-                    : lerp(
-                        -50,
-                        0,
-                        subtitleMoveProgress
-                    );
+            const translateX =
+                lerp(
+                    -50,
+                    0,
+                    subtitleProgress
+                );
 
-            subtitleFontSize =
-                progress < subtitleLock
-                    ? lerp(
-                        10,
-                        9,
-                        progress /
-                            subtitleLock
-                    )
-                    : lerp(
-                        9,
-                        8,
-                        subtitleMoveProgress
-                    );
+            const translateY =
+                lerp(
+                    -50,
+                    0,
+                    subtitleProgress
+                );
 
-            subtitleAlign =
-                progress < subtitleMoveStart
+            DOM.subtitle.style.top =
+                `${top}px`;
+
+            DOM.subtitle.style.left =
+                `${left}px`;
+
+            DOM.subtitle.style.width =
+                `${width}px`;
+
+            DOM.subtitle.style.maxWidth =
+                'none';
+
+            DOM.subtitle.style.fontSize =
+                `${fontSize}px`;
+
+            DOM.subtitle.style.transform =
+                `translate3d(${translateX}%, ${translateY}%, 0)`;
+
+            DOM.subtitle.style.textAlign =
+                subtitleProgress < 0.5
                     ? 'center'
                     : 'left';
         }
 
-
-        DOM.subtitle.style.top =
-            `${subtitleTop}px`;
-
-        DOM.subtitle.style.left =
-            `${subtitleLeft}px`;
-
-        DOM.subtitle.style.width =
-            `${subtitleWidth}px`;
-
-        DOM.subtitle.style.maxWidth =
-            'none';
-
-        DOM.subtitle.style.fontSize =
-            `${subtitleFontSize}px`;
-
-        DOM.subtitle.style.transform =
-            `translate3d(${subtitleTranslateX}%, ${subtitleTranslateY}%, 0)`;
-
-        DOM.subtitle.style.textAlign =
-            subtitleAlign;
-
-
-        /* =================================================
+        /* -------------------------------------------------
            NAV BAR LABEL
-        ================================================= */
-        if (!isMobile) {
-
-            const menuHeight =
-                Math.min(
-                    120,
-                    Math.max(
-                        80,
-                        window.innerWidth *
-                            0.08333 +
-                            50
-                    )
-                );
-
-            const homeTop =
-                window.innerHeight -
-                menuHeight;
-
-            const subTop =
-                window.innerHeight / 2;
-
-            const homeLeft =
-                window.innerWidth / 2;
-
-            const subLeft = 260;
-
-            const top =
-                lerp(
-                    homeTop,
-                    subTop,
-                    progress
-                );
-
-            const left =
-                lerp(
-                    homeLeft,
-                    subLeft,
-                    progress
-                );
-
-            const rotation =
-                lerp(
-                    0,
-                    90,
-                    progress
-                );
-
-            const lineWidth =
-                lerp(
-                    60,
-                    140,
-                    progress
-                );
-
-            const opacity =
-                lerp(
-                    0.6,
-                    0.5,
-                    progress
-                );
-
-            DOM.navBarLabel.style.top =
-                `${top}px`;
-
-            DOM.navBarLabel.style.left =
-                `${left}px`;
-
-            DOM.navBarLabel.style.transform =
-                `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
-
-            DOM.navBarLabel.style.opacity =
-                opacity;
-
-            DOM.navBarLabel.style.setProperty(
-                '--nav-line-width',
-                `${lineWidth}px`
-            );
-        }
-
-
-        /* =================================================
-           FOOTER
-
-           Same principle as nav-bar-label:
-           position is derived directly from scroll.
-           There is no CSS positional transition.
-        ================================================= */
-        updateFooterMotion(
-            progress,
-            isMobile
-        );
-    }
-
-
-    /* =====================================================
-       FOOTER MOTION
-    ===================================================== */
-    function updateFooterMotion(
-        progress,
-        isMobile
-    ) {
+        ------------------------------------------------- */
         if (isMobile) {
-
-            /*
-             * Mobile:
-             * vertical left-side footer.
-             *
-             * It follows the same continuous scroll
-             * relationship as the other UI labels.
-             */
-            const top =
-                lerp(
-                    50,
-                    window.innerHeight * 0.5,
-                    progress
-                );
-
-            const left =
-                clamp(
-                    window.innerWidth *
-                        0.035,
-                    12,
-                    20
-                );
-
-            DOM.footer.style.top =
-                `${top}px`;
-
-            DOM.footer.style.left =
-                `${left}px`;
-
-            DOM.footer.style.transform =
-                'translate3d(-50%, -50%, 0) rotate(-90deg)';
-
             return;
         }
 
-
-        /*
-         * Desktop Home:
-         * centered vertically on the left,
-         * rotated vertically.
-         */
-        const homeTop =
-            window.innerHeight / 2;
-
-        const homeLeft = 18;
-
-
-        /*
-         * Desktop Sub:
-         * centered underneath the sidebar.
-         */
-        const subTop =
-            window.innerHeight -
-            clamp(
-                window.innerHeight * 0.06,
-                24,
-                60
+        const menuHeight =
+            Math.min(
+                120,
+                Math.max(
+                    80,
+                    window.innerWidth *
+                        0.08333 +
+                        50
+                )
             );
 
-        const subLeft =
-            260 / 2;
+        const homeTop =
+            window.innerHeight -
+            menuHeight;
 
+        const subTop =
+            window.innerHeight / 2;
+
+        const homeLeft =
+            window.innerWidth / 2;
+
+        const subLeft = 260;
 
         const top =
             lerp(
@@ -2976,77 +2268,297 @@
 
         const rotation =
             lerp(
-                -90,
                 0,
+                90,
+                progress
+            );
+
+        const lineWidth =
+            lerp(
+                60,
+                140,
+                progress
+            );
+
+        const opacity =
+            lerp(
+                0.6,
+                0.5,
+                progress
+            );
+
+        DOM.navBarLabel.style.top =
+            `${top}px`;
+
+        DOM.navBarLabel.style.left =
+            `${left}px`;
+
+        DOM.navBarLabel.style.transform =
+            `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
+
+        DOM.navBarLabel.style.opacity =
+            opacity;
+
+        DOM.navBarLabel.style.setProperty(
+            '--nav-line-width',
+            `${lineWidth}px`
+        );
+    }
+
+    /* =====================================================
+       FOOTER MOTION
+       
+       HOME:
+       ナビゲーションバー直上に固定。
+
+       SUB:
+       sidebar中央へ移動。
+       同時にwidthを狭めていくことで、
+       文字が自然に折り返される。
+    ===================================================== */
+    function updateFooterMotion() {
+        const progress =
+            getScrollProgress();
+
+        const isMobile =
+            window.innerWidth <= 850;
+
+        if (isMobile) {
+
+            /*
+             * Mobileでは既存の縦配置を
+             * JSだけで再現する。
+             */
+            const top =
+                clamp(
+                    window.innerHeight * 0.5,
+                    90,
+                    window.innerHeight - 90
+                );
+
+            const left =
+                clamp(
+                    window.innerWidth * 0.01,
+                    12,
+                    20
+                );
+
+            DOM.footer.style.top =
+                `${top}px`;
+
+            DOM.footer.style.bottom =
+                'auto';
+
+            DOM.footer.style.left =
+                `${left}px`;
+
+            DOM.footer.style.width =
+                'max-content';
+
+            DOM.footer.style.maxWidth =
+                'none';
+
+            DOM.footer.style.transform =
+                'translate(-50%, -50%) rotate(-90deg)';
+
+            DOM.footer.style.textAlign =
+                'left';
+
+            return;
+        }
+
+        const menuHeight =
+            Math.min(
+                120,
+                Math.max(
+                    80,
+                    window.innerWidth *
+                        0.08333 +
+                        50
+                )
+            );
+
+        /*
+         * HOME:
+         * footerの中心を画面中央に置き、
+         * navigation barのすぐ上に配置。
+         */
+        const homeLeft =
+            window.innerWidth / 2;
+
+        const homeBottom =
+            menuHeight + 18;
+
+        /*
+         * SUB:
+         * sidebarの中央。
+         */
+        const subLeft =
+            260 / 2;
+
+        const subBottom =
+            clamp(
+                window.innerHeight * 0.06,
+                24,
+                60
+            );
+
+        /*
+         * HOMEでは一行を基本とする。
+         * SUBではnavigation areaに収まる幅へ。
+         */
+        const homeWidth =
+            Math.min(
+                760,
+                window.innerWidth * 0.7
+            );
+
+        const subWidth = 210;
+
+        /*
+         * 位置・幅をすべて連続補間。
+         * CSSのstate transitionには頼らない。
+         */
+        const left =
+            lerp(
+                homeLeft,
+                subLeft,
+                progress
+            );
+
+        const bottom =
+            lerp(
+                homeBottom,
+                subBottom,
+                progress
+            );
+
+        const width =
+            lerp(
+                homeWidth,
+                subWidth,
                 progress
             );
 
         DOM.footer.style.top =
-            `${top}px`;
+            'auto';
+
+        DOM.footer.style.bottom =
+            `${bottom}px`;
 
         DOM.footer.style.left =
             `${left}px`;
 
+        DOM.footer.style.width =
+            `${width}px`;
+
+        DOM.footer.style.maxWidth =
+            `${width}px`;
+
         DOM.footer.style.transform =
-            `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
+            'translateX(-50%)';
+
+        DOM.footer.style.textAlign =
+            'center';
     }
 
-
     /* =====================================================
-       SCROLL
+       STICKY POSITION
+       
+       HOME:
+       画面下のnavigation bar直上。
+
+       SUB:
+       画面上部60px。
     ===================================================== */
-    function requestScrollUpdate() {
-        if (state.motionFrame) {
+    function updateStickyMotion() {
+        const progress =
+            getScrollProgress();
+
+        const isMobile =
+            window.innerWidth <= 850;
+
+        if (isMobile) {
+            /*
+             * Mobileは従来の位置を維持。
+             */
+            const stickyHeight =
+                DOM.sticky.offsetHeight;
+
+            const top = 60;
+
+            const targetY =
+                window.innerHeight -
+                160 -
+                stickyHeight;
+
+            DOM.sticky.style.top =
+                `${top}px`;
+
+            DOM.sticky.style.bottom =
+                'auto';
+
+            DOM.sticky.style.transform =
+                `translate3d(0, ${targetY}px, 0)`;
+
             return;
         }
 
-        state.motionFrame =
-            requestAnimationFrame(() => {
+        const menuHeight =
+            Math.min(
+                120,
+                Math.max(
+                    80,
+                    window.innerWidth *
+                        0.08333 +
+                        50
+                )
+            );
 
-                state.motionFrame = 0;
+        const stickyHeight =
+            DOM.sticky.offsetHeight;
 
-                updateHeroMotion();
+        /*
+         * HOME:
+         * stickyの下端を
+         * navigation barの上端へ。
+         *
+         * margin分だけ空ける。
+         */
+        const homeTop =
+            window.innerHeight -
+            menuHeight -
+            stickyHeight -
+            18;
 
-                updateSectionState();
-            });
+        /*
+         * SUB:
+         * 従来の60px。
+         */
+        const subTop = 60;
+
+        const top =
+            lerp(
+                homeTop,
+                subTop,
+                progress
+            );
+
+        DOM.sticky.style.top =
+            `${top}px`;
+
+        DOM.sticky.style.bottom =
+            'auto';
+
+        DOM.sticky.style.transform =
+            'none';
     }
-
-
-    function handleScroll() {
-        requestScrollUpdate();
-    }
-
-
-    window.addEventListener(
-        'scroll',
-        handleScroll,
-        {
-            passive: true
-        }
-    );
-
-
-    window.addEventListener(
-        'resize',
-        () => {
-
-            state.viewportWidth =
-                window.innerWidth;
-
-            state.viewportHeight =
-                window.innerHeight;
-
-            requestScrollUpdate();
-        }
-    );
-
 
     /* =====================================================
        ACTION PANEL
     ===================================================== */
     function updatePanelPages() {
         DOM.panelPages.forEach(page => {
-
             const isActive =
                 page.dataset.actionPage ===
                 state.action;
@@ -3058,10 +2570,8 @@
         });
     }
 
-
     function updateStickyItems() {
         DOM.stickyItems.forEach(item => {
-
             const isActive =
                 item.dataset.action ===
                 state.action;
@@ -3079,7 +2589,6 @@
         });
     }
 
-
     function updatePanelVisibility() {
         const isOpen =
             Boolean(state.action);
@@ -3095,89 +2604,58 @@
         );
     }
 
-
     function renderPanel() {
         updatePanelPages();
-
         updateStickyItems();
-
         updateMainNav();
-
         updatePanelVisibility();
     }
 
-
     function openPanel(actionId) {
-
         if (
-            state.action === actionId
+            state.action ===
+            actionId
         ) {
             closePanel();
             return;
         }
 
-        /*
-         * When switching:
-         *
-         * 1. remove the current flying tape
-         * 2. let it return
-         * 3. launch the newly selected tape
-         *
-         * This makes the two stickers feel like
-         * separate physical pieces rather than
-         * both occupying the corner.
-         */
         if (state.action) {
-
             state.action = null;
-
             renderPanel();
 
             setTimeout(() => {
-
-                state.action =
-                    actionId;
-
+                state.action = actionId;
                 renderPanel();
-
-            }, 120);
+            }, 100);
 
             return;
         }
 
-        state.action =
-            actionId;
-
+        state.action = actionId;
         renderPanel();
     }
 
-
     function closePanel() {
-
         if (!state.action) {
             return;
         }
 
         state.action = null;
-
         renderPanel();
     }
-
 
     /* =====================================================
        STICKY NAVIGATION
     ===================================================== */
     function initializeStickyNavigation() {
-
         DOM.stickyItems.forEach(item => {
-
             const link =
                 item.querySelector('a');
 
             link?.addEventListener(
                 'click',
                 event => {
-
                     event.preventDefault();
 
                     openPanel(
@@ -3188,16 +2666,13 @@
         });
     }
 
-
     /* =====================================================
        KEYBOARD
     ===================================================== */
     function initializeKeyboard() {
-
         document.addEventListener(
             'keydown',
             event => {
-
                 if (
                     event.key === 'Escape' &&
                     state.action
@@ -3208,14 +2683,11 @@
         );
     }
 
-
     /* =====================================================
        STICKY ROTATION
     ===================================================== */
     function applyRandomRotation() {
-
         DOM.stickyItems.forEach(item => {
-
             const rotation =
                 (Math.random() - 0.5) * 6;
 
@@ -3226,29 +2698,64 @@
         });
     }
 
+    /* =====================================================
+       SCROLL
+    ===================================================== */
+    function requestScrollUpdate() {
+        if (state.motionFrame) {
+            return;
+        }
+
+        state.motionFrame =
+            requestAnimationFrame(() => {
+                state.motionFrame = 0;
+
+                updateHeroMotion();
+                updateStickyMotion();
+                updateFooterMotion();
+                updateSectionState();
+            });
+    }
+
+    function handleScroll() {
+        requestScrollUpdate();
+    }
+
+    window.addEventListener(
+        'scroll',
+        handleScroll,
+        { passive: true }
+    );
+
+    window.addEventListener(
+        'resize',
+        () => {
+            state.viewportWidth =
+                window.innerWidth;
+
+            state.viewportHeight =
+                window.innerHeight;
+
+            requestScrollUpdate();
+        }
+    );
 
     /* =====================================================
        INITIALIZE
     ===================================================== */
     function initialize() {
-
         initializeGrids();
-
         applyRandomRotation();
-
         initializeMainNavigation();
-
         initializeStickyNavigation();
-
         initializeKeyboard();
 
         updateSectionState();
-
         updateHeroMotion();
-
+        updateStickyMotion();
+        updateFooterMotion();
         renderPanel();
     }
-
 
     window.addEventListener(
         'DOMContentLoaded',
