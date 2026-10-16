@@ -7,10 +7,12 @@
         content="width=device-width, initial-scale=1.0"
     >
     <title>esenus - Personal Playground</title>
+
     <link
         href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap"
         rel="stylesheet"
     >
+
     <style>
     /* =====================================================
        VARIABLES
@@ -21,24 +23,37 @@
         --accent-red: #cc3300;
         --text-dark: #2b2a29;
         --text-light: #7a7977;
+
         --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
         --transition-speed: 0.9s;
         --sticky-speed: 0.7s;
+
         --sidebar-width: 260px;
+
         --desktop-menu-height:
             clamp(80px, calc(8.333vw + 50px), 120px);
+
         --mobile-menu-height: 64px;
+
         --panel-width: min(640px, 70vw);
+
         --sticky-peek: 45px;
+
         --home-updates-start: 420px;
+
         --nav-gap:
             clamp(10px, calc(1.887vw + 3.96px), 20px);
+
         --nav-link-horizontal-padding:
             clamp(5px, calc(0.943vw + 1.98px), 10px);
+
         --nav-link-font-size:
             clamp(10px, calc(0.566vw + 8.19px), 13px);
+
         --mobile-top-shield-height: 110px;
     }
+
 
     /* =====================================================
        BASE
@@ -57,6 +72,7 @@
         font-family: 'Average', serif;
     }
 
+
     /* =====================================================
        FIXED UI
     ===================================================== */
@@ -65,15 +81,21 @@
         top: 25px;
         left: 25px;
         z-index: 2000;
+
         padding: 15px 10px;
+
         border: 0;
+
         background: var(--text-dark);
         color: #fff;
+
         font-family: 'Syncopate';
         font-size: 9px;
         font-weight: 800;
         line-height: 1.2;
+
         cursor: pointer;
+
         box-shadow:
             0 5px 15px rgba(0, 0, 0, 0.1);
     }
@@ -81,13 +103,21 @@
     .ui-label {
         position: fixed;
         z-index: 1005;
+
         font-family: 'Syncopate';
         font-size: 8px;
         font-weight: 700;
+
         white-space: nowrap;
         pointer-events: none;
-        will-change: transform, opacity;
+
+        will-change:
+            top,
+            left,
+            transform,
+            opacity;
     }
+
 
     /* =====================================================
        HEADER / NAVIGATION
@@ -97,10 +127,14 @@
         bottom: 0;
         left: 0;
         z-index: 1000;
+
         width: 100%;
         height: var(--desktop-menu-height);
+
         box-sizing: border-box;
+
         background: var(--bg-color);
+
         transition:
             top var(--transition-speed) var(--ease),
             bottom var(--transition-speed) var(--ease),
@@ -111,12 +145,17 @@
 
     .nav-list {
         position: absolute;
+
         display: flex;
+
         width: 100%;
         height: 100%;
+
         margin: 0;
         padding: 0;
+
         list-style: none;
+
         transition:
             opacity 0.4s ease,
             transform 0.4s var(--ease);
@@ -124,14 +163,20 @@
 
     .nav-list a {
         display: inline-block;
+
         padding:
             5px
             var(--nav-link-horizontal-padding);
+
         color: var(--text-dark);
+
         text-decoration: none;
+
         font-family: 'Syncopate';
         font-size: var(--nav-link-font-size);
+
         opacity: 0.4;
+
         transition:
             opacity 0.3s ease,
             color 0.3s ease,
@@ -141,25 +186,39 @@
     .nav-bar-label {
         display: flex;
         align-items: center;
+
         padding: 0 15px;
+
         background: var(--bg-color);
+
         letter-spacing: 0.3em;
-        will-change: transform, opacity;
+
+        will-change:
+            top,
+            left,
+            transform,
+            opacity;
     }
 
     .nav-bar-label::after {
         content: '';
+
         display: block;
+
         margin-left: 10px;
+
         background: var(--text-dark);
-        width: 60px;
+
+        width: var(--nav-line-width, 60px);
         height: 1px;
     }
+
 
     /* =====================================================
        POINTER HOVER
     ===================================================== */
     @media (hover: hover) and (pointer: fine) {
+
         .nav-list a:hover {
             opacity: 1;
             color: var(--accent-red);
@@ -177,14 +236,17 @@
         }
     }
 
+
     /* =====================================================
        ACTIVE NAVIGATION
     ===================================================== */
     .nav-list a.is-active {
         opacity: 1;
+
         background: var(--text-dark);
         color: #fff !important;
     }
+
 
     /* =====================================================
        HERO
@@ -194,17 +256,23 @@
         top: 0;
         left: 0;
         z-index: 1100;
+
         width: 100vw;
         height: 100vh;
+
         pointer-events: none;
     }
 
     .hero-section h2,
     .hero-section p {
         position: absolute;
+
         margin: 0;
+
         white-space: nowrap;
+
         font-family: 'Syncopate';
+
         will-change:
             top,
             left,
@@ -213,15 +281,20 @@
             opacity;
     }
 
+
     /* =====================================================
        HOME HERO
     ===================================================== */
     body.is-home #catchword {
         top: 280px;
         left: 7vw;
-        transform: translate3d(0, -50%, 0);
+
+        transform:
+            translate3d(0, -50%, 0);
+
         font-size: 7vw;
         font-weight: 700;
+
         line-height: 0.9;
         letter-spacing: 0.02em;
     }
@@ -229,16 +302,24 @@
     body.is-home #subtitle {
         top: 45px;
         left: 50%;
-        transform: translate3d(-50%, -50%, 0);
+
+        transform:
+            translate3d(-50%, -50%, 0);
+
         width: min(620px, calc(100vw - 140px));
         max-width: calc(100vw - 140px);
+
         font-size: 10px;
         line-height: 1.4;
         letter-spacing: 0.3em;
+
         white-space: normal;
+
         text-align: center;
+
         opacity: 0.6;
     }
+
 
     /* =====================================================
        SUB HERO
@@ -246,7 +327,10 @@
     body.is-sub #catchword {
         top: 160px;
         left: 25px;
-        transform: translate3d(0, 0, 0);
+
+        transform:
+            translate3d(0, 0, 0);
+
         font-size: 24px;
         line-height: 0.9;
     }
@@ -254,38 +338,57 @@
     body.is-sub #subtitle {
         top: 135px;
         left: 25px;
-        transform: translate3d(0, 0, 0);
+
+        transform:
+            translate3d(0, 0, 0);
+
         width: auto;
         max-width: none;
+
         font-size: 8px;
         letter-spacing: 0.1em;
+
         opacity: 0.5;
+
         text-align: left;
     }
+
 
     /* =====================================================
        HOME
     ===================================================== */
     #section-01 {
         position: relative;
+
         min-height: 100vh;
-        padding-top: var(--home-updates-start);
+
+        padding-top:
+            var(--home-updates-start);
+
         box-sizing: border-box;
     }
 
     #home-updates {
         position: relative;
+
         width: min(620px, 86vw);
+
         margin-left: 7vw;
+
         min-height:
             calc(
                 100vh -
                 var(--home-updates-start)
             );
+
         padding-bottom: 4px;
+
         box-sizing: border-box;
+
         background: var(--bg-color);
+
         overflow: visible;
+
         transition:
             margin-left var(--transition-speed) var(--ease);
     }
@@ -293,41 +396,59 @@
     .home-updates-label {
         display: flex;
         align-items: center;
+
         gap: 14px;
+
         margin-bottom: 10px;
+
         font-family: 'Syncopate';
         font-size: 10px;
         font-weight: 700;
+
         letter-spacing: 0.25em;
     }
 
     .home-updates-label::after {
         content: '';
+
         flex: 1;
+
         height: 1px;
+
         background: var(--line-color);
     }
 
     .home-updates-list {
         margin: 0;
         padding: 0;
+
         list-style: none;
     }
 
     .home-update-item {
         display: grid;
-        grid-template-columns: 105px minmax(0, 1fr);
+
+        grid-template-columns:
+            105px
+            minmax(0, 1fr);
+
         gap: 15px;
+
         padding: 8px 0;
-        border-bottom: 1px solid var(--line-color);
+
+        border-bottom:
+            1px solid var(--line-color);
+
         font-size: 15px;
         line-height: 1.35;
     }
 
     .home-update-date {
         color: var(--text-light);
+
         font-family: 'Syncopate';
         font-size: 10px;
+
         letter-spacing: 0.05em;
     }
 
@@ -335,60 +456,86 @@
         min-width: 0;
     }
 
+
     /* =====================================================
        PAGE
     ===================================================== */
     .page-section {
         position: relative;
+
         min-height: 100vh;
+
         box-sizing: border-box;
     }
 
     .sub-section {
         min-height: 100vh;
-        margin-left: var(--sidebar-width);
+
+        margin-left:
+            var(--sidebar-width);
+
         padding:
             135px
             60px
             180px;
+
         box-sizing: border-box;
     }
 
     .sub-section article {
         max-width: 1400px;
+
         margin: 0 auto;
     }
+
 
     /* =====================================================
        PAGE CONTENT
     ===================================================== */
     .page-title {
         margin: 0 0 30px;
+
         padding-left: 15px;
-        border-left: 6px solid var(--accent-red);
+
+        border-left:
+            6px solid var(--accent-red);
+
         font-family: 'Syncopate';
         font-size: 1.5rem;
     }
 
     .page-intro-grid {
         display: grid;
-        grid-template-columns: 1fr 200px;
+
+        grid-template-columns:
+            1fr
+            200px;
+
         gap: 60px;
+
         margin-bottom: 60px;
+
         padding-bottom: 40px;
-        border-bottom: 1px solid var(--line-color);
+
+        border-bottom:
+            1px solid var(--line-color);
     }
 
     .page-main-text p {
         margin: 0;
+
         font-size: 1.6rem;
         line-height: 1.5;
     }
 
     .page-meta {
         padding-left: 20px;
-        border-left: 1px solid var(--line-color);
+
+        border-left:
+            1px solid var(--line-color);
+
         color: var(--text-light);
+
         font-family: 'Syncopate';
         font-size: 9px;
     }
@@ -399,68 +546,93 @@
 
     .page-meta h4 {
         margin: 0 0 5px;
+
         color: var(--text-dark);
+
         font-weight: 700;
+
         letter-spacing: 0.2em;
     }
+
 
     /* =====================================================
        GRID
     ===================================================== */
     .dynamic-grid {
         display: grid;
+
         grid-template-columns:
             repeat(
                 auto-fill,
                 minmax(280px, 1fr)
             );
+
         gap: 40px;
+
         width: 100%;
     }
 
     .grid-item {
         padding-bottom: 20px;
-        border-bottom: 1px solid var(--line-color);
+
+        border-bottom:
+            1px solid var(--line-color);
     }
 
     .grid-item .thumb {
         display: flex;
         align-items: center;
         justify-content: center;
+
         width: 100%;
+
         aspect-ratio: 16 / 9;
+
         margin-bottom: 15px;
+
         background: #ddd;
-        border: 1px solid var(--line-color);
+
+        border:
+            1px solid var(--line-color);
+
         color: #999;
+
         font-family: 'Syncopate';
         font-size: 10px;
     }
 
     .grid-item h3 {
         margin: 0 0 8px;
+
         font-family: 'Syncopate';
         font-size: 12px;
+
         line-height: 1.4;
     }
 
     .grid-item p {
         margin: 0;
+
         font-size: 14px;
         line-height: 1.5;
     }
+
 
     /* =====================================================
        STICKY ACTIONS
     ===================================================== */
     #side-sticky {
         position: fixed;
+
         top: 60px;
         right: 0;
+
         z-index: 1800;
+
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+
         will-change: transform;
     }
 
@@ -468,14 +640,18 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+
         margin: 0;
         padding: 0;
+
         list-style: none;
     }
 
     .sticky-tape {
         position: relative;
+
         margin-bottom: 10px;
+
         transform:
             translate3d(
                 calc(100% - var(--sticky-peek)),
@@ -483,6 +659,7 @@
                 0
             )
             rotate(var(--random-rotate, 0deg));
+
         transition:
             transform var(--sticky-speed) var(--ease);
     }
@@ -495,16 +672,24 @@
 
     .sticky-tape a {
         position: relative;
+
         display: flex;
         align-items: center;
+
         min-width: 130px;
+
         padding: 10px;
+
         box-sizing: border-box;
+
         background: var(--accent-red);
         color: #fff;
+
         box-shadow:
             -4px 4px 10px rgba(0, 0, 0, 0.15);
+
         text-decoration: none;
+
         font-family: 'Vast Shadow';
         font-size: 13px;
     }
@@ -515,16 +700,23 @@
 
     .sticky-tape a::after {
         content: '×';
+
         position: absolute;
+
         top: 50%;
         right: 13px;
+
         transform:
             translate3d(0, -50%, 0);
+
         font-family: Arial, sans-serif;
         font-size: 20px;
         font-weight: 400;
+
         line-height: 1;
+
         opacity: 0;
+
         transition:
             opacity 0.2s ease;
     }
@@ -539,31 +731,50 @@
 
     .tape-icon {
         display: inline-block;
+
         width: 24px;
+
         margin-right: 20px;
+
         text-align: center;
+
         font-size: 20px;
     }
+
 
     /* =====================================================
        ACTION PANEL
     ===================================================== */
     #content-panel {
         position: fixed;
+
         top: 0;
         right: 0;
         bottom: var(--desktop-menu-height);
+
         z-index: 1700;
+
         width: var(--panel-width);
+
         box-sizing: border-box;
+
         background: var(--bg-color);
-        border-left: 1px solid var(--line-color);
+
+        border-left:
+            1px solid var(--line-color);
+
         box-shadow:
             -12px 0 35px rgba(0, 0, 0, 0.08);
-        transform: translate3d(100%, 0, 0);
+
+        transform:
+            translate3d(100%, 0, 0);
+
         opacity: 0;
+
         visibility: hidden;
+
         pointer-events: none;
+
         transition:
             transform 0.7s var(--ease),
             opacity 0.35s ease,
@@ -571,10 +782,15 @@
     }
 
     #content-panel.is-open {
-        transform: translate3d(0, 0, 0);
+        transform:
+            translate3d(0, 0, 0);
+
         opacity: 1;
+
         visibility: visible;
+
         pointer-events: auto;
+
         transition:
             transform 0.7s var(--ease),
             opacity 0.35s ease,
@@ -583,10 +799,14 @@
 
     .content-panel-inner {
         position: relative;
+
         width: 100%;
         height: 100%;
+
         box-sizing: border-box;
+
         overflow-y: auto;
+
         padding:
             80px
             50px
@@ -606,7 +826,9 @@
     }
 
     .panel-page .page-intro-grid {
-        grid-template-columns: 1fr 150px;
+        grid-template-columns:
+            1fr
+            150px;
     }
 
     .panel-page .page-main-text p {
@@ -615,14 +837,20 @@
 
     .panel-close-label {
         position: absolute;
+
         top: 25px;
         right: 30px;
+
         font-family: 'Syncopate';
         font-size: 7px;
+
         letter-spacing: 0.15em;
+
         opacity: 0.35;
+
         pointer-events: none;
     }
+
 
     /* =====================================================
        EXTERNAL LINKS
@@ -630,22 +858,33 @@
     .panel-links {
         display: flex;
         flex-direction: column;
+
         margin-top: 35px;
-        border-top: 1px solid var(--line-color);
+
+        border-top:
+            1px solid var(--line-color);
     }
 
     .panel-link {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         padding: 16px 0;
-        border-bottom: 1px solid var(--line-color);
+
+        border-bottom:
+            1px solid var(--line-color);
+
         color: var(--text-dark);
+
         text-decoration: none;
+
         font-family: 'Syncopate';
         font-size: 11px;
         font-weight: 700;
+
         letter-spacing: 0.08em;
+
         transition:
             color 0.3s ease,
             padding-left 0.4s var(--ease);
@@ -653,6 +892,7 @@
 
     .panel-link::after {
         content: '↗';
+
         font-family: Arial, sans-serif;
         font-size: 16px;
         font-weight: 400;
@@ -660,32 +900,54 @@
 
     .panel-note {
         margin-top: 15px;
+
         color: var(--text-light);
+
         font-family: 'Syncopate';
         font-size: 7px;
+
         line-height: 1.6;
         letter-spacing: 0.08em;
     }
 
+
     /* =====================================================
        FOOTER
+       
+       Position is controlled entirely by JavaScript.
+       No top/left/transform positioning here.
     ===================================================== */
     #site-footer {
         z-index: 1200;
-        max-width: calc(100vw - 40px);
+
+        max-width:
+            calc(100vw - 40px);
+
         color: var(--text-dark);
+
         font-family: 'Syncopate';
         font-size: 8px;
         font-weight: 350;
+
         letter-spacing: 0.4em;
+
         text-transform: uppercase;
-        opacity: 0.25 !important;
+
+        opacity: 0.25;
+
+        will-change:
+            top,
+            left,
+            transform,
+            opacity;
     }
+
 
     /* =====================================================
        REDUCED MOTION
     ===================================================== */
     @media (prefers-reduced-motion: reduce) {
+
         html {
             scroll-behavior: auto;
         }
@@ -693,46 +955,75 @@
         *,
         *::before,
         *::after {
-            transition-duration: 0.01ms !important;
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
+            transition-duration:
+                0.01ms !important;
+
+            animation-duration:
+                0.01ms !important;
+
+            animation-iteration-count:
+                1 !important;
         }
     }
+
 
     /* =====================================================
        DESKTOP
     ===================================================== */
     @media screen and (min-width: 851px) {
+
+        /* HOME HEADER */
+
         body.is-home #site-header {
             bottom: 0;
             left: 0;
+
             width: 100%;
-            height: var(--desktop-menu-height);
-            border-top: 1px solid var(--line-color);
+            height:
+                var(--desktop-menu-height);
+
+            border-top:
+                1px solid var(--line-color);
         }
 
         body.is-home .nav-list {
             flex-direction: row;
+
             justify-content: center;
             align-items: center;
+
             gap: var(--nav-gap);
         }
+
+
+        /* SUB HEADER */
 
         body.is-sub #site-header {
             top: 0;
             left: 0;
             bottom: auto;
-            width: var(--sidebar-width);
+
+            width:
+                var(--sidebar-width);
+
             height: 100vh;
-            border-right: 1px solid var(--line-color);
+
+            border-right:
+                1px solid var(--line-color);
         }
 
         body.is-sub .nav-list {
             top: 260px;
+
             flex-direction: column;
+
             padding-left: 35px;
+
             gap: 10px;
         }
+
+
+        /* HOME UPDATE → SUB */
 
         body.is-sub #home-updates {
             margin-left:
@@ -742,56 +1033,52 @@
                 );
         }
 
-        body.is-home #site-footer {
-            position: fixed;
-            top: 50%;
-            left: 18px;
-            transform:
-                translate(-50%, -50%)
-                rotate(-90deg);
-        }
 
-        body.is-sub #site-footer {
-            position: fixed;
-            bottom:
-                clamp(
-                    24px,
-                    6vh,
-                    60px
-                );
-            left:
-                calc(
-                    var(--sidebar-width) / 2
-                );
-            transform:
-                translate(-50%, 0);
-            max-width: 210px;
-            text-align: center;
-            white-space: normal;
-        }
+        /*
+         * Footer positioning is intentionally absent.
+         * JavaScript handles it.
+         */
     }
+
 
     /* =====================================================
        MOBILE
     ===================================================== */
     @media screen and (max-width: 850px) {
+
+        /* HEADER */
+
         #site-header {
             top: auto !important;
             bottom: 0 !important;
             left: 0 !important;
+
             width: 100% !important;
-            height: var(--mobile-menu-height) !important;
-            border-top: 1px solid var(--line-color);
+            height:
+                var(--mobile-menu-height) !important;
+
+            border-top:
+                1px solid var(--line-color);
+
             border-right: none !important;
         }
 
+
+        /* MOBILE TOP SHIELD */
+
         #site-header::after {
             content: '';
+
             position: fixed;
+
             top: 0;
             left: 0;
+
             width: 100vw;
-            height: var(--mobile-top-shield-height);
+
+            height:
+                var(--mobile-top-shield-height);
+
             background:
                 linear-gradient(
                     to bottom,
@@ -800,16 +1087,25 @@
                     rgba(242, 242, 240, 0.55) 75%,
                     rgba(242, 242, 240, 0) 100%
                 );
+
             pointer-events: none;
+
             z-index: 0;
         }
 
+
+        /* NAV */
+
         .nav-list {
             top: 0 !important;
+
             flex-direction: row !important;
+
             justify-content: center !important;
             align-items: center !important;
+
             padding: 0 !important;
+
             gap: var(--nav-gap) !important;
         }
 
@@ -817,15 +1113,25 @@
             display: none !important;
         }
 
+
+        /* HOME */
+
         #section-01 {
             min-height: 100vh;
-            padding-top: var(--home-updates-start);
+
+            padding-top:
+                var(--home-updates-start);
         }
+
+
+        /* HERO */
 
         .hero-section {
             position: fixed;
+
             top: 0;
             left: 0;
+
             width: 100vw;
             height: 100vh;
         }
@@ -833,7 +1139,10 @@
         body.is-home #catchword {
             top: 280px;
             left: 7vw;
-            transform: translate3d(0, -50%, 0);
+
+            transform:
+                translate3d(0, -50%, 0);
+
             font-size:
                 clamp(
                     50px,
@@ -845,37 +1154,64 @@
         body.is-home #subtitle {
             top: 110px;
             left: 50%;
-            transform: translate3d(-50%, -50%, 0);
-            width: calc(100vw - 50px);
+
+            transform:
+                translate3d(-50%, -50%, 0);
+
+            width:
+                calc(100vw - 50px);
+
             max-width: 500px;
+
             text-align: center;
+
             line-height: 1.5;
         }
+
+
+        /* SUB HERO */
 
         body.is-sub #catchword {
             top: 40px;
             left: 110px;
-            transform: translate3d(0, 0, 0);
+
+            transform:
+                translate3d(0, 0, 0);
+
             font-size: 23px;
+
             line-height: 0.9;
+
             letter-spacing: 0.02em;
         }
 
         body.is-sub #subtitle {
             top: 25px;
             left: 110px;
-            transform: translate3d(0, 0, 0);
+
+            transform:
+                translate3d(0, 0, 0);
+
             width: auto;
             max-width: none;
+
             font-size: 8px;
+
             line-height: 1.3;
+
             letter-spacing: 0.1em;
+
             white-space: nowrap;
+
             text-align: left;
         }
 
+
+        /* SUB CONTENT */
+
         .sub-section {
             margin-left: 0;
+
             padding:
                 100px
                 25px
@@ -884,6 +1220,7 @@
 
         .page-intro-grid {
             grid-template-columns: 1fr;
+
             gap: 20px;
         }
 
@@ -891,27 +1228,40 @@
             font-size: 1.25rem;
         }
 
-        /* -------------------------------------------------
-           STICKY
-           The sticky stack is anchored directly above
-           the mobile menu. No viewport-height translation.
-        ------------------------------------------------- */
+
+        /*
+         * STICKY
+         *
+         * Closed tapes are anchored directly above
+         * the mobile menu.
+         *
+         * No viewport-height translation is used.
+         */
+
         #side-sticky {
             top: auto;
+
             right: 0;
+
             bottom:
                 var(--mobile-menu-height);
+
             transform: none;
         }
 
-        /* -------------------------------------------------
-           ACTION PANEL
-        ------------------------------------------------- */
+
+        /* ACTION PANEL */
+
         #content-panel {
             top: 0;
             right: 0;
-            bottom: var(--mobile-menu-height);
-            width: calc(100vw - 20px);
+
+            bottom:
+                var(--mobile-menu-height);
+
+            width:
+                calc(100vw - 20px);
+
             box-shadow:
                 -10px 0 25px rgba(0, 0, 0, 0.08);
         }
@@ -934,6 +1284,7 @@
         .panel-close-label {
             top: 25px;
             right: 20px;
+
             font-size: 6px;
         }
 
@@ -943,6 +1294,7 @@
 
         .panel-link {
             padding: 14px 0;
+
             font-size: 9px;
         }
 
@@ -950,40 +1302,22 @@
             font-size: 6px;
         }
 
-        /* -------------------------------------------------
-           FOOTER
-        ------------------------------------------------- */
-        #site-footer {
-            position: fixed;
-            top:
-                clamp(
-                    90px,
-                    50vh,
-                    calc(100vh - 90px)
-                ) !important;
-            left:
-                clamp(
-                    12px,
-                    1vw,
-                    20px
-                ) !important;
-            width: max-content;
-            max-width: none;
-            white-space: nowrap;
-            text-align: left;
-            transform:
-                translate(-50%, -50%)
-                rotate(-90deg) !important;
-        }
+
+        /*
+         * Footer has no positional CSS here.
+         * JavaScript handles it.
+         */
     }
     </style>
 </head>
+
 <body class="is-home">
 
 <!-- =====================================================
      HEADER
 ===================================================== -->
 <header id="site-header">
+
     <button
         id="logo"
         type="button"
@@ -997,25 +1331,44 @@
     </div>
 
     <nav aria-label="Main Navigation">
-        <ul id="main-nav-list" class="nav-list">
+        <ul
+            id="main-nav-list"
+            class="nav-list"
+        >
             <li>
-                <a href="#section-01">HOME</a>
+                <a href="#section-01">
+                    HOME
+                </a>
             </li>
+
             <li>
-                <a href="#section-02">PLAY</a>
+                <a href="#section-02">
+                    PLAY
+                </a>
             </li>
+
             <li>
-                <a href="#section-03">MAKE</a>
+                <a href="#section-03">
+                    MAKE
+                </a>
             </li>
+
             <li>
-                <a href="#section-04">NOTE</a>
+                <a href="#section-04">
+                    NOTE
+                </a>
             </li>
+
             <li>
-                <a href="#section-05">ARCHIVE</a>
+                <a href="#section-05">
+                    ARCHIVE
+                </a>
             </li>
         </ul>
     </nav>
+
 </header>
+
 
 <!-- =====================================================
      HERO
@@ -1033,12 +1386,14 @@
     </h2>
 </section>
 
+
 <!-- =====================================================
      MAIN CONTENT
 ===================================================== -->
 <main>
 
     <!-- HOME -->
+
     <section
         id="section-01"
         class="page-section"
@@ -1054,6 +1409,7 @@
             </div>
 
             <ul class="home-updates-list">
+
                 <li class="home-update-item">
                     <time
                         class="home-update-date"
@@ -1061,6 +1417,7 @@
                     >
                         2026.09.18
                     </time>
+
                     <span class="home-update-text">
                         The Playground website started.
                     </span>
@@ -1073,6 +1430,7 @@
                     >
                         2026.09.16
                     </time>
+
                     <span class="home-update-text">
                         Furby Rebuild project updated.
                     </span>
@@ -1085,26 +1443,32 @@
                     >
                         2026.09.12
                     </time>
+
                     <span class="home-update-text">
                         Started building things again.
                     </span>
                 </li>
+
             </ul>
         </section>
     </section>
 
+
     <!-- PLAY -->
+
     <section
         id="section-02"
         class="page-section sub-section"
         data-section="02"
     >
         <article>
+
             <h1 class="page-title">
                 PLAY
             </h1>
 
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Things I'm trying.
@@ -1119,6 +1483,7 @@
                 </div>
 
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>01</div>
@@ -1130,7 +1495,9 @@
                             IN PROGRESS
                         </div>
                     </div>
+
                 </aside>
+
             </div>
 
             <div
@@ -1138,21 +1505,26 @@
                 data-grid-count="3"
                 data-grid-prefix="PLAY"
             ></div>
+
         </article>
     </section>
 
+
     <!-- MAKE -->
+
     <section
         id="section-03"
         class="page-section sub-section"
         data-section="03"
     >
         <article>
+
             <h1 class="page-title">
                 MAKE
             </h1>
 
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Things I've made.
@@ -1166,6 +1538,7 @@
                 </div>
 
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>02</div>
@@ -1177,7 +1550,9 @@
                             BUILDS
                         </div>
                     </div>
+
                 </aside>
+
             </div>
 
             <div
@@ -1185,21 +1560,26 @@
                 data-grid-count="4"
                 data-grid-prefix="MAKE"
             ></div>
+
         </article>
     </section>
 
+
     <!-- NOTE -->
+
     <section
         id="section-04"
         class="page-section sub-section"
         data-section="04"
     >
         <article>
+
             <h1 class="page-title">
                 NOTE
             </h1>
 
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Things I've thought about.
@@ -1212,6 +1592,7 @@
                 </div>
 
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>03</div>
@@ -1223,7 +1604,9 @@
                             NOTES / LOG
                         </div>
                     </div>
+
                 </aside>
+
             </div>
 
             <div
@@ -1231,21 +1614,26 @@
                 data-grid-count="6"
                 data-grid-prefix="NOTE"
             ></div>
+
         </article>
     </section>
 
+
     <!-- ARCHIVE -->
+
     <section
         id="section-05"
         class="page-section sub-section"
         data-section="05"
     >
         <article>
+
             <h1 class="page-title">
                 ARCHIVE
             </h1>
 
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Things from the past.
@@ -1261,6 +1649,7 @@
                 </div>
 
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>04</div>
@@ -1272,7 +1661,9 @@
                             PAST
                         </div>
                     </div>
+
                 </aside>
+
             </div>
 
             <div
@@ -1280,10 +1671,12 @@
                 data-grid-count="8"
                 data-grid-prefix="ARC"
             ></div>
+
         </article>
     </section>
 
 </main>
+
 
 <!-- =====================================================
      STICKY ACTIONS
@@ -1293,6 +1686,7 @@
     aria-label="More"
 >
     <ul>
+
         <li
             class="sticky-tape"
             data-action="01"
@@ -1305,7 +1699,10 @@
                 <span
                     class="tape-icon"
                     aria-hidden="true"
-                >✦</span>
+                >
+                    ✦
+                </span>
+
                 KNOCK
             </a>
         </li>
@@ -1322,12 +1719,17 @@
                 <span
                     class="tape-icon"
                     aria-hidden="true"
-                >☞</span>
+                >
+                    ☞
+                </span>
+
                 BEHIND
             </a>
         </li>
+
     </ul>
 </aside>
+
 
 <!-- =====================================================
      ACTION PANEL
@@ -1343,7 +1745,9 @@
             CLOSE / SAME STICKY
         </div>
 
+
         <!-- KNOCK -->
+
         <section
             class="panel-page"
             id="panel-action-01"
@@ -1354,6 +1758,7 @@
             </h1>
 
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Want to get in touch?
@@ -1362,6 +1767,7 @@
                 </div>
 
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>--</div>
@@ -1373,10 +1779,13 @@
                             CONTACT
                         </div>
                     </div>
+
                 </aside>
+
             </div>
 
             <div class="panel-links">
+
                 <a
                     class="panel-link"
                     href="https://x.com/"
@@ -1409,14 +1818,18 @@
                         BLUESKY / DIRECT MESSAGE
                     </span>
                 </a>
+
             </div>
 
             <p class="panel-note">
                 Choose whichever door feels right.
             </p>
+
         </section>
 
+
         <!-- BEHIND -->
+
         <section
             class="panel-page"
             id="panel-action-02"
@@ -1427,6 +1840,7 @@
             </h1>
 
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         The back of the flyer.
@@ -1441,6 +1855,7 @@
                 </div>
 
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>--</div>
@@ -1452,10 +1867,13 @@
                             WHATEVER
                         </div>
                     </div>
+
                 </aside>
+
             </div>
 
             <div class="panel-links">
+
                 <a
                     class="panel-link"
                     href="https://discord.com/"
@@ -1466,15 +1884,19 @@
                         ENTER THE BACKROOM / DISCORD
                     </span>
                 </a>
+
             </div>
 
             <p class="panel-note">
                 Come hang out.
                 No particular reason required.
             </p>
+
         </section>
+
     </div>
 </aside>
+
 
 <!-- =====================================================
      FOOTER
@@ -1486,71 +1908,137 @@
     ©2026 ESENUS LOGS / THE PLAYGROUND - KUMI FELT LIKE MAKING
 </footer>
 
+
 <script>
     /* =====================================================
        DOM
     ===================================================== */
+
     const DOM = {
-        body: document.body,
-        logo: document.getElementById('logo'),
+        body:
+            document.body,
+
+        logo:
+            document.getElementById('logo'),
+
         mainNav:
-            document.querySelectorAll('#main-nav-list a'),
+            document.querySelectorAll(
+                '#main-nav-list a'
+            ),
+
         sections:
-            document.querySelectorAll('main .page-section'),
+            document.querySelectorAll(
+                'main .page-section'
+            ),
+
         stickyItems:
-            document.querySelectorAll('#side-sticky .sticky-tape'),
+            document.querySelectorAll(
+                '#side-sticky .sticky-tape'
+            ),
+
         panel:
-            document.getElementById('content-panel'),
+            document.getElementById(
+                'content-panel'
+            ),
+
         panelPages:
-            document.querySelectorAll('.panel-page'),
+            document.querySelectorAll(
+                '.panel-page'
+            ),
+
         grids:
-            document.querySelectorAll('.dynamic-grid'),
+            document.querySelectorAll(
+                '.dynamic-grid'
+            ),
+
         catchword:
-            document.getElementById('catchword'),
+            document.getElementById(
+                'catchword'
+            ),
+
         subtitle:
-            document.getElementById('subtitle'),
+            document.getElementById(
+                'subtitle'
+            ),
+
         navBarLabel:
-            document.querySelector('.nav-bar-label')
+            document.querySelector(
+                '.nav-bar-label'
+            ),
+
+        footer:
+            document.getElementById(
+                'site-footer'
+            )
     };
+
 
     /* =====================================================
        STATE
     ===================================================== */
+
     const state = {
         section: null,
         action: null,
+
         motionFrame: 0,
-        viewportWidth: window.innerWidth,
-        viewportHeight: window.innerHeight
+
+        viewportWidth:
+            window.innerWidth,
+
+        viewportHeight:
+            window.innerHeight,
+
+        /*
+         * Subtitle switches from its initial centered
+         * coordinate system to an absolute coordinate
+         * system almost immediately after scrolling.
+         */
+        subtitleLocked: false,
+
+        subtitleLock:
+            null
     };
+
 
     /* =====================================================
        GRID
     ===================================================== */
+
     function createGridItem(prefix, index) {
+
         const number =
             String(index + 1).padStart(2, '0');
 
         return `
             <div class="grid-item">
+
                 <div class="thumb">
                     ${prefix} ${number}
                 </div>
+
                 <h3>
                     ${prefix} ${index + 1}
                 </h3>
+
                 <p>
                     Try something.
                     See what happens.
                 </p>
+
             </div>
         `;
     }
 
+
     function initializeGrids() {
+
         DOM.grids.forEach(grid => {
+
             const count =
-                Number(grid.dataset.gridCount);
+                Number(
+                    grid.dataset.gridCount
+                );
 
             const prefix =
                 grid.dataset.gridPrefix;
@@ -1559,15 +2047,21 @@
                 Array.from(
                     { length: count },
                     (_, index) =>
-                        createGridItem(prefix, index)
+                        createGridItem(
+                            prefix,
+                            index
+                        )
                 ).join('');
         });
     }
 
+
     /* =====================================================
        SECTION DETECTION
     ===================================================== */
+
     function getSectionAtViewportPoint(ratio) {
+
         if (!DOM.sections.length) {
             return null;
         }
@@ -1580,6 +2074,7 @@
             DOM.sections[0];
 
         for (const section of DOM.sections) {
+
             if (section.offsetTop <= position) {
                 active = section;
                 continue;
@@ -1591,18 +2086,23 @@
         return active;
     }
 
+
     function getVisualSection() {
         return getSectionAtViewportPoint(0.9);
     }
+
 
     function getNavigationSection() {
         return getSectionAtViewportPoint(0.5);
     }
 
+
     /* =====================================================
        HEADER / SECTION STATE
     ===================================================== */
+
     function updateSectionState() {
+
         const section =
             getVisualSection();
 
@@ -1637,10 +2137,13 @@
         updateMainNav();
     }
 
+
     /* =====================================================
        MAIN NAVIGATION
     ===================================================== */
+
     function updateMainNav() {
+
         const section =
             getNavigationSection();
 
@@ -1648,6 +2151,7 @@
             section?.dataset.section;
 
         DOM.mainNav.forEach(link => {
+
             const target =
                 link.getAttribute('href');
 
@@ -1663,7 +2167,9 @@
         });
     }
 
+
     function goToSection(sectionId) {
+
         const target =
             document.getElementById(
                 `section-${sectionId}`
@@ -1681,15 +2187,21 @@
         });
     }
 
+
     function initializeMainNavigation() {
+
         DOM.mainNav.forEach(link => {
+
             link.addEventListener(
                 'click',
                 event => {
+
                     event.preventDefault();
 
                     const href =
-                        link.getAttribute('href');
+                        link.getAttribute(
+                            'href'
+                        );
 
                     const sectionId =
                         href.replace(
@@ -1697,10 +2209,13 @@
                             ''
                         );
 
-                    goToSection(sectionId);
+                    goToSection(
+                        sectionId
+                    );
                 }
             );
         });
+
 
         DOM.logo.addEventListener(
             'click',
@@ -1708,22 +2223,29 @@
         );
     }
 
+
     /* =====================================================
        MATH
     ===================================================== */
+
     function clamp(value, min, max) {
+
         return Math.min(
             Math.max(value, min),
             max
         );
     }
 
+
     function lerp(start, end, progress) {
+
         return start +
             (end - start) * progress;
     }
 
+
     function getScrollProgress() {
+
         const homeHeight =
             Math.max(
                 DOM.sections[0]?.offsetHeight ||
@@ -1738,28 +2260,109 @@
         );
     }
 
+
     /* =====================================================
-       SCROLL-LINKED HERO MOTION
+       SUBTITLE COORDINATE SYSTEM
        
-       Every value is derived directly from scroll
-       progress. No CSS transition is used for the
-       scroll-driven position.
+       Phase 1:
+       Initial centered position.
        
-       The subtitle starts centered at scroll = 0,
-       then immediately begins moving toward its
-       sub-page position.
+       Phase 2:
+       Immediately lock the current visual position
+       to absolute coordinates.
+       
+       Phase 3:
+       Move that absolute position toward the
+       sub-page / logo-side position.
     ===================================================== */
+
+    function lockSubtitlePosition() {
+
+        if (state.subtitleLocked) {
+            return;
+        }
+
+        const rect =
+            DOM.subtitle.getBoundingClientRect();
+
+        const computed =
+            window.getComputedStyle(
+                DOM.subtitle
+            );
+
+        const width =
+            rect.width;
+
+        const height =
+            rect.height;
+
+        state.subtitleLock = {
+            left: rect.left,
+            top: rect.top,
+            width,
+            height,
+            fontSize:
+                parseFloat(
+                    computed.fontSize
+                )
+        };
+
+        state.subtitleLocked = true;
+
+        DOM.subtitle.style.left =
+            `${rect.left}px`;
+
+        DOM.subtitle.style.top =
+            `${rect.top + height / 2}px`;
+
+        DOM.subtitle.style.width =
+            `${width}px`;
+
+        DOM.subtitle.style.maxWidth =
+            'none';
+
+        DOM.subtitle.style.transform =
+            'translate3d(0, -50%, 0)';
+
+        DOM.subtitle.style.textAlign =
+            'left';
+    }
+
+
+    function resetSubtitlePosition() {
+
+        state.subtitleLocked = false;
+        state.subtitleLock = null;
+
+        DOM.subtitle.style.left = '';
+        DOM.subtitle.style.top = '';
+        DOM.subtitle.style.width = '';
+        DOM.subtitle.style.maxWidth = '';
+        DOM.subtitle.style.fontSize = '';
+        DOM.subtitle.style.transform = '';
+        DOM.subtitle.style.textAlign = '';
+    }
+
+
+    /* =====================================================
+       HERO MOTION
+    ===================================================== */
+
     function updateHeroMotion() {
+
         const progress =
             getScrollProgress();
 
         const isMobile =
             window.innerWidth <= 850;
 
+
         /* -------------------------------------------------
            CATCHWORD
         ------------------------------------------------- */
+
         if (isMobile) {
+
             const homeTop = 280;
             const subTop = 40;
 
@@ -1773,7 +2376,9 @@
                     59.5,
                     Math.max(
                         50,
-                        window.innerWidth * 0.0179 + 44.27
+                        window.innerWidth *
+                            0.0179 +
+                            44.27
                     )
                 );
 
@@ -1801,7 +2406,11 @@
                 );
 
             const translateY =
-                lerp(-50, 0, progress);
+                lerp(
+                    -50,
+                    0,
+                    progress
+                );
 
             DOM.catchword.style.top =
                 `${top}px`;
@@ -1816,6 +2425,7 @@
                 `translate3d(0, ${translateY}%, 0)`;
 
         } else {
+
             const homeTop = 280;
             const subTop = 160;
 
@@ -1851,7 +2461,11 @@
                 );
 
             const translateY =
-                lerp(-50, 0, progress);
+                lerp(
+                    -50,
+                    0,
+                    progress
+                );
 
             DOM.catchword.style.top =
                 `${top}px`;
@@ -1866,171 +2480,219 @@
                 `translate3d(0, ${translateY}%, 0)`;
         }
 
+
         /* -------------------------------------------------
            SUBTITLE
            
-           Unlike the previous version, there is no
-           "hold" phase.
-           
-           At progress = 0:
-               centered Home position
-           
-           Immediately after:
-               top / left / width / font-size /
-               transform all begin moving continuously
-           
-           At progress = 1:
-               sub-page position near the logo
+           Unlike catchword, subtitle uses a
+           two-stage coordinate transition.
         ------------------------------------------------- */
+
+        if (!state.subtitleLocked) {
+
+            /*
+             * Keep the original centered position
+             * only for the very beginning.
+             */
+            if (progress <= 0.02) {
+
+                if (isMobile) {
+
+                    DOM.subtitle.style.top =
+                        '110px';
+
+                    DOM.subtitle.style.left =
+                        '50%';
+
+                    DOM.subtitle.style.width =
+                        'calc(100vw - 50px)';
+
+                    DOM.subtitle.style.maxWidth =
+                        '500px';
+
+                    DOM.subtitle.style.fontSize =
+                        '10px';
+
+                    DOM.subtitle.style.transform =
+                        'translate3d(-50%, -50%, 0)';
+
+                    DOM.subtitle.style.textAlign =
+                        'center';
+
+                } else {
+
+                    DOM.subtitle.style.top =
+                        '45px';
+
+                    DOM.subtitle.style.left =
+                        '50%';
+
+                    DOM.subtitle.style.width =
+                        'min(620px, calc(100vw - 140px))';
+
+                    DOM.subtitle.style.maxWidth =
+                        'calc(100vw - 140px)';
+
+                    DOM.subtitle.style.fontSize =
+                        '10px';
+
+                    DOM.subtitle.style.transform =
+                        'translate3d(-50%, -50%, 0)';
+
+                    DOM.subtitle.style.textAlign =
+                        'center';
+                }
+
+                return;
+            }
+
+            /*
+             * The first scroll frame crosses the
+             * coordinate-system boundary.
+             */
+            lockSubtitlePosition();
+        }
+
+
+        /*
+         * Once locked, all subsequent movement is
+         * expressed in absolute coordinates.
+         */
+
+        const lock =
+            state.subtitleLock;
+
+        if (!lock) {
+            return;
+        }
+
+
         if (isMobile) {
-            const homeTop = 110;
-            const subTop = 25;
 
-            const homeLeft =
-                window.innerWidth / 2;
+            const targetLeft = 110;
+            const targetTop = 25;
 
-            const subLeft = 110;
-
-            const homeWidth =
-                Math.max(
-                    250,
-                    window.innerWidth - 50
-                );
-
-            const subWidth =
-                DOM.subtitle.scrollWidth;
-
-            const top =
-                lerp(
-                    homeTop,
-                    subTop,
-                    progress
+            /*
+             * Use a separate motion range after
+             * the initial lock.
+             */
+            const motion =
+                clamp(
+                    (progress - 0.02) / 0.98,
+                    0,
+                    1
                 );
 
             const left =
                 lerp(
-                    homeLeft,
-                    subLeft,
-                    progress
+                    lock.left,
+                    targetLeft,
+                    motion
                 );
 
-            const width =
+            const centerTop =
                 lerp(
-                    homeWidth,
-                    subWidth,
-                    progress
+                    lock.top,
+                    targetTop,
+                    motion
                 );
-
-            const translateX =
-                lerp(-50, 0, progress);
-
-            const translateY =
-                lerp(-50, 0, progress);
 
             const fontSize =
-                lerp(10, 8, progress);
-
-            DOM.subtitle.style.top =
-                `${top}px`;
+                lerp(
+                    lock.fontSize,
+                    8,
+                    motion
+                );
 
             DOM.subtitle.style.left =
                 `${left}px`;
 
-            DOM.subtitle.style.width =
-                `${width}px`;
-
-            DOM.subtitle.style.maxWidth =
-                'none';
+            DOM.subtitle.style.top =
+                `${centerTop}px`;
 
             DOM.subtitle.style.fontSize =
                 `${fontSize}px`;
 
+            DOM.subtitle.style.width =
+                `${lerp(
+                    lock.width,
+                    DOM.subtitle.scrollWidth,
+                    motion
+                )}px`;
+
+            DOM.subtitle.style.maxWidth =
+                'none';
+
             DOM.subtitle.style.transform =
-                `translate3d(${translateX}%, ${translateY}%, 0)`;
+                'translate3d(0, -50%, 0)';
 
             DOM.subtitle.style.textAlign =
-                progress === 0
-                    ? 'center'
-                    : 'left';
+                'left';
 
         } else {
-            const homeTop = 45;
-            const subTop = 135;
 
-            const homeLeft =
-                window.innerWidth / 2;
+            const targetLeft = 25;
+            const targetTop = 135;
 
-            const subLeft = 25;
-
-            const homeWidth =
-                Math.min(
-                    620,
-                    Math.max(
-                        0,
-                        window.innerWidth - 140
-                    )
-                );
-
-            const subWidth =
-                DOM.subtitle.scrollWidth;
-
-            const top =
-                lerp(
-                    homeTop,
-                    subTop,
-                    progress
+            const motion =
+                clamp(
+                    (progress - 0.02) / 0.98,
+                    0,
+                    1
                 );
 
             const left =
                 lerp(
-                    homeLeft,
-                    subLeft,
-                    progress
+                    lock.left,
+                    targetLeft,
+                    motion
                 );
 
-            const width =
+            const top =
                 lerp(
-                    homeWidth,
-                    subWidth,
-                    progress
+                    lock.top,
+                    targetTop,
+                    motion
                 );
-
-            const translateX =
-                lerp(-50, 0, progress);
-
-            const translateY =
-                lerp(-50, 0, progress);
 
             const fontSize =
-                lerp(10, 8, progress);
-
-            DOM.subtitle.style.top =
-                `${top}px`;
+                lerp(
+                    lock.fontSize,
+                    8,
+                    motion
+                );
 
             DOM.subtitle.style.left =
                 `${left}px`;
 
-            DOM.subtitle.style.width =
-                `${width}px`;
-
-            DOM.subtitle.style.maxWidth =
-                'none';
+            DOM.subtitle.style.top =
+                `${top}px`;
 
             DOM.subtitle.style.fontSize =
                 `${fontSize}px`;
 
+            DOM.subtitle.style.width =
+                `${lerp(
+                    lock.width,
+                    DOM.subtitle.scrollWidth,
+                    motion
+                )}px`;
+
+            DOM.subtitle.style.maxWidth =
+                'none';
+
             DOM.subtitle.style.transform =
-                `translate3d(${translateX}%, ${translateY}%, 0)`;
+                'translate3d(0, -50%, 0)';
 
             DOM.subtitle.style.textAlign =
-                progress === 0
-                    ? 'center'
-                    : 'left';
+                'left';
         }
+
 
         /* -------------------------------------------------
            NAV BAR LABEL
         ------------------------------------------------- */
+
         if (isMobile) {
             return;
         }
@@ -2040,7 +2702,9 @@
                 120,
                 Math.max(
                     80,
-                    window.innerWidth * 0.08333 + 50
+                    window.innerWidth *
+                        0.08333 +
+                        50
                 )
             );
 
@@ -2054,7 +2718,8 @@
         const homeLeft =
             window.innerWidth / 2;
 
-        const subLeft = 260;
+        const subLeft =
+            260;
 
         const top =
             lerp(
@@ -2070,17 +2735,26 @@
                 progress
             );
 
-        const translateX = -50;
-        const translateY = -50;
-
         const rotation =
-            lerp(0, 90, progress);
+            lerp(
+                0,
+                90,
+                progress
+            );
 
         const lineWidth =
-            lerp(60, 140, progress);
+            lerp(
+                60,
+                140,
+                progress
+            );
 
         const opacity =
-            lerp(0.6, 0.5, progress);
+            lerp(
+                0.6,
+                0.5,
+                progress
+            );
 
         DOM.navBarLabel.style.top =
             `${top}px`;
@@ -2089,7 +2763,7 @@
             `${left}px`;
 
         DOM.navBarLabel.style.transform =
-            `translate3d(${translateX}%, ${translateY}%, 0) rotate(${rotation}deg)`;
+            `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
 
         DOM.navBarLabel.style.opacity =
             opacity;
@@ -2100,40 +2774,161 @@
         );
     }
 
+
     /* =====================================================
-       NAV BAR LABEL LINE
+       FOOTER MOTION
+       
+       Footer follows the same scroll-driven model
+       as nav-bar-label.
     ===================================================== */
-    const navBarStyle =
-        document.createElement('style');
 
-    navBarStyle.textContent = `
-        .nav-bar-label::after {
-            width: var(--nav-line-width, 60px);
+    function updateFooterMotion() {
+
+        const progress =
+            getScrollProgress();
+
+        const isMobile =
+            window.innerWidth <= 850;
+
+
+        if (isMobile) {
+
+            /*
+             * Mobile:
+             * Keep footer vertically around the
+             * middle of the viewport while allowing
+             * its horizontal position to remain
+             * close to the left edge.
+             *
+             * It is still entirely JS-driven.
+             */
+
+            const top =
+                clamp(
+                    window.innerHeight * 0.5,
+                    90,
+                    window.innerHeight - 90
+                );
+
+            const left =
+                clamp(
+                    window.innerWidth * 0.01,
+                    12,
+                    20
+                );
+
+            DOM.footer.style.top =
+                `${top}px`;
+
+            DOM.footer.style.left =
+                `${left}px`;
+
+            DOM.footer.style.transform =
+                'translate3d(-50%, -50%, 0) rotate(-90deg)';
+
+            DOM.footer.style.opacity =
+                '0.25';
+
+            return;
         }
-    `;
 
-    document.head.appendChild(navBarStyle);
+
+        /* -------------------------------------------------
+           DESKTOP HOME → SUB
+        ------------------------------------------------- */
+
+        const homeTop =
+            window.innerHeight / 2;
+
+        const subTop =
+            window.innerHeight -
+            clamp(
+                window.innerHeight * 0.06,
+                24,
+                60
+            );
+
+        const homeLeft = 18;
+
+        const subLeft =
+            260 / 2;
+
+        const top =
+            lerp(
+                homeTop,
+                subTop,
+                progress
+            );
+
+        const left =
+            lerp(
+                homeLeft,
+                subLeft,
+                progress
+            );
+
+        const rotation =
+            lerp(
+                -90,
+                0,
+                progress
+            );
+
+        /*
+         * Home footer is vertical.
+         * Sub-page footer becomes horizontal.
+         */
+
+        DOM.footer.style.top =
+            `${top}px`;
+
+        DOM.footer.style.left =
+            `${left}px`;
+
+        DOM.footer.style.transform =
+            `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
+
+        DOM.footer.style.opacity =
+            '0.25';
+    }
+
+
+    /* =====================================================
+       SCROLL-LINKED UI
+    ===================================================== */
+
+    function updateScrollLinkedUI() {
+
+        updateHeroMotion();
+        updateFooterMotion();
+    }
+
 
     /* =====================================================
        SCROLL
     ===================================================== */
+
     function requestScrollUpdate() {
+
         if (state.motionFrame) {
             return;
         }
 
         state.motionFrame =
             requestAnimationFrame(() => {
+
                 state.motionFrame = 0;
 
-                updateHeroMotion();
+                updateScrollLinkedUI();
                 updateSectionState();
             });
     }
 
+
     function handleScroll() {
         requestScrollUpdate();
     }
+
 
     window.addEventListener(
         'scroll',
@@ -2141,24 +2936,41 @@
         { passive: true }
     );
 
+
     window.addEventListener(
         'resize',
         () => {
+
             state.viewportWidth =
                 window.innerWidth;
 
             state.viewportHeight =
                 window.innerHeight;
 
+            /*
+             * A resize can change the geometry
+             * of the centered subtitle.
+             *
+             * Re-establish its initial state
+             * only when we are genuinely at home.
+             */
+            if (window.scrollY <= 1) {
+                resetSubtitlePosition();
+            }
+
             requestScrollUpdate();
         }
     );
 
+
     /* =====================================================
        ACTION PANEL
     ===================================================== */
+
     function updatePanelPages() {
+
         DOM.panelPages.forEach(page => {
+
             const isActive =
                 page.dataset.actionPage ===
                 state.action;
@@ -2170,8 +2982,11 @@
         });
     }
 
+
     function updateStickyItems() {
+
         DOM.stickyItems.forEach(item => {
+
             const isActive =
                 item.dataset.action ===
                 state.action;
@@ -2189,7 +3004,9 @@
         });
     }
 
+
     function updatePanelVisibility() {
+
         const isOpen =
             Boolean(state.action);
 
@@ -2204,55 +3021,75 @@
         );
     }
 
+
     function renderPanel() {
+
         updatePanelPages();
         updateStickyItems();
         updateMainNav();
         updatePanelVisibility();
     }
 
+
     function openPanel(actionId) {
+
         if (state.action === actionId) {
             closePanel();
             return;
         }
 
         if (state.action) {
+
             state.action = null;
+
             renderPanel();
 
             setTimeout(() => {
-                state.action = actionId;
+
+                state.action =
+                    actionId;
+
                 renderPanel();
+
             }, 100);
 
             return;
         }
 
-        state.action = actionId;
+        state.action =
+            actionId;
+
         renderPanel();
     }
 
+
     function closePanel() {
+
         if (!state.action) {
             return;
         }
 
         state.action = null;
+
         renderPanel();
     }
+
 
     /* =====================================================
        STICKY NAVIGATION
     ===================================================== */
+
     function initializeStickyNavigation() {
+
         DOM.stickyItems.forEach(item => {
+
             const link =
                 item.querySelector('a');
 
             link?.addEventListener(
                 'click',
                 event => {
+
                     event.preventDefault();
 
                     openPanel(
@@ -2263,13 +3100,17 @@
         });
     }
 
+
     /* =====================================================
        KEYBOARD
     ===================================================== */
+
     function initializeKeyboard() {
+
         document.addEventListener(
             'keydown',
             event => {
+
                 if (
                     event.key === 'Escape' &&
                     state.action
@@ -2280,11 +3121,15 @@
         );
     }
 
+
     /* =====================================================
        STICKY ROTATION
     ===================================================== */
+
     function applyRandomRotation() {
+
         DOM.stickyItems.forEach(item => {
+
             const rotation =
                 (Math.random() - 0.5) * 6;
 
@@ -2295,25 +3140,38 @@
         });
     }
 
+
     /* =====================================================
        INITIALIZE
     ===================================================== */
+
     function initialize() {
+
         initializeGrids();
+
         applyRandomRotation();
+
         initializeMainNavigation();
+
         initializeStickyNavigation();
+
         initializeKeyboard();
 
         updateSectionState();
+
         updateHeroMotion();
+
+        updateFooterMotion();
+
         renderPanel();
     }
+
 
     window.addEventListener(
         'DOMContentLoaded',
         initialize
     );
 </script>
+
 </body>
 </html>
