@@ -910,15 +910,36 @@
             font-size: 1.25rem;
         }
 
-        /* STICKY
-           The sticky notes use the same top-right behavior
-           on every viewport width. There is no mobile-only
-           bottom placement. */
+        /* STICKY */
         #side-sticky {
-            top: 60px;
-            right: 0;
+            top: 120px;
             bottom: auto;
             transform: none;
+        }
+
+        /*
+         * MobileではHOMEの最上部から
+         * 付箋を右へ収納し、アイコンだけを見せる。
+         * パネルを開いた付箋だけは完全に表示する。
+         */
+        body.is-home #side-sticky .sticky-tape:not(.is-open) {
+            transform:
+                translate3d(
+                    calc(100% - var(--sticky-peek)),
+                    0,
+                    0
+                )
+                rotate(var(--random-rotate, 0deg));
+        }
+
+        body.is-sub #side-sticky .sticky-tape:not(.is-open) {
+            transform:
+                translate3d(
+                    calc(100% - var(--sticky-peek)),
+                    0,
+                    0
+                )
+                rotate(var(--random-rotate, 0deg));
         }
 
         /* ACTION PANEL */
@@ -2478,33 +2499,63 @@
 
     /* =====================================================
        STICKY POSITION
-
-       All viewport widths:
-       画面上部60px。
-
+       
        HOME:
-       最上部では付箋を完全表示。
-       スクロール開始後は右へ収納してアイコンだけ表示。
+       画面下のnavigation bar直上。
 
        SUB:
-       右側へ収納した状態を維持。
+       画面上部60px。
     ===================================================== */
     function updateStickyMotion() {
         const progress =
             getScrollProgress();
 
+        const isMobile =
+            window.innerWidth <= 850;
+
+        if (isMobile) {
+            /*
+             * Mobile: sticky notes remain at the top.
+             * The notes themselves use the same right-side
+             * peek behavior as the desktop HOME state.
+             */
+            const top = 120;
+
+            DOM.sticky.style.top =
+                `${top}px`;
+
+            DOM.sticky.style.bottom =
+                'auto';
+
+            DOM.sticky.style.transform =
+                'none';
+
+            return;
+        }
+
         /*
-         * STICKY NOTES:
-         * Always anchored near the top-right on every
-         * viewport width. There is no mobile-only bottom
-         * placement.
-         *
-         * HOME / SUB both use the same 60px top position.
-         * The visible / retracted state is handled separately
-         * by updateHomeStickyState() and CSS.
+         * HOME:
+         * sticky notes are always anchored near the top.
+         * Their open/closed state is handled independently
+         * by the scroll state below.
          */
+        const homeTop = 60;
+
+        /*
+         * SUB:
+         * remain at the existing 60px position.
+         */
+        const subTop = 60;
+
+        const top =
+            lerp(
+                homeTop,
+                subTop,
+                progress
+            );
+
         DOM.sticky.style.top =
-            '60px';
+            `${top}px`;
 
         DOM.sticky.style.bottom =
             'auto';
