@@ -1,11 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
     <title>esenus - Personal Playground</title>
-    <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap" rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap"
+        rel="stylesheet"
+    >
 
     <style>
     /* =====================================================
@@ -17,20 +23,38 @@
         --accent-red: #cc3300;
         --text-dark: #2b2a29;
         --text-light: #7a7977;
+
         --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
         --transition-speed: 0.9s;
         --sticky-speed: 0.7s;
+
         --sidebar-width: 260px;
-        --desktop-menu-height: clamp(80px, calc(8.333vw + 50px), 120px);
+
+        --desktop-menu-height:
+            clamp(80px, calc(8.333vw + 50px), 120px);
+
         --mobile-menu-height: 64px;
-        --panel-width: min(640px, 70vw);
+
+        --panel-width:
+            min(640px, 70vw);
+
         --sticky-peek: 45px;
+
         --home-updates-start: 420px;
-        --nav-gap: clamp(10px, calc(1.887vw + 3.96px), 20px);
-        --nav-link-horizontal-padding: clamp(5px, calc(0.943vw + 1.98px), 10px);
-        --nav-link-font-size: clamp(10px, calc(0.566vw + 8.19px), 13px);
+
+        --nav-gap:
+            clamp(10px, calc(1.887vw + 3.96px), 20px);
+
+        --nav-link-horizontal-padding:
+            clamp(5px, calc(0.943vw + 1.98px), 10px);
+
+        --nav-link-font-size:
+            clamp(10px, calc(0.566vw + 8.19px), 13px);
+
         --mobile-top-shield-height: 110px;
     }
+
 
     /* =====================================================
        BASE
@@ -44,10 +68,13 @@
         margin: 0;
         padding: 0;
         overflow-x: hidden;
+
         background: var(--bg-color);
         color: var(--text-dark);
+
         font-family: 'Average', serif;
     }
+
 
     /* =====================================================
        FIXED UI
@@ -56,46 +83,63 @@
         position: fixed;
         top: 25px;
         left: 25px;
+
         z-index: 2000;
+
         padding: 15px 10px;
+
         border: 0;
+
         background: var(--text-dark);
         color: #fff;
+
         font-family: 'Syncopate';
         font-size: 9px;
         font-weight: 800;
         line-height: 1.2;
+
         cursor: pointer;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+        box-shadow:
+            0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
     .ui-label {
         position: fixed;
+
         z-index: 1005;
+
         font-family: 'Syncopate';
         font-size: 8px;
         font-weight: 700;
+
         white-space: nowrap;
         pointer-events: none;
-        transition:
-            top var(--transition-speed) var(--ease),
-            left var(--transition-speed) var(--ease),
-            transform var(--transition-speed) var(--ease),
-            opacity var(--transition-speed) var(--ease);
+
+        will-change:
+            transform,
+            opacity;
     }
+
 
     /* =====================================================
        HEADER / NAVIGATION
     ===================================================== */
     #site-header {
         position: fixed;
+
         bottom: 0;
         left: 0;
+
         z-index: 1000;
+
         width: 100%;
         height: var(--desktop-menu-height);
+
         box-sizing: border-box;
+
         background: var(--bg-color);
+
         transition:
             top var(--transition-speed) var(--ease),
             bottom var(--transition-speed) var(--ease),
@@ -106,84 +150,141 @@
 
     .nav-list {
         position: absolute;
+
         display: flex;
+
         width: 100%;
         height: 100%;
+
         margin: 0;
         padding: 0;
+
         list-style: none;
-        transition: opacity 0.4s ease, transform 0.4s var(--ease);
+
+        transition:
+            opacity 0.4s ease,
+            transform 0.4s var(--ease);
     }
 
     .nav-list a {
         display: inline-block;
-        padding: 5px var(--nav-link-horizontal-padding);
+
+        padding:
+            5px
+            var(--nav-link-horizontal-padding);
+
         color: var(--text-dark);
+
         text-decoration: none;
+
         font-family: 'Syncopate';
         font-size: var(--nav-link-font-size);
+
         opacity: 0.4;
-        transition: opacity 0.3s ease, color 0.3s ease, background-color 0.3s ease;
-    }
 
-    .nav-list a:hover {
-        opacity: 1;
-        color: var(--accent-red);
-    }
-
-    .nav-list a.is-active {
-        opacity: 1;
-        background: var(--text-dark);
-        color: #fff !important;
+        transition:
+            opacity 0.3s ease,
+            color 0.3s ease,
+            background-color 0.3s ease;
     }
 
     .nav-bar-label {
         display: flex;
         align-items: center;
+
         padding: 0 15px;
+
         background: var(--bg-color);
+
         letter-spacing: 0.3em;
-        transition:
-            top var(--transition-speed) var(--ease),
-            left var(--transition-speed) var(--ease),
-            transform var(--transition-speed) var(--ease),
-            opacity 0.5s ease;
+
+        will-change:
+            transform,
+            opacity;
     }
 
     .nav-bar-label::after {
         content: '';
+
         display: block;
+
         margin-left: 10px;
+
         background: var(--text-dark);
-        transition: width var(--transition-speed) var(--ease), height var(--transition-speed) var(--ease);
+
+        width: var(--nav-line-width, 60px);
+        height: 1px;
     }
+
+
+    /* =====================================================
+       POINTER HOVER
+    ===================================================== */
+    @media (hover: hover) and (pointer: fine) {
+        .nav-list a:hover {
+            opacity: 1;
+            color: var(--accent-red);
+        }
+
+        .panel-link:hover {
+            padding-left: 10px;
+            color: var(--accent-red);
+        }
+
+        .sticky-tape:hover {
+            transform:
+                translate3d(0, 0, 0)
+                rotate(var(--random-rotate, 0deg));
+        }
+    }
+
+
+    /* =====================================================
+       ACTIVE NAVIGATION
+    ===================================================== */
+    .nav-list a.is-active {
+        opacity: 1;
+
+        background: var(--text-dark);
+        color: #fff !important;
+    }
+
 
     /* =====================================================
        HERO
     ===================================================== */
     .hero-section {
         position: fixed;
+
         top: 0;
         left: 0;
+
         z-index: 1100;
+
         width: 100vw;
         height: 100vh;
+
         pointer-events: none;
     }
 
     .hero-section h2,
     .hero-section p {
         position: absolute;
+
         margin: 0;
+
         white-space: nowrap;
+
         font-family: 'Syncopate';
-        transition:
-            top var(--transition-speed) var(--ease),
-            left var(--transition-speed) var(--ease),
-            transform var(--transition-speed) var(--ease),
-            font-size var(--transition-speed) var(--ease),
-            opacity var(--transition-speed) var(--ease);
+
+        will-change:
+            top,
+            left,
+            transform,
+            font-size,
+            opacity;
     }
+
 
     /* =====================================================
        HOME HERO
@@ -191,7 +292,10 @@
     body.is-home #catchword {
         top: 280px;
         left: 7vw;
-        transform: translateY(-50%);
+
+        transform:
+            translate3d(0, -50%, 0);
+
         font-size: 7vw;
         font-weight: 700;
         line-height: 0.9;
@@ -200,15 +304,28 @@
 
     body.is-home #subtitle {
         top: 45px;
-        left: 110px;
-        transform: translateY(-50%);
-        max-width: calc(100vw - 140px);
+        left: 50%;
+
+        transform:
+            translate3d(-50%, -50%, 0);
+
+        width:
+            min(620px, calc(100vw - 140px));
+
+        max-width:
+            calc(100vw - 140px);
+
         font-size: 10px;
         line-height: 1.4;
         letter-spacing: 0.3em;
+
         white-space: normal;
+
+        text-align: center;
+
         opacity: 0.6;
     }
+
 
     /* =====================================================
        SUB HERO
@@ -216,7 +333,10 @@
     body.is-sub #catchword {
         top: 160px;
         left: 25px;
-        transform: none;
+
+        transform:
+            translate3d(0, 0, 0);
+
         font-size: 24px;
         line-height: 0.9;
     }
@@ -224,72 +344,120 @@
     body.is-sub #subtitle {
         top: 135px;
         left: 25px;
-        transform: none;
+
+        transform:
+            translate3d(0, 0, 0);
+
+        width: auto;
+        max-width: none;
+
         font-size: 8px;
         letter-spacing: 0.1em;
+
         opacity: 0.5;
+
+        text-align: left;
     }
+
 
     /* =====================================================
        HOME
     ===================================================== */
     #section-01 {
         position: relative;
+
         min-height: 100vh;
-        padding-top: var(--home-updates-start);
+
+        padding-top:
+            var(--home-updates-start);
+
         box-sizing: border-box;
     }
 
     #home-updates {
         position: relative;
-        width: min(620px, 86vw);
+
+        width:
+            min(620px, 86vw);
+
         margin-left: 7vw;
-        min-height: calc(100vh - var(--home-updates-start));
+
+        min-height:
+            calc(
+                100vh -
+                var(--home-updates-start)
+            );
+
         padding-bottom: 4px;
+
         box-sizing: border-box;
+
         background: var(--bg-color);
+
         overflow: visible;
-        transition: margin-left var(--transition-speed) var(--ease);
+
+        transition:
+            margin-left
+            var(--transition-speed)
+            var(--ease);
     }
 
     .home-updates-label {
         display: flex;
         align-items: center;
+
         gap: 14px;
+
         margin-bottom: 10px;
+
         font-family: 'Syncopate';
         font-size: 10px;
         font-weight: 700;
+
         letter-spacing: 0.25em;
     }
 
     .home-updates-label::after {
         content: '';
+
         flex: 1;
+
         height: 1px;
-        background: var(--line-color);
+
+        background:
+            var(--line-color);
     }
 
     .home-updates-list {
         margin: 0;
         padding: 0;
+
         list-style: none;
     }
 
     .home-update-item {
         display: grid;
-        grid-template-columns: 105px minmax(0, 1fr);
+
+        grid-template-columns:
+            105px minmax(0, 1fr);
+
         gap: 15px;
+
         padding: 8px 0;
-        border-bottom: 1px solid var(--line-color);
+
+        border-bottom:
+            1px solid var(--line-color);
+
         font-size: 15px;
         line-height: 1.35;
     }
 
     .home-update-date {
         color: var(--text-light);
+
         font-family: 'Syncopate';
         font-size: 10px;
+
         letter-spacing: 0.05em;
     }
 
@@ -297,57 +465,85 @@
         min-width: 0;
     }
 
+
     /* =====================================================
        PAGE
     ===================================================== */
     .page-section {
         position: relative;
+
         min-height: 100vh;
+
         box-sizing: border-box;
     }
 
     .sub-section {
         min-height: 100vh;
-        margin-left: var(--sidebar-width);
-        padding: 135px 60px 180px;
+
+        margin-left:
+            var(--sidebar-width);
+
+        padding:
+            135px
+            60px
+            180px;
+
         box-sizing: border-box;
     }
 
     .sub-section article {
         max-width: 1400px;
+
         margin: 0 auto;
     }
+
 
     /* =====================================================
        PAGE CONTENT
     ===================================================== */
     .page-title {
         margin: 0 0 30px;
+
         padding-left: 15px;
-        border-left: 6px solid var(--accent-red);
+
+        border-left:
+            6px solid var(--accent-red);
+
         font-family: 'Syncopate';
         font-size: 1.5rem;
     }
 
     .page-intro-grid {
         display: grid;
-        grid-template-columns: 1fr 200px;
+
+        grid-template-columns:
+            1fr 200px;
+
         gap: 60px;
+
         margin-bottom: 60px;
+
         padding-bottom: 40px;
-        border-bottom: 1px solid var(--line-color);
+
+        border-bottom:
+            1px solid var(--line-color);
     }
 
     .page-main-text p {
         margin: 0;
+
         font-size: 1.6rem;
         line-height: 1.5;
     }
 
     .page-meta {
         padding-left: 20px;
-        border-left: 1px solid var(--line-color);
+
+        border-left:
+            1px solid var(--line-color);
+
         color: var(--text-light);
+
         font-family: 'Syncopate';
         font-size: 9px;
     }
@@ -358,42 +554,65 @@
 
     .page-meta h4 {
         margin: 0 0 5px;
+
         color: var(--text-dark);
+
         font-weight: 700;
+
         letter-spacing: 0.2em;
     }
+
 
     /* =====================================================
        GRID
     ===================================================== */
     .dynamic-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+        grid-template-columns:
+            repeat(
+                auto-fill,
+                minmax(280px, 1fr)
+            );
+
         gap: 40px;
+
         width: 100%;
     }
 
     .grid-item {
         padding-bottom: 20px;
-        border-bottom: 1px solid var(--line-color);
+
+        border-bottom:
+            1px solid var(--line-color);
     }
 
     .grid-item .thumb {
         display: flex;
+
         align-items: center;
         justify-content: center;
+
         width: 100%;
+
         aspect-ratio: 16 / 9;
+
         margin-bottom: 15px;
+
         background: #ddd;
-        border: 1px solid var(--line-color);
+
+        border:
+            1px solid var(--line-color);
+
         color: #999;
+
         font-family: 'Syncopate';
         font-size: 10px;
     }
 
     .grid-item h3 {
         margin: 0 0 8px;
+
         font-family: 'Syncopate';
         font-size: 12px;
         line-height: 1.4;
@@ -401,74 +620,119 @@
 
     .grid-item p {
         margin: 0;
+
         font-size: 14px;
         line-height: 1.5;
     }
+
 
     /* =====================================================
        STICKY ACTIONS
     ===================================================== */
     #side-sticky {
         position: fixed;
+
         top: 60px;
         right: 0;
+
         z-index: 1800;
+
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        transform: translateY(0);
-        transition: transform var(--transition-speed) var(--ease), opacity 0.5s ease;
+
+        will-change: transform;
     }
 
     #side-sticky > ul {
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+
         margin: 0;
         padding: 0;
+
         list-style: none;
     }
 
     .sticky-tape {
         position: relative;
-        margin-bottom: 10px;
-        transform: translateX(calc(100% - var(--sticky-peek))) rotate(var(--random-rotate, 0deg));
-        transition: transform var(--sticky-speed) var(--ease);
-        will-change: transform;
-    }
 
-    /*
-     * Keep the original "pop out" hover motion on desktop.
-     * On touch devices, .is-open is controlled by JavaScript.
-     */
-    @media (hover: hover) and (pointer: fine) {
-        .sticky-tape:hover {
-            transform: translateX(0) rotate(0deg);
-        }
+        margin-bottom: 10px;
+
+        transform:
+            translate3d(
+                calc(100% - var(--sticky-peek)),
+                0,
+                0
+            )
+            rotate(var(--random-rotate, 0deg));
+
+        transition:
+            transform
+            var(--sticky-speed)
+            var(--ease);
     }
 
     .sticky-tape.is-open {
-        transform: translateX(0) rotate(0deg);
+        transform:
+            translate3d(0, 0, 0)
+            rotate(var(--random-rotate, 0deg));
     }
 
     .sticky-tape a {
         position: relative;
+
         display: flex;
         align-items: center;
+
         min-width: 130px;
+
         padding: 10px;
+
         box-sizing: border-box;
+
         background: var(--accent-red);
         color: #fff;
-        box-shadow: -4px 4px 10px rgba(0, 0, 0, 0.15);
+
+        box-shadow:
+            -4px 4px 10px
+            rgba(0, 0, 0, 0.15);
+
         text-decoration: none;
+
         font-family: 'Vast Shadow';
         font-size: 13px;
-        transition: padding-right var(--sticky-speed) var(--ease);
     }
 
     .sticky-tape--behind a {
         background: var(--text-dark);
+    }
+
+    /*
+     * × remains in the DOM.
+     * It is only visually hidden while closed.
+     */
+    .sticky-tape a::after {
+        content: '×';
+
+        position: absolute;
+
+        top: 50%;
+        right: 13px;
+
+        transform:
+            translate3d(0, -50%, 0);
+
+        font-family: Arial, sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 1;
+
+        opacity: 0;
+
+        transition:
+            opacity 0.2s ease;
     }
 
     .sticky-tape.is-open a {
@@ -476,113 +740,100 @@
     }
 
     .sticky-tape.is-open a::after {
-        content: '×';
-        position: absolute;
-        top: 50%;
-        right: 13px;
-        transform: translateY(-50%);
-        font-family: Arial, sans-serif;
-        font-size: 20px;
-        font-weight: 400;
-        line-height: 1;
+        opacity: 1;
     }
 
     .tape-icon {
         display: inline-block;
+
         width: 24px;
+
         margin-right: 20px;
+
         text-align: center;
+
         font-size: 20px;
     }
+
 
     /* =====================================================
        ACTION PANEL
     ===================================================== */
     #content-panel {
         position: fixed;
+
         top: 0;
         right: 0;
         bottom: var(--desktop-menu-height);
+
         z-index: 1700;
+
         width: var(--panel-width);
+
         box-sizing: border-box;
+
         background: var(--bg-color);
-        border-left: 1px solid var(--line-color);
-        box-shadow: -12px 0 35px rgba(0, 0, 0, 0.08);
-        transform: translateX(100%);
+
+        border-left:
+            1px solid var(--line-color);
+
+        box-shadow:
+            -12px 0 35px
+            rgba(0, 0, 0, 0.08);
+
+        transform:
+            translate3d(100%, 0, 0);
+
         opacity: 0;
+
         visibility: hidden;
+
         pointer-events: none;
-        transition: transform 0.7s var(--ease), opacity 0.35s ease, visibility 0s linear 0.7s;
+
+        transition:
+            transform 0.7s var(--ease),
+            opacity 0.35s ease,
+            visibility 0s linear 0.7s;
     }
 
     #content-panel.is-open {
-        transform: translateX(0);
+        transform:
+            translate3d(0, 0, 0);
+
         opacity: 1;
+
         visibility: visible;
+
         pointer-events: auto;
-        transition: transform 0.7s var(--ease), opacity 0.35s ease, visibility 0s;
+
+        transition:
+            transform 0.7s var(--ease),
+            opacity 0.35s ease,
+            visibility 0s;
     }
 
     .content-panel-inner {
         position: relative;
+
         width: 100%;
         height: 100%;
+
         box-sizing: border-box;
+
         overflow-y: auto;
-        padding: 80px 50px 100px;
-        perspective: 1400px;
-        isolation: isolate;
+
+        padding:
+            80px
+            50px
+            100px;
     }
 
     .panel-page {
         display: none;
-        transform-origin: left center;
-        backface-visibility: hidden;
     }
 
     .panel-page.is-active {
         display: block;
-        animation: page-turn-in 650ms var(--ease) both;
-    }
-
-    .panel-page.is-leaving {
-        display: block;
-        position: absolute;
-        top: 80px;
-        left: 50px;
-        right: 50px;
-        z-index: 2;
-        pointer-events: none;
-        transform-origin: left center;
-        animation: page-turn-out 480ms var(--ease) both;
-    }
-
-    @keyframes page-turn-in {
-        0% {
-            opacity: 0;
-            transform: rotateY(-65deg) translateX(24px);
-            filter: brightness(0.84);
-        }
-        55% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 1;
-            transform: rotateY(0) translateX(0);
-            filter: brightness(1);
-        }
-    }
-
-    @keyframes page-turn-out {
-        0% {
-            opacity: 1;
-            transform: rotateY(0);
-        }
-        100% {
-            opacity: 0;
-            transform: rotateY(48deg) translateX(-16px);
-        }
     }
 
     .panel-page .page-title {
@@ -590,7 +841,8 @@
     }
 
     .panel-page .page-intro-grid {
-        grid-template-columns: 1fr 150px;
+        grid-template-columns:
+            1fr 150px;
     }
 
     .panel-page .page-main-text p {
@@ -599,15 +851,20 @@
 
     .panel-close-label {
         position: absolute;
+
         top: 25px;
         right: 30px;
-        z-index: 4;
+
         font-family: 'Syncopate';
         font-size: 7px;
+
         letter-spacing: 0.15em;
+
         opacity: 0.35;
+
         pointer-events: none;
     }
+
 
     /* =====================================================
        EXTERNAL LINKS
@@ -615,32 +872,42 @@
     .panel-links {
         display: flex;
         flex-direction: column;
+
         margin-top: 35px;
-        border-top: 1px solid var(--line-color);
+
+        border-top:
+            1px solid var(--line-color);
     }
 
     .panel-link {
         display: flex;
+
         align-items: center;
         justify-content: space-between;
+
         padding: 16px 0;
-        border-bottom: 1px solid var(--line-color);
+
+        border-bottom:
+            1px solid var(--line-color);
+
         color: var(--text-dark);
+
         text-decoration: none;
+
         font-family: 'Syncopate';
         font-size: 11px;
         font-weight: 700;
-        letter-spacing: 0.08em;
-        transition: color 0.3s ease, padding-left 0.4s var(--ease);
-    }
 
-    .panel-link:hover {
-        padding-left: 10px;
-        color: var(--accent-red);
+        letter-spacing: 0.08em;
+
+        transition:
+            color 0.3s ease,
+            padding-left 0.4s var(--ease);
     }
 
     .panel-link::after {
         content: '↗';
+
         font-family: Arial, sans-serif;
         font-size: 16px;
         font-weight: 400;
@@ -648,27 +915,48 @@
 
     .panel-note {
         margin-top: 15px;
+
         color: var(--text-light);
+
         font-family: 'Syncopate';
         font-size: 7px;
+
         line-height: 1.6;
+
         letter-spacing: 0.08em;
     }
 
+
     /* =====================================================
        FOOTER
+       Position is intentionally NOT defined here.
+       JS owns its position.
     ===================================================== */
     #site-footer {
         z-index: 1200;
-        max-width: calc(100vw - 40px);
+
+        max-width:
+            calc(100vw - 40px);
+
         color: var(--text-dark);
+
         font-family: 'Syncopate';
         font-size: 8px;
         font-weight: 350;
+
         letter-spacing: 0.4em;
+
         text-transform: uppercase;
+
         opacity: 0.25 !important;
+
+        will-change:
+            top,
+            left,
+            transform,
+            opacity;
     }
+
 
     /* =====================================================
        REDUCED MOTION
@@ -687,149 +975,154 @@
         }
     }
 
+
     /* =====================================================
        DESKTOP
     ===================================================== */
     @media screen and (min-width: 851px) {
+
+        /* HOME HEADER */
         body.is-home #site-header {
             bottom: 0;
             left: 0;
+
             width: 100%;
             height: var(--desktop-menu-height);
-            border-top: 1px solid var(--line-color);
+
+            border-top:
+                1px solid var(--line-color);
         }
 
         body.is-home .nav-list {
             flex-direction: row;
+
             justify-content: center;
             align-items: center;
+
             gap: var(--nav-gap);
         }
 
-        body.is-home .nav-bar-label {
-            top: calc(100% - var(--desktop-menu-height));
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.6;
-        }
 
-        body.is-home .nav-bar-label::after {
-            width: 60px;
-            height: 1px;
-        }
-
+        /* SUB HEADER */
         body.is-sub #site-header {
             top: 0;
             left: 0;
             bottom: auto;
+
             width: var(--sidebar-width);
             height: 100vh;
-            border-right: 1px solid var(--line-color);
+
+            border-right:
+                1px solid var(--line-color);
         }
 
         body.is-sub .nav-list {
             top: 260px;
+
             flex-direction: column;
+
             padding-left: 35px;
+
             gap: 10px;
         }
 
-        body.is-sub .nav-bar-label {
-            top: 50%;
-            left: var(--sidebar-width);
-            transform: translate(-50%, -50%) rotate(90deg);
-            opacity: 0.5;
-        }
 
-        body.is-sub .nav-bar-label::after {
-            width: 140px;
-            height: 1px;
-        }
-
+        /* HOME UPDATE → SUB */
         body.is-sub #home-updates {
-            margin-left: calc(7vw + var(--sidebar-width));
-        }
-
-        body.is-home #site-footer {
-            position: fixed;
-            top: 50%;
-            left: 18px;
-            transform: translate(-50%, -50%) rotate(-90deg);
-        }
-
-        body.is-sub #site-footer {
-            position: fixed;
-            bottom: clamp(24px, 6vh, 60px);
-            left: calc(var(--sidebar-width) / 2);
-            transform: translate(-50%, 0);
-            max-width: 210px;
-            text-align: center;
-            white-space: normal;
-        }
-
-        /* Desktop: sticky notes remain at the top-right. */
-        #side-sticky {
-            top: 60px;
-            bottom: auto;
-            transform: translateY(0);
+            margin-left:
+                calc(
+                    7vw +
+                    var(--sidebar-width)
+                );
         }
     }
+
 
     /* =====================================================
        MOBILE
     ===================================================== */
     @media screen and (max-width: 850px) {
+
+        /* HEADER */
         #site-header {
             top: auto !important;
             bottom: 0 !important;
             left: 0 !important;
+
             width: 100% !important;
-            height: var(--mobile-menu-height) !important;
-            border-top: 1px solid var(--line-color);
+            height:
+                var(--mobile-menu-height) !important;
+
+            border-top:
+                1px solid var(--line-color);
+
             border-right: none !important;
         }
 
+
+        /* MOBILE TOP SHIELD */
         #site-header::after {
             content: '';
+
             position: fixed;
+
             top: 0;
             left: 0;
+
             width: 100vw;
-            height: var(--mobile-top-shield-height);
-            background: linear-gradient(
-                to bottom,
-                rgba(242, 242, 240, 0.96) 0%,
-                rgba(242, 242, 240, 0.88) 45%,
-                rgba(242, 242, 240, 0.55) 75%,
-                rgba(242, 242, 240, 0) 100%
-            );
+
+            height:
+                var(--mobile-top-shield-height);
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(242, 242, 240, 0.96) 0%,
+                    rgba(242, 242, 240, 0.88) 45%,
+                    rgba(242, 242, 240, 0.55) 75%,
+                    rgba(242, 242, 240, 0) 100%
+                );
+
             pointer-events: none;
+
             z-index: 0;
         }
 
+
         .nav-list {
             top: 0 !important;
+
             flex-direction: row !important;
+
             justify-content: center !important;
             align-items: center !important;
+
             padding: 0 !important;
+
             gap: var(--nav-gap) !important;
         }
 
         .nav-bar-label {
             display: none !important;
-            transition: none !important;
         }
 
+
+        /* HOME */
         #section-01 {
             min-height: 100vh;
-            padding-top: var(--home-updates-start);
+
+            padding-top:
+                var(--home-updates-start);
         }
 
+
+        /* HERO */
         .hero-section {
             position: fixed;
+
             top: 0;
             left: 0;
+
             width: 100vw;
             height: 100vh;
         }
@@ -837,46 +1130,86 @@
         body.is-home #catchword {
             top: 280px;
             left: 7vw;
-            transform: translateY(-50%);
-            font-size: clamp(50px, calc(1.79vw + 44.27px), 59.5px);
+
+            transform:
+                translate3d(0, -50%, 0);
+
+            font-size:
+                clamp(
+                    50px,
+                    calc(1.79vw + 44.27px),
+                    59.5px
+                );
         }
 
         body.is-home #subtitle {
             top: 110px;
             left: 50%;
-            transform: translateX(-50%);
-            width: calc(100vw - 50px);
+
+            transform:
+                translate3d(-50%, -50%, 0);
+
+            width:
+                calc(100vw - 50px);
+
             max-width: 500px;
+
             text-align: center;
+
             line-height: 1.5;
         }
 
+
+        /* SUB HERO */
         body.is-sub #catchword {
             top: 40px;
             left: 110px;
-            transform: none;
+
+            transform:
+                translate3d(0, 0, 0);
+
             font-size: 23px;
+
             line-height: 0.9;
+
             letter-spacing: 0.02em;
         }
 
         body.is-sub #subtitle {
             top: 25px;
             left: 110px;
-            transform: none;
+
+            transform:
+                translate3d(0, 0, 0);
+
+            width: auto;
+            max-width: none;
+
             font-size: 8px;
+
             line-height: 1.3;
+
             letter-spacing: 0.1em;
+
             white-space: nowrap;
+
+            text-align: left;
         }
 
+
+        /* SUB CONTENT */
         .sub-section {
             margin-left: 0;
-            padding: 100px 25px 120px;
+
+            padding:
+                100px
+                25px
+                120px;
         }
 
         .page-intro-grid {
             grid-template-columns: 1fr;
+
             gap: 20px;
         }
 
@@ -884,32 +1217,206 @@
             font-size: 1.25rem;
         }
 
-        /*
-         * Mobile: notes are positioned near the lower edge.
-         * The translate value is recalculated after resize.
-         */
+
+        /* =================================================
+           MOBILE STICKY
+           
+           Closed:
+             sits directly above the menu.
+           
+           Open:
+             the selected tape leaves that position and
+             flies toward the upper-right corner.
+        ================================================= */
         #side-sticky {
-            top: 60px;
-            bottom: auto;
-            transform: translateY(calc(100vh - 160px - 100%));
+            top: auto;
+            right: 0;
+            bottom:
+                var(--mobile-menu-height);
+
+            transform: none;
         }
 
+        #side-sticky > ul {
+            align-items: flex-end;
+        }
+
+        .sticky-tape {
+            margin-bottom: 10px;
+
+            transform:
+                translate3d(
+                    calc(100% - var(--sticky-peek)),
+                    0,
+                    0
+                )
+                rotate(var(--random-rotate, 0deg));
+
+            transform-origin:
+                80% 50%;
+
+            transition:
+                transform
+                0.75s
+                var(--ease);
+        }
+
+        /*
+         * Only the selected sticky becomes an
+         * independent flying object.
+         *
+         * The large rotation is intentional:
+         * it should feel like the paper has been
+         * physically flicked upward rather than
+         * simply translated.
+         */
+        .sticky-tape.is-open {
+            animation:
+                sticky-fly-to-corner
+                0.95s
+                var(--ease)
+                forwards;
+        }
+
+        /*
+         * While the selected tape is flying,
+         * the panel itself remains the content area.
+         * The tape is moved above it and does not
+         * participate in layout.
+         */
+        @keyframes sticky-fly-to-corner {
+            0% {
+                transform:
+                    translate3d(
+                        calc(100% - var(--sticky-peek)),
+                        0,
+                        0
+                    )
+                    rotate(var(--random-rotate, 0deg));
+            }
+
+            18% {
+                transform:
+                    translate3d(
+                        calc(75% - var(--sticky-peek)),
+                        -8vh,
+                        0
+                    )
+                    rotate(
+                        calc(
+                            var(--random-rotate, 0deg) + 95deg
+                        )
+                    );
+            }
+
+            38% {
+                transform:
+                    translate3d(
+                        calc(45% - var(--sticky-peek)),
+                        -28vh,
+                        0
+                    )
+                    rotate(
+                        calc(
+                            var(--random-rotate, 0deg) - 145deg
+                        )
+                    );
+            }
+
+            57% {
+                transform:
+                    translate3d(
+                        calc(20% - var(--sticky-peek)),
+                        -48vh,
+                        0
+                    )
+                    rotate(
+                        calc(
+                            var(--random-rotate, 0deg) + 205deg
+                        )
+                    );
+            }
+
+            74% {
+                transform:
+                    translate3d(
+                        calc(4% - var(--sticky-peek)),
+                        -62vh,
+                        0
+                    )
+                    rotate(
+                        calc(
+                            var(--random-rotate, 0deg) - 285deg
+                        )
+                    );
+            }
+
+            88% {
+                transform:
+                    translate3d(
+                        0,
+                        -68vh,
+                        0
+                    )
+                    rotate(
+                        calc(
+                            var(--random-rotate, 0deg) + 335deg
+                        )
+                    );
+            }
+
+            100% {
+                transform:
+                    translate3d(
+                        0,
+                        -70vh,
+                        0
+                    )
+                    rotate(
+                        calc(
+                            var(--random-rotate, 0deg) - 8deg
+                        )
+                    );
+            }
+        }
+
+        /*
+         * Keep the flying tape above the content panel.
+         * The panel starts underneath it.
+         */
+        .sticky-tape.is-open {
+            z-index: 2001;
+        }
+
+        /*
+         * × stays available while the tape is open.
+         */
+        .sticky-tape.is-open a::after {
+            opacity: 1;
+        }
+
+
+        /* ACTION PANEL */
         #content-panel {
             top: 0;
             right: 0;
-            bottom: var(--mobile-menu-height);
-            width: calc(100vw - 20px);
-            box-shadow: -10px 0 25px rgba(0, 0, 0, 0.08);
+
+            bottom:
+                var(--mobile-menu-height);
+
+            width:
+                calc(100vw - 20px);
+
+            box-shadow:
+                -10px 0 25px
+                rgba(0, 0, 0, 0.08);
         }
 
         .content-panel-inner {
-            padding: 75px 30px 80px;
-        }
-
-        .panel-page.is-leaving {
-            top: 75px;
-            left: 30px;
-            right: 30px;
+            padding:
+                75px
+                30px
+                80px;
         }
 
         .panel-page .page-intro-grid {
@@ -923,6 +1430,7 @@
         .panel-close-label {
             top: 25px;
             right: 20px;
+
             font-size: 6px;
         }
 
@@ -932,6 +1440,7 @@
 
         .panel-link {
             padding: 14px 0;
+
             font-size: 9px;
         }
 
@@ -939,301 +1448,863 @@
             font-size: 6px;
         }
 
+
+        /* FOOTER
+           JS controls actual position.
+        */
         #site-footer {
-            position: fixed;
-            top: clamp(90px, 50vh, calc(100vh - 90px)) !important;
-            left: clamp(12px, 1vw, 20px) !important;
             width: max-content;
+
             max-width: none;
+
             white-space: nowrap;
+
             text-align: left;
-            transform: translate(-50%, -50%) rotate(-90deg) !important;
+
+            transform-origin: center center;
         }
     }
     </style>
 </head>
 
+
 <body class="is-home">
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 <header id="site-header">
-    <button id="logo" type="button" aria-label="Go to Home">ESENUS<br>logs</button>
-    <div class="ui-label nav-bar-label">MENU / NAVIGATION</div>
+
+    <button
+        id="logo"
+        type="button"
+        aria-label="Go to Home"
+    >
+        ESENUS<br>logs
+    </button>
+
+    <div class="ui-label nav-bar-label">
+        MENU / NAVIGATION
+    </div>
+
     <nav aria-label="Main Navigation">
         <ul id="main-nav-list" class="nav-list">
-            <li><a href="#section-01">HOME</a></li>
-            <li><a href="#section-02">PLAY</a></li>
-            <li><a href="#section-03">MAKE</a></li>
-            <li><a href="#section-04">NOTE</a></li>
-            <li><a href="#section-05">ARCHIVE</a></li>
+
+            <li>
+                <a href="#section-01">
+                    HOME
+                </a>
+            </li>
+
+            <li>
+                <a href="#section-02">
+                    PLAY
+                </a>
+            </li>
+
+            <li>
+                <a href="#section-03">
+                    MAKE
+                </a>
+            </li>
+
+            <li>
+                <a href="#section-04">
+                    NOTE
+                </a>
+            </li>
+
+            <li>
+                <a href="#section-05">
+                    ARCHIVE
+                </a>
+            </li>
+
         </ul>
     </nav>
 </header>
 
-<section class="hero-section" aria-hidden="true">
-    <p id="subtitle">A PERSONAL PLACE TO MAKE THINGS</p>
-    <h2 id="catchword">JUST<br>BECAUSE.</h2>
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+<section
+    class="hero-section"
+    aria-hidden="true"
+>
+    <p id="subtitle">
+        A PERSONAL PLACE TO MAKE THINGS
+    </p>
+
+    <h2 id="catchword">
+        JUST<br>BECAUSE.
+    </h2>
 </section>
 
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
 <main>
-    <section id="section-01" class="page-section" data-section="01" aria-label="Home">
-        <section id="home-updates" aria-label="Recent Updates">
-            <div class="home-updates-label">UPDATE</div>
+
+    <!-- HOME -->
+    <section
+        id="section-01"
+        class="page-section"
+        data-section="01"
+        aria-label="Home"
+    >
+        <section
+            id="home-updates"
+            aria-label="Recent Updates"
+        >
+            <div class="home-updates-label">
+                UPDATE
+            </div>
+
             <ul class="home-updates-list">
+
                 <li class="home-update-item">
-                    <time class="home-update-date" datetime="2026-09-18">2026.09.18</time>
-                    <span class="home-update-text">The Playground website started.</span>
+                    <time
+                        class="home-update-date"
+                        datetime="2026-09-18"
+                    >
+                        2026.09.18
+                    </time>
+
+                    <span class="home-update-text">
+                        The Playground website started.
+                    </span>
                 </li>
+
                 <li class="home-update-item">
-                    <time class="home-update-date" datetime="2026-09-16">2026.09.16</time>
-                    <span class="home-update-text">Furby Rebuild project updated.</span>
+                    <time
+                        class="home-update-date"
+                        datetime="2026-09-16"
+                    >
+                        2026.09.16
+                    </time>
+
+                    <span class="home-update-text">
+                        Furby Rebuild project updated.
+                    </span>
                 </li>
+
                 <li class="home-update-item">
-                    <time class="home-update-date" datetime="2026-09-12">2026.09.12</time>
-                    <span class="home-update-text">Started building things again.</span>
+                    <time
+                        class="home-update-date"
+                        datetime="2026-09-12"
+                    >
+                        2026.09.12
+                    </time>
+
+                    <span class="home-update-text">
+                        Started building things again.
+                    </span>
                 </li>
+
             </ul>
         </section>
     </section>
 
-    <section id="section-02" class="page-section sub-section" data-section="02">
+
+    <!-- PLAY -->
+    <section
+        id="section-02"
+        class="page-section sub-section"
+        data-section="02"
+    >
         <article>
-            <h1 class="page-title">PLAY</h1>
+
+            <h1 class="page-title">
+                PLAY
+            </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
-                    <p>Things I'm trying. Experiments, tests, prototypes, and unfinished ideas. This is where I keep whatever I'm working on right now.</p>
+                    <p>
+                        Things I'm trying.
+                        Experiments,
+                        tests,
+                        prototypes,
+                        and unfinished ideas.
+                        This is where I keep
+                        whatever I'm working on
+                        right now.
+                    </p>
                 </div>
+
                 <aside class="page-meta">
-                    <div class="page-meta-item"><h4>EDITION</h4><div>01</div></div>
-                    <div class="page-meta-item"><h4>STATUS</h4><div>IN PROGRESS</div></div>
+
+                    <div class="page-meta-item">
+                        <h4>EDITION</h4>
+                        <div>01</div>
+                    </div>
+
+                    <div class="page-meta-item">
+                        <h4>STATUS</h4>
+                        <div>
+                            IN PROGRESS
+                        </div>
+                    </div>
+
                 </aside>
             </div>
-            <div class="dynamic-grid" data-grid-count="3" data-grid-prefix="PLAY"></div>
+
+            <div
+                class="dynamic-grid"
+                data-grid-count="3"
+                data-grid-prefix="PLAY"
+            ></div>
+
         </article>
     </section>
 
-    <section id="section-03" class="page-section sub-section" data-section="03">
+
+    <!-- MAKE -->
+    <section
+        id="section-03"
+        class="page-section sub-section"
+        data-section="03"
+    >
         <article>
-            <h1 class="page-title">MAKE</h1>
+
+            <h1 class="page-title">
+                MAKE
+            </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
-                    <p>Things I've made. Websites, software, hardware, electronics, and small things built for no particular reason.</p>
+                    <p>
+                        Things I've made.
+                        Websites,
+                        software,
+                        hardware,
+                        electronics,
+                        and small things
+                        built for no particular reason.
+                    </p>
                 </div>
+
                 <aside class="page-meta">
-                    <div class="page-meta-item"><h4>EDITION</h4><div>02</div></div>
-                    <div class="page-meta-item"><h4>TYPE</h4><div>BUILDS</div></div>
+
+                    <div class="page-meta-item">
+                        <h4>EDITION</h4>
+                        <div>02</div>
+                    </div>
+
+                    <div class="page-meta-item">
+                        <h4>TYPE</h4>
+                        <div>
+                            BUILDS
+                        </div>
+                    </div>
+
                 </aside>
             </div>
-            <div class="dynamic-grid" data-grid-count="4" data-grid-prefix="MAKE"></div>
+
+            <div
+                class="dynamic-grid"
+                data-grid-count="4"
+                data-grid-prefix="MAKE"
+            ></div>
+
         </article>
     </section>
 
-    <section id="section-04" class="page-section sub-section" data-section="04">
+
+    <!-- NOTE -->
+    <section
+        id="section-04"
+        class="page-section sub-section"
+        data-section="04"
+    >
         <article>
-            <h1 class="page-title">NOTE</h1>
+
+            <h1 class="page-title">
+                NOTE
+            </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
-                    <p>Things I've thought about. Things I've looked into, ideas from making, technical notes, discoveries, and things worth leaving behind.</p>
+                    <p>
+                        Things I've thought about.
+                        Things I've looked into,
+                        ideas from making,
+                        technical notes,
+                        discoveries,
+                        and things worth leaving behind.
+                    </p>
                 </div>
+
                 <aside class="page-meta">
-                    <div class="page-meta-item"><h4>EDITION</h4><div>03</div></div>
-                    <div class="page-meta-item"><h4>FORM</h4><div>NOTES / LOG</div></div>
+
+                    <div class="page-meta-item">
+                        <h4>EDITION</h4>
+                        <div>03</div>
+                    </div>
+
+                    <div class="page-meta-item">
+                        <h4>FORM</h4>
+                        <div>
+                            NOTES / LOG
+                        </div>
+                    </div>
+
                 </aside>
             </div>
-            <div class="dynamic-grid" data-grid-count="6" data-grid-prefix="NOTE"></div>
+
+            <div
+                class="dynamic-grid"
+                data-grid-count="6"
+                data-grid-prefix="NOTE"
+            ></div>
+
         </article>
     </section>
 
-    <section id="section-05" class="page-section sub-section" data-section="05">
+
+    <!-- ARCHIVE -->
+    <section
+        id="section-05"
+        class="page-section sub-section"
+        data-section="05"
+    >
         <article>
-            <h1 class="page-title">ARCHIVE</h1>
+
+            <h1 class="page-title">
+                ARCHIVE
+            </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
-                    <p>Things from the past. Finished, abandoned, discontinued, old projects, and old ideas. Not everything needs to disappear just because it is no longer active.</p>
+                    <p>
+                        Things from the past.
+                        Finished,
+                        abandoned,
+                        discontinued,
+                        old projects,
+                        and old ideas.
+                        Not everything needs
+                        to disappear just because
+                        it is no longer active.
+                    </p>
                 </div>
+
                 <aside class="page-meta">
-                    <div class="page-meta-item"><h4>EDITION</h4><div>04</div></div>
-                    <div class="page-meta-item"><h4>STATUS</h4><div>PAST</div></div>
+
+                    <div class="page-meta-item">
+                        <h4>EDITION</h4>
+                        <div>04</div>
+                    </div>
+
+                    <div class="page-meta-item">
+                        <h4>STATUS</h4>
+                        <div>
+                            PAST
+                        </div>
+                    </div>
+
                 </aside>
             </div>
-            <div class="dynamic-grid" data-grid-count="8" data-grid-prefix="ARC"></div>
+
+            <div
+                class="dynamic-grid"
+                data-grid-count="8"
+                data-grid-prefix="ARC"
+            ></div>
+
         </article>
     </section>
+
 </main>
 
-<aside id="side-sticky" aria-label="More">
+
+<!-- =====================================================
+     STICKY ACTIONS
+===================================================== -->
+<aside
+    id="side-sticky"
+    aria-label="More"
+>
     <ul>
-        <li class="sticky-tape" data-action="01">
-            <a href="#" aria-controls="content-panel" aria-expanded="false">
-                <span class="tape-icon" aria-hidden="true">✦</span>KNOCK
+
+        <li
+            class="sticky-tape"
+            data-action="01"
+        >
+            <a
+                href="#"
+                aria-controls="content-panel"
+                aria-expanded="false"
+            >
+                <span
+                    class="tape-icon"
+                    aria-hidden="true"
+                >✦</span>
+
+                KNOCK
             </a>
         </li>
-        <li class="sticky-tape sticky-tape--behind" data-action="02">
-            <a href="#" aria-controls="content-panel" aria-expanded="false">
-                <span class="tape-icon" aria-hidden="true">☞</span>BEHIND
+
+        <li
+            class="sticky-tape sticky-tape--behind"
+            data-action="02"
+        >
+            <a
+                href="#"
+                aria-controls="content-panel"
+                aria-expanded="false"
+            >
+                <span
+                    class="tape-icon"
+                    aria-hidden="true"
+                >☞</span>
+
+                BEHIND
             </a>
         </li>
+
     </ul>
 </aside>
 
-<aside id="content-panel" aria-hidden="true" aria-label="More">
+
+<!-- =====================================================
+     ACTION PANEL
+===================================================== -->
+<aside
+    id="content-panel"
+    aria-hidden="true"
+    aria-label="More"
+>
     <div class="content-panel-inner">
-        <div class="panel-close-label">CLOSE / SAME STICKY</div>
 
-        <section class="panel-page" id="panel-action-01" data-action-page="01">
-            <h1 class="page-title">KNOCK</h1>
-            <div class="page-intro-grid">
-                <div class="page-main-text"><p>Want to get in touch? Knock on any door.</p></div>
-                <aside class="page-meta">
-                    <div class="page-meta-item"><h4>EDITION</h4><div>--</div></div>
-                    <div class="page-meta-item"><h4>TYPE</h4><div>CONTACT</div></div>
-                </aside>
-            </div>
-            <div class="panel-links">
-                <a class="panel-link" href="https://x.com/" target="_blank" rel="noopener noreferrer"><span>X / DIRECT MESSAGE</span></a>
-                <a class="panel-link" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer"><span>INSTAGRAM / DIRECT MESSAGE</span></a>
-                <a class="panel-link" href="https://bsky.app/" target="_blank" rel="noopener noreferrer"><span>BLUESKY / DIRECT MESSAGE</span></a>
-            </div>
-            <p class="panel-note">Choose whichever door feels right.</p>
-        </section>
+        <div class="panel-close-label">
+            CLOSE / SAME STICKY
+        </div>
 
-        <section class="panel-page" id="panel-action-02" data-action-page="02">
-            <h1 class="page-title">BEHIND</h1>
+
+        <!-- KNOCK -->
+        <section
+            class="panel-page"
+            id="panel-action-01"
+            data-action-page="01"
+        >
+            <h1 class="page-title">
+                KNOCK
+            </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
-                    <p>The back of the flyer. Things that don't really matter, but somehow ended up here. Side tracks, rejected ideas, random thoughts, strange obsessions, and unnecessarily long stories.</p>
+                    <p>
+                        Want to get in touch?
+                        Knock on any door.
+                    </p>
                 </div>
+
                 <aside class="page-meta">
-                    <div class="page-meta-item"><h4>EDITION</h4><div>--</div></div>
-                    <div class="page-meta-item"><h4>TYPE</h4><div>WHATEVER</div></div>
+
+                    <div class="page-meta-item">
+                        <h4>EDITION</h4>
+                        <div>--</div>
+                    </div>
+
+                    <div class="page-meta-item">
+                        <h4>TYPE</h4>
+                        <div>
+                            CONTACT
+                        </div>
+                    </div>
+
                 </aside>
             </div>
+
             <div class="panel-links">
-                <a class="panel-link" href="https://discord.com/" target="_blank" rel="noopener noreferrer"><span>ENTER THE BACKROOM / DISCORD</span></a>
+
+                <a
+                    class="panel-link"
+                    href="https://x.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <span>
+                        X / DIRECT MESSAGE
+                    </span>
+                </a>
+
+                <a
+                    class="panel-link"
+                    href="https://www.instagram.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <span>
+                        INSTAGRAM / DIRECT MESSAGE
+                    </span>
+                </a>
+
+                <a
+                    class="panel-link"
+                    href="https://bsky.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <span>
+                        BLUESKY / DIRECT MESSAGE
+                    </span>
+                </a>
+
             </div>
-            <p class="panel-note">Come hang out. No particular reason required.</p>
+
+            <p class="panel-note">
+                Choose whichever door feels right.
+            </p>
+
         </section>
+
+
+        <!-- BEHIND -->
+        <section
+            class="panel-page"
+            id="panel-action-02"
+            data-action-page="02"
+        >
+            <h1 class="page-title">
+                BEHIND
+            </h1>
+
+            <div class="page-intro-grid">
+
+                <div class="page-main-text">
+                    <p>
+                        The back of the flyer.
+                        Things that don't really matter,
+                        but somehow ended up here.
+                        Side tracks,
+                        rejected ideas,
+                        random thoughts,
+                        strange obsessions,
+                        and unnecessarily long stories.
+                    </p>
+                </div>
+
+                <aside class="page-meta">
+
+                    <div class="page-meta-item">
+                        <h4>EDITION</h4>
+                        <div>--</div>
+                    </div>
+
+                    <div class="page-meta-item">
+                        <h4>TYPE</h4>
+                        <div>
+                            WHATEVER
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+
+            <div class="panel-links">
+
+                <a
+                    class="panel-link"
+                    href="https://discord.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <span>
+                        ENTER THE BACKROOM / DISCORD
+                    </span>
+                </a>
+
+            </div>
+
+            <p class="panel-note">
+                Come hang out.
+                No particular reason required.
+            </p>
+
+        </section>
+
     </div>
 </aside>
 
-<footer id="site-footer" class="ui-label">©2026 ESENUS LOGS / THE PLAYGROUND - KUMI FELT LIKE MAKING</footer>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+<footer
+    id="site-footer"
+    class="ui-label"
+>
+    ©2026 ESENUS LOGS / THE PLAYGROUND - KUMI FELT LIKE MAKING
+</footer>
+
 
 <script>
     /* =====================================================
-       DOM / STATE
+       DOM
     ===================================================== */
     const DOM = {
         body: document.body,
-        logo: document.getElementById('logo'),
-        mainNav: document.querySelectorAll('#main-nav-list a'),
-        sections: document.querySelectorAll('main .page-section'),
-        stickyItems: document.querySelectorAll('#side-sticky .sticky-tape'),
-        stickyContainer: document.getElementById('side-sticky'),
-        panel: document.getElementById('content-panel'),
-        panelPages: document.querySelectorAll('.panel-page'),
-        grids: document.querySelectorAll('.dynamic-grid')
+
+        logo:
+            document.getElementById('logo'),
+
+        mainNav:
+            document.querySelectorAll(
+                '#main-nav-list a'
+            ),
+
+        sections:
+            document.querySelectorAll(
+                'main .page-section'
+            ),
+
+        stickyItems:
+            document.querySelectorAll(
+                '#side-sticky .sticky-tape'
+            ),
+
+        panel:
+            document.getElementById(
+                'content-panel'
+            ),
+
+        panelPages:
+            document.querySelectorAll(
+                '.panel-page'
+            ),
+
+        grids:
+            document.querySelectorAll(
+                '.dynamic-grid'
+            ),
+
+        catchword:
+            document.getElementById(
+                'catchword'
+            ),
+
+        subtitle:
+            document.getElementById(
+                'subtitle'
+            ),
+
+        navBarLabel:
+            document.querySelector(
+                '.nav-bar-label'
+            ),
+
+        footer:
+            document.getElementById(
+                'site-footer'
+            )
     };
 
+
+    /* =====================================================
+       STATE
+    ===================================================== */
     const state = {
         section: null,
         action: null,
-        ticking: false,
-        panelSwitchTimer: null
+
+        motionFrame: 0,
+
+        viewportWidth:
+            window.innerWidth,
+
+        viewportHeight:
+            window.innerHeight,
+
+        /*
+         * Subtitle has three visual phases:
+         *
+         * 0 → home position
+         * 1 → fixed intermediate position
+         * 2 → sub-page position
+         *
+         * The intermediate position prevents the text
+         * from immediately moving away from center.
+         */
+        subtitlePhase: 0
     };
+
 
     /* =====================================================
        GRID
     ===================================================== */
     function createGridItem(prefix, index) {
-        const number = String(index + 1).padStart(2, '0');
+        const number =
+            String(index + 1).padStart(2, '0');
 
         return `
             <div class="grid-item">
-                <div class="thumb">${prefix} ${number}</div>
-                <h3>${prefix} ${index + 1}</h3>
-                <p>Try something. See what happens.</p>
+                <div class="thumb">
+                    ${prefix} ${number}
+                </div>
+
+                <h3>
+                    ${prefix} ${index + 1}
+                </h3>
+
+                <p>
+                    Try something.
+                    See what happens.
+                </p>
             </div>
         `;
     }
 
+
     function initializeGrids() {
         DOM.grids.forEach(grid => {
-            const count = Number(grid.dataset.gridCount);
-            const prefix = grid.dataset.gridPrefix;
+            const count =
+                Number(
+                    grid.dataset.gridCount
+                );
 
-            grid.innerHTML = Array.from(
-                { length: count },
-                (_, index) => createGridItem(prefix, index)
-            ).join('');
+            const prefix =
+                grid.dataset.gridPrefix;
+
+            grid.innerHTML =
+                Array.from(
+                    { length: count },
+                    (_, index) =>
+                        createGridItem(
+                            prefix,
+                            index
+                        )
+                ).join('');
         });
     }
+
 
     /* =====================================================
        SECTION DETECTION
     ===================================================== */
     function getSectionAtViewportPoint(ratio) {
-        if (!DOM.sections.length) return null;
+        if (!DOM.sections.length) {
+            return null;
+        }
 
-        const position = window.scrollY + window.innerHeight * ratio;
-        let active = DOM.sections[0];
+        const position =
+            window.scrollY +
+            window.innerHeight * ratio;
+
+        let active =
+            DOM.sections[0];
 
         for (const section of DOM.sections) {
-            if (section.offsetTop <= position) {
+            if (
+                section.offsetTop <=
+                position
+            ) {
                 active = section;
-            } else {
-                break;
+                continue;
             }
+
+            break;
         }
 
         return active;
     }
 
+
     function getVisualSection() {
         return getSectionAtViewportPoint(0.9);
     }
+
 
     function getNavigationSection() {
         return getSectionAtViewportPoint(0.5);
     }
 
+
     /* =====================================================
        HEADER / SECTION STATE
     ===================================================== */
     function updateSectionState() {
-        const section = getVisualSection();
-        if (!section) return;
+        const section =
+            getVisualSection();
 
-        const sectionId = section.dataset.section;
-        if (state.section === sectionId) {
+        if (!section) {
+            return;
+        }
+
+        const sectionId =
+            section.dataset.section;
+
+        if (
+            state.section === sectionId
+        ) {
             updateMainNav();
             return;
         }
 
-        state.section = sectionId;
-        const isHome = sectionId === '01';
+        state.section =
+            sectionId;
 
-        DOM.body.classList.toggle('is-home', isHome);
-        DOM.body.classList.toggle('is-sub', !isHome);
+        const isHome =
+            sectionId === '01';
+
+        DOM.body.classList.toggle(
+            'is-home',
+            isHome
+        );
+
+        DOM.body.classList.toggle(
+            'is-sub',
+            !isHome
+        );
 
         updateMainNav();
     }
+
 
     /* =====================================================
        MAIN NAVIGATION
     ===================================================== */
     function updateMainNav() {
-        const section = getNavigationSection();
-        const sectionId = section?.dataset.section;
+        const section =
+            getNavigationSection();
+
+        const sectionId =
+            section?.dataset.section;
 
         DOM.mainNav.forEach(link => {
-            const target = link.getAttribute('href');
-            const isActive = !state.action && target === `#section-${sectionId}`;
+            const target =
+                link.getAttribute('href');
 
-            link.classList.toggle('is-active', isActive);
+            const isActive =
+                !state.action &&
+                target ===
+                    `#section-${sectionId}`;
+
+            link.classList.toggle(
+                'is-active',
+                isActive
+            );
         });
     }
 
+
     function goToSection(sectionId) {
-        const target = document.getElementById(`section-${sectionId}`);
-        if (!target) return;
+        const target =
+            document.getElementById(
+                `section-${sectionId}`
+            );
+
+        if (!target) {
+            return;
+        }
 
         closePanel();
 
@@ -1243,222 +2314,947 @@
         });
     }
 
+
     function initializeMainNavigation() {
         DOM.mainNav.forEach(link => {
-            link.addEventListener('click', event => {
-                event.preventDefault();
+            link.addEventListener(
+                'click',
+                event => {
+                    event.preventDefault();
 
-                const href = link.getAttribute('href');
-                const sectionId = href.replace('#section-', '');
+                    const href =
+                        link.getAttribute(
+                            'href'
+                        );
 
-                goToSection(sectionId);
-            });
+                    const sectionId =
+                        href.replace(
+                            '#section-',
+                            ''
+                        );
+
+                    goToSection(
+                        sectionId
+                    );
+                }
+            );
         });
 
-        DOM.logo.addEventListener('click', () => goToSection('01'));
+        DOM.logo.addEventListener(
+            'click',
+            () => goToSection('01')
+        );
     }
+
+
+    /* =====================================================
+       UTILITIES
+    ===================================================== */
+    function clamp(value, min, max) {
+        return Math.min(
+            Math.max(value, min),
+            max
+        );
+    }
+
+
+    function lerp(start, end, progress) {
+        return start +
+            (end - start) *
+            progress;
+    }
+
+
+    /* =====================================================
+       SCROLL PROGRESS
+    ===================================================== */
+    function getScrollProgress() {
+        const homeHeight =
+            Math.max(
+                DOM.sections[0]?.offsetHeight ||
+                    window.innerHeight,
+                window.innerHeight
+            );
+
+        return clamp(
+            window.scrollY / homeHeight,
+            0,
+            1
+        );
+    }
+
+
+    /* =====================================================
+       HERO / UI MOTION
+       
+       Everything here is directly derived from
+       scroll position.
+
+       No CSS transition is used for these positional
+       values, preventing Safari from jumping to a
+       transition destination midway through scrolling.
+    ===================================================== */
+    function updateHeroMotion() {
+        const progress =
+            getScrollProgress();
+
+        const isMobile =
+            window.innerWidth <= 850;
+
+
+        /* =================================================
+           CATCHWORD
+        ================================================= */
+        if (isMobile) {
+
+            const homeTop = 280;
+            const subTop = 40;
+
+            const homeLeft =
+                window.innerWidth * 0.07;
+
+            const subLeft = 110;
+
+            const homeSize =
+                Math.min(
+                    59.5,
+                    Math.max(
+                        50,
+                        window.innerWidth *
+                            0.0179 +
+                            44.27
+                    )
+                );
+
+            const subSize = 23;
+
+            const top =
+                lerp(
+                    homeTop,
+                    subTop,
+                    progress
+                );
+
+            const left =
+                lerp(
+                    homeLeft,
+                    subLeft,
+                    progress
+                );
+
+            const size =
+                lerp(
+                    homeSize,
+                    subSize,
+                    progress
+                );
+
+            const translateY =
+                lerp(
+                    -50,
+                    0,
+                    progress
+                );
+
+            DOM.catchword.style.top =
+                `${top}px`;
+
+            DOM.catchword.style.left =
+                `${left}px`;
+
+            DOM.catchword.style.fontSize =
+                `${size}px`;
+
+            DOM.catchword.style.transform =
+                `translate3d(0, ${translateY}%, 0)`;
+
+        } else {
+
+            const homeTop = 280;
+            const subTop = 160;
+
+            const homeLeft =
+                window.innerWidth * 0.07;
+
+            const subLeft = 25;
+
+            const homeSize =
+                window.innerWidth * 0.07;
+
+            const subSize = 24;
+
+            const top =
+                lerp(
+                    homeTop,
+                    subTop,
+                    progress
+                );
+
+            const left =
+                lerp(
+                    homeLeft,
+                    subLeft,
+                    progress
+                );
+
+            const size =
+                lerp(
+                    homeSize,
+                    subSize,
+                    progress
+                );
+
+            const translateY =
+                lerp(
+                    -50,
+                    0,
+                    progress
+                );
+
+            DOM.catchword.style.top =
+                `${top}px`;
+
+            DOM.catchword.style.left =
+                `${left}px`;
+
+            DOM.catchword.style.fontSize =
+                `${size}px`;
+
+            DOM.catchword.style.transform =
+                `translate3d(0, ${translateY}%, 0)`;
+        }
+
+
+        /* =================================================
+           SUBTITLE
+
+           Phase 1:
+           Keep the original centered position.
+
+           Phase 2:
+           Lock the subtitle to an absolute position
+           first. The text can shrink here without
+           simultaneously moving toward the logo.
+
+           Phase 3:
+           Move from that locked position to the
+           sub-page/logo-side position.
+        ================================================= */
+        const subtitleLock =
+            isMobile ? 0.16 : 0.14;
+
+        const subtitleMoveStart =
+            isMobile ? 0.28 : 0.25;
+
+        const subtitleMoveProgress =
+            clamp(
+                (
+                    progress -
+                    subtitleMoveStart
+                ) /
+                (1 - subtitleMoveStart),
+                0,
+                1
+            );
+
+        let subtitleTop;
+        let subtitleLeft;
+        let subtitleWidth;
+        let subtitleTranslateX;
+        let subtitleTranslateY;
+        let subtitleFontSize;
+        let subtitleAlign;
+
+
+        if (isMobile) {
+
+            const homeTop = 110;
+
+            const lockTop = 78;
+
+            const subTop = 25;
+
+            const homeLeft =
+                window.innerWidth / 2;
+
+            const lockLeft =
+                window.innerWidth / 2;
+
+            const subLeft = 110;
+
+            const homeWidth =
+                Math.max(
+                    250,
+                    window.innerWidth - 50
+                );
+
+            const subtitleTextWidth =
+                DOM.subtitle.scrollWidth;
+
+            const lockWidth =
+                Math.min(
+                    330,
+                    homeWidth
+                );
+
+            subtitleTop =
+                progress < subtitleLock
+                    ? lerp(
+                        homeTop,
+                        lockTop,
+                        progress /
+                            subtitleLock
+                    )
+                    : lerp(
+                        lockTop,
+                        subTop,
+                        subtitleMoveProgress
+                    );
+
+            subtitleLeft =
+                progress < subtitleLock
+                    ? homeLeft
+                    : lerp(
+                        lockLeft,
+                        subLeft,
+                        subtitleMoveProgress
+                    );
+
+            subtitleWidth =
+                progress < subtitleLock
+                    ? homeWidth
+                    : lerp(
+                        lockWidth,
+                        subtitleTextWidth,
+                        subtitleMoveProgress
+                    );
+
+            subtitleTranslateX =
+                progress < subtitleLock
+                    ? -50
+                    : lerp(
+                        -50,
+                        0,
+                        subtitleMoveProgress
+                    );
+
+            subtitleTranslateY =
+                progress < subtitleLock
+                    ? -50
+                    : lerp(
+                        -50,
+                        0,
+                        subtitleMoveProgress
+                    );
+
+            subtitleFontSize =
+                progress < subtitleLock
+                    ? lerp(
+                        10,
+                        9,
+                        progress /
+                            subtitleLock
+                    )
+                    : lerp(
+                        9,
+                        8,
+                        subtitleMoveProgress
+                    );
+
+            subtitleAlign =
+                progress < subtitleMoveStart
+                    ? 'center'
+                    : 'left';
+
+        } else {
+
+            const homeTop = 45;
+
+            const lockTop = 70;
+
+            const subTop = 135;
+
+            const homeLeft =
+                window.innerWidth / 2;
+
+            const lockLeft =
+                window.innerWidth / 2;
+
+            const subLeft = 25;
+
+            const homeWidth =
+                Math.min(
+                    620,
+                    Math.max(
+                        0,
+                        window.innerWidth - 140
+                    )
+                );
+
+            const subtitleTextWidth =
+                DOM.subtitle.scrollWidth;
+
+            const lockWidth =
+                Math.min(
+                    520,
+                    homeWidth
+                );
+
+            subtitleTop =
+                progress < subtitleLock
+                    ? lerp(
+                        homeTop,
+                        lockTop,
+                        progress /
+                            subtitleLock
+                    )
+                    : lerp(
+                        lockTop,
+                        subTop,
+                        subtitleMoveProgress
+                    );
+
+            subtitleLeft =
+                progress < subtitleLock
+                    ? homeLeft
+                    : lerp(
+                        lockLeft,
+                        subLeft,
+                        subtitleMoveProgress
+                    );
+
+            subtitleWidth =
+                progress < subtitleLock
+                    ? homeWidth
+                    : lerp(
+                        lockWidth,
+                        subtitleTextWidth,
+                        subtitleMoveProgress
+                    );
+
+            subtitleTranslateX =
+                progress < subtitleLock
+                    ? -50
+                    : lerp(
+                        -50,
+                        0,
+                        subtitleMoveProgress
+                    );
+
+            subtitleTranslateY =
+                progress < subtitleLock
+                    ? -50
+                    : lerp(
+                        -50,
+                        0,
+                        subtitleMoveProgress
+                    );
+
+            subtitleFontSize =
+                progress < subtitleLock
+                    ? lerp(
+                        10,
+                        9,
+                        progress /
+                            subtitleLock
+                    )
+                    : lerp(
+                        9,
+                        8,
+                        subtitleMoveProgress
+                    );
+
+            subtitleAlign =
+                progress < subtitleMoveStart
+                    ? 'center'
+                    : 'left';
+        }
+
+
+        DOM.subtitle.style.top =
+            `${subtitleTop}px`;
+
+        DOM.subtitle.style.left =
+            `${subtitleLeft}px`;
+
+        DOM.subtitle.style.width =
+            `${subtitleWidth}px`;
+
+        DOM.subtitle.style.maxWidth =
+            'none';
+
+        DOM.subtitle.style.fontSize =
+            `${subtitleFontSize}px`;
+
+        DOM.subtitle.style.transform =
+            `translate3d(${subtitleTranslateX}%, ${subtitleTranslateY}%, 0)`;
+
+        DOM.subtitle.style.textAlign =
+            subtitleAlign;
+
+
+        /* =================================================
+           NAV BAR LABEL
+        ================================================= */
+        if (!isMobile) {
+
+            const menuHeight =
+                Math.min(
+                    120,
+                    Math.max(
+                        80,
+                        window.innerWidth *
+                            0.08333 +
+                            50
+                    )
+                );
+
+            const homeTop =
+                window.innerHeight -
+                menuHeight;
+
+            const subTop =
+                window.innerHeight / 2;
+
+            const homeLeft =
+                window.innerWidth / 2;
+
+            const subLeft = 260;
+
+            const top =
+                lerp(
+                    homeTop,
+                    subTop,
+                    progress
+                );
+
+            const left =
+                lerp(
+                    homeLeft,
+                    subLeft,
+                    progress
+                );
+
+            const rotation =
+                lerp(
+                    0,
+                    90,
+                    progress
+                );
+
+            const lineWidth =
+                lerp(
+                    60,
+                    140,
+                    progress
+                );
+
+            const opacity =
+                lerp(
+                    0.6,
+                    0.5,
+                    progress
+                );
+
+            DOM.navBarLabel.style.top =
+                `${top}px`;
+
+            DOM.navBarLabel.style.left =
+                `${left}px`;
+
+            DOM.navBarLabel.style.transform =
+                `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
+
+            DOM.navBarLabel.style.opacity =
+                opacity;
+
+            DOM.navBarLabel.style.setProperty(
+                '--nav-line-width',
+                `${lineWidth}px`
+            );
+        }
+
+
+        /* =================================================
+           FOOTER
+
+           Same principle as nav-bar-label:
+           position is derived directly from scroll.
+           There is no CSS positional transition.
+        ================================================= */
+        updateFooterMotion(
+            progress,
+            isMobile
+        );
+    }
+
+
+    /* =====================================================
+       FOOTER MOTION
+    ===================================================== */
+    function updateFooterMotion(
+        progress,
+        isMobile
+    ) {
+        if (isMobile) {
+
+            /*
+             * Mobile:
+             * vertical left-side footer.
+             *
+             * It follows the same continuous scroll
+             * relationship as the other UI labels.
+             */
+            const top =
+                lerp(
+                    50,
+                    window.innerHeight * 0.5,
+                    progress
+                );
+
+            const left =
+                clamp(
+                    window.innerWidth *
+                        0.035,
+                    12,
+                    20
+                );
+
+            DOM.footer.style.top =
+                `${top}px`;
+
+            DOM.footer.style.left =
+                `${left}px`;
+
+            DOM.footer.style.transform =
+                'translate3d(-50%, -50%, 0) rotate(-90deg)';
+
+            return;
+        }
+
+
+        /*
+         * Desktop Home:
+         * centered vertically on the left,
+         * rotated vertically.
+         */
+        const homeTop =
+            window.innerHeight / 2;
+
+        const homeLeft = 18;
+
+
+        /*
+         * Desktop Sub:
+         * centered underneath the sidebar.
+         */
+        const subTop =
+            window.innerHeight -
+            clamp(
+                window.innerHeight * 0.06,
+                24,
+                60
+            );
+
+        const subLeft =
+            260 / 2;
+
+
+        const top =
+            lerp(
+                homeTop,
+                subTop,
+                progress
+            );
+
+        const left =
+            lerp(
+                homeLeft,
+                subLeft,
+                progress
+            );
+
+        const rotation =
+            lerp(
+                -90,
+                0,
+                progress
+            );
+
+        DOM.footer.style.top =
+            `${top}px`;
+
+        DOM.footer.style.left =
+            `${left}px`;
+
+        DOM.footer.style.transform =
+            `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
+    }
+
 
     /* =====================================================
        SCROLL
     ===================================================== */
+    function requestScrollUpdate() {
+        if (state.motionFrame) {
+            return;
+        }
+
+        state.motionFrame =
+            requestAnimationFrame(() => {
+
+                state.motionFrame = 0;
+
+                updateHeroMotion();
+
+                updateSectionState();
+            });
+    }
+
+
     function handleScroll() {
-        if (state.ticking) return;
-
-        state.ticking = true;
-
-        requestAnimationFrame(() => {
-            updateSectionState();
-            state.ticking = false;
-        });
+        requestScrollUpdate();
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    window.addEventListener(
+        'scroll',
+        handleScroll,
+        {
+            passive: true
+        }
+    );
+
+
+    window.addEventListener(
+        'resize',
+        () => {
+
+            state.viewportWidth =
+                window.innerWidth;
+
+            state.viewportHeight =
+                window.innerHeight;
+
+            requestScrollUpdate();
+        }
+    );
+
 
     /* =====================================================
-       STICKY POSITION
-       Recalculate the vertical placement after resizing.
-    ===================================================== */
-    function updateStickyPosition() {
-        const isMobile = window.matchMedia('(max-width: 850px)').matches;
-
-        if (isMobile) {
-            DOM.stickyContainer.style.top = '60px';
-            DOM.stickyContainer.style.bottom = 'auto';
-            DOM.stickyContainer.style.transform =
-                `translateY(${Math.max(0, window.innerHeight - 160 - DOM.stickyContainer.offsetHeight)}px)`;
-        } else {
-            DOM.stickyContainer.style.top = '60px';
-            DOM.stickyContainer.style.bottom = 'auto';
-            DOM.stickyContainer.style.transform = 'translateY(0)';
-        }
-    }
-
-    let resizeFrame = null;
-
-    function handleResize() {
-        if (resizeFrame !== null) {
-            cancelAnimationFrame(resizeFrame);
-        }
-
-        resizeFrame = requestAnimationFrame(() => {
-            updateSectionState();
-            updateStickyPosition();
-            resizeFrame = null;
-        });
-    }
-
-    window.addEventListener('resize', handleResize);
-
-    /* =====================================================
-       ACTION PANEL / PAGE TURN
+       ACTION PANEL
     ===================================================== */
     function updatePanelPages() {
-        const nextPage = Array.from(DOM.panelPages).find(
-            page => page.dataset.actionPage === state.action
-        );
-
-        const currentPage = Array.from(DOM.panelPages).find(
-            page => page.classList.contains('is-active')
-        );
-
-        if (state.panelSwitchTimer !== null) {
-            clearTimeout(state.panelSwitchTimer);
-            state.panelSwitchTimer = null;
-        }
-
-        DOM.panelPages.forEach(page => page.classList.remove('is-leaving'));
-
-        if (!state.action || !nextPage) {
-            DOM.panelPages.forEach(page => {
-                page.classList.remove('is-active', 'is-leaving');
-            });
-            return;
-        }
-
-        if (currentPage && currentPage !== nextPage) {
-            currentPage.classList.remove('is-active');
-            currentPage.classList.add('is-leaving');
-
-            nextPage.classList.remove('is-active');
-            void nextPage.offsetWidth;
-            nextPage.classList.add('is-active');
-
-            state.panelSwitchTimer = window.setTimeout(() => {
-                currentPage.classList.remove('is-leaving');
-                state.panelSwitchTimer = null;
-            }, 500);
-
-            return;
-        }
-
         DOM.panelPages.forEach(page => {
-            page.classList.toggle('is-active', page === nextPage);
-        });
-    }
 
-    function updateStickyItems() {
-        DOM.stickyItems.forEach(item => {
-            const isActive = item.dataset.action === state.action;
+            const isActive =
+                page.dataset.actionPage ===
+                state.action;
 
-            item.classList.toggle('is-open', isActive);
-
-            item.querySelector('a')?.setAttribute(
-                'aria-expanded',
-                String(isActive)
+            page.classList.toggle(
+                'is-active',
+                isActive
             );
         });
     }
 
-    function updatePanelVisibility() {
-        const isOpen = Boolean(state.action);
 
-        DOM.panel.classList.toggle('is-open', isOpen);
-        DOM.panel.setAttribute('aria-hidden', String(!isOpen));
+    function updateStickyItems() {
+        DOM.stickyItems.forEach(item => {
+
+            const isActive =
+                item.dataset.action ===
+                state.action;
+
+            item.classList.toggle(
+                'is-open',
+                isActive
+            );
+
+            item.querySelector('a')
+                ?.setAttribute(
+                    'aria-expanded',
+                    String(isActive)
+                );
+        });
     }
+
+
+    function updatePanelVisibility() {
+        const isOpen =
+            Boolean(state.action);
+
+        DOM.panel.classList.toggle(
+            'is-open',
+            isOpen
+        );
+
+        DOM.panel.setAttribute(
+            'aria-hidden',
+            String(!isOpen)
+        );
+    }
+
 
     function renderPanel() {
         updatePanelPages();
+
         updateStickyItems();
+
         updateMainNav();
+
         updatePanelVisibility();
     }
 
+
     function openPanel(actionId) {
-        if (state.action === actionId) {
+
+        if (
+            state.action === actionId
+        ) {
             closePanel();
             return;
         }
 
         /*
-         * Change the page while the panel stays open.
-         * The outgoing and incoming pages animate independently.
+         * When switching:
+         *
+         * 1. remove the current flying tape
+         * 2. let it return
+         * 3. launch the newly selected tape
+         *
+         * This makes the two stickers feel like
+         * separate physical pieces rather than
+         * both occupying the corner.
          */
-        state.action = actionId;
+        if (state.action) {
+
+            state.action = null;
+
+            renderPanel();
+
+            setTimeout(() => {
+
+                state.action =
+                    actionId;
+
+                renderPanel();
+
+            }, 120);
+
+            return;
+        }
+
+        state.action =
+            actionId;
+
         renderPanel();
     }
+
 
     function closePanel() {
-        if (!state.action) return;
+
+        if (!state.action) {
+            return;
+        }
 
         state.action = null;
+
         renderPanel();
     }
+
 
     /* =====================================================
        STICKY NAVIGATION
     ===================================================== */
     function initializeStickyNavigation() {
-        DOM.stickyItems.forEach(item => {
-            const link = item.querySelector('a');
 
-            link?.addEventListener('click', event => {
-                event.preventDefault();
-                openPanel(item.dataset.action);
-            });
+        DOM.stickyItems.forEach(item => {
+
+            const link =
+                item.querySelector('a');
+
+            link?.addEventListener(
+                'click',
+                event => {
+
+                    event.preventDefault();
+
+                    openPanel(
+                        item.dataset.action
+                    );
+                }
+            );
         });
     }
+
 
     /* =====================================================
        KEYBOARD
     ===================================================== */
     function initializeKeyboard() {
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Escape' && state.action) {
-                closePanel();
+
+        document.addEventListener(
+            'keydown',
+            event => {
+
+                if (
+                    event.key === 'Escape' &&
+                    state.action
+                ) {
+                    closePanel();
+                }
             }
-        });
+        );
     }
+
 
     /* =====================================================
        STICKY ROTATION
     ===================================================== */
     function applyRandomRotation() {
-        DOM.stickyItems.forEach(item => {
-            const rotation = (Math.random() - 0.5) * 6;
 
-            item.style.setProperty('--random-rotate', `${rotation}deg`);
+        DOM.stickyItems.forEach(item => {
+
+            const rotation =
+                (Math.random() - 0.5) * 6;
+
+            item.style.setProperty(
+                '--random-rotate',
+                `${rotation}deg`
+            );
         });
     }
+
 
     /* =====================================================
        INITIALIZE
     ===================================================== */
     function initialize() {
+
         initializeGrids();
+
         applyRandomRotation();
+
         initializeMainNavigation();
+
         initializeStickyNavigation();
+
         initializeKeyboard();
+
         updateSectionState();
-        updateStickyPosition();
+
+        updateHeroMotion();
+
         renderPanel();
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initialize, { once: true });
-    } else {
-        initialize();
-    }
+
+    window.addEventListener(
+        'DOMContentLoaded',
+        initialize
+    );
 </script>
+
 </body>
 </html>
