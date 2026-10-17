@@ -243,6 +243,8 @@
         transform: translate3d(-50%, -50%, 0);
         width: min(620px, calc(100vw - 140px));
         max-width: calc(100vw - 140px);
+        box-sizing: border-box;
+        padding-right: calc(var(--sticky-peek) + 15px);
         font-size: 10px;
         line-height: 1.4;
         letter-spacing: 0.3em;
@@ -567,6 +569,24 @@
         opacity: 1;
     }
 
+    /*
+       NARROW SCREENS
+
+       The notes start in peek state even at scroll position 0.
+       Opening a note still brings it fully into view.
+    */
+    @media (max-width: 850px) {
+        body.is-home:not(.has-scrolled) #side-sticky .sticky-tape:not(.is-open) {
+            transform:
+                translate3d(
+                    calc(100% - var(--sticky-peek)),
+                    0,
+                    0
+                )
+                rotate(var(--random-rotate, 0deg));
+        }
+    }
+
     .tape-icon {
         display: inline-block;
         width: 24px;
@@ -865,6 +885,8 @@
             transform: translate3d(-50%, -50%, 0);
             width: calc(100vw - 50px);
             max-width: 500px;
+            box-sizing: border-box;
+            padding-right: calc(var(--sticky-peek) + 15px);
             text-align: center;
             line-height: 1.5;
         }
@@ -912,34 +934,18 @@
 
         /* STICKY */
         #side-sticky {
-            top: 120px;
+            top: 60px;
             bottom: auto;
-            transform: none;
-        }
-
-        /*
-         * MobileではHOMEの最上部から
-         * 付箋を右へ収納し、アイコンだけを見せる。
-         * パネルを開いた付箋だけは完全に表示する。
-         */
-        body.is-home #side-sticky .sticky-tape:not(.is-open) {
             transform:
                 translate3d(
-                    calc(100% - var(--sticky-peek)),
                     0,
+                    calc(
+                        100vh
+                        - 160px
+                        - 100%
+                    ),
                     0
-                )
-                rotate(var(--random-rotate, 0deg));
-        }
-
-        body.is-sub #side-sticky .sticky-tape:not(.is-open) {
-            transform:
-                translate3d(
-                    calc(100% - var(--sticky-peek)),
-                    0,
-                    0
-                )
-                rotate(var(--random-rotate, 0deg));
+                );
         }
 
         /* ACTION PANEL */
@@ -2515,14 +2521,11 @@
 
         if (isMobile) {
             /*
-             * Mobile: sticky notes remain at the top.
-             * The notes themselves use the same right-side
-             * peek behavior as the desktop HOME state.
+             * Narrow screens use the same 25px top anchor.
+             * The notes themselves remain in peek state until opened.
              */
-            const top = 120;
-
             DOM.sticky.style.top =
-                `${top}px`;
+                '25px';
 
             DOM.sticky.style.bottom =
                 'auto';
@@ -2534,18 +2537,11 @@
         }
 
         /*
-         * HOME:
-         * sticky notes are always anchored near the top.
-         * Their open/closed state is handled independently
-         * by the scroll state below.
+         * All sticky notes share the same top anchor.
+         * HOME / SUB no longer use different vertical positions.
          */
-        const homeTop = 60;
-
-        /*
-         * SUB:
-         * remain at the existing 60px position.
-         */
-        const subTop = 60;
+        const homeTop = 25;
+        const subTop = 25;
 
         const top =
             lerp(
