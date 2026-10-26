@@ -30,7 +30,7 @@
         --mobile-menu-height: 64px;
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
-        --home-updates-start: 400px;
+        --home-updates-start: 420px;
         --nav-gap:
             clamp(10px, calc(1.887vw + 3.96px), 20px);
         --nav-link-horizontal-padding:
@@ -153,7 +153,6 @@
         letter-spacing: 0.3em;
         transition:
             transform 0.7s var(--ease),
-            font-size 0.7s var(--ease),
             opacity 0.7s ease;
         will-change:
             transform,
@@ -237,7 +236,6 @@
         left: 25px;
         transition:
             transform 0.7s var(--ease),
-            font-size 0.7s var(--ease),
             opacity 0.7s ease;
         will-change:
             transform,
@@ -249,7 +247,7 @@
     body.is-home #catchword {
         transform: translate3d(
             calc(7vw - 25px),
-            calc(100px - 50%),
+            calc(120px - 50%),
             0
         );
         font-size: 7vw;
@@ -258,26 +256,11 @@
         letter-spacing: 0.02em;
     }
 
-    @media (max-width: 850px) {
-        body.is-home #catchword {
-            font-size: clamp(50px, calc(1.79vw + 44.27px), 59.5px);
-        }
-    }
-
     body.catchword-sub #catchword,
     body.is-sub #catchword {
         transform: translate3d(0, 0, 0);
         font-size: 24px;
         line-height: 0.9;
-    }
-
-    /* Safari: keep the position motion, but switch font size instantly.
-       WebKit is more stable when the glyph metrics are not interpolated
-       while the catchword is moving. */
-    body.is-safari #catchword {
-        transition:
-            transform 0.7s var(--ease),
-            opacity 0.7s ease;
     }
 
     #subtitle {
@@ -1003,7 +986,7 @@
         body.is-home #catchword {
             transform: translate3d(
                 calc(7vw - 110px),
-                calc(220px - 50%),
+                calc(240px - 50%),
                 0
             );
             font-size:
@@ -2009,10 +1992,11 @@
     ===================================================== */
     function updateHeroMotion() {
         const progress = getScrollProgress();
+        const shouldUseCatchwordState = progress >= 0.42;
 
         DOM.body.classList.toggle(
             'catchword-sub',
-            progress >= 0.42
+            shouldUseCatchwordState
         );
     }
 
@@ -2279,19 +2263,6 @@
             requestScrollUpdate();
         }
     );
-
-    /* =====================================================
-       BROWSER
-    ===================================================== */
-    const isSafari =
-        /Safari/i.test(navigator.userAgent) &&
-        !/Chrome|Chromium|CriOS|Edg/i.test(
-            navigator.userAgent
-        );
-
-    if (isSafari) {
-        DOM.body.classList.add('is-safari');
-    }
 
     /* =====================================================
        INITIALIZE
