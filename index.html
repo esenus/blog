@@ -27,10 +27,10 @@
         --sidebar-width: 260px;
         --desktop-menu-height:
             clamp(80px, calc(8.333vw + 50px), 120px);
-        --mobile-menu-height: 80px;
+        --mobile-menu-height: clamp(96px, 18vh, 124px);
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
-        --home-updates-start: 360px;
+        --home-updates-start: 310px;
         --nav-gap:
             clamp(10px, calc(1.887vw + 3.96px), 20px);
         --nav-link-horizontal-padding:
@@ -247,7 +247,7 @@
     body.is-home #catchword {
         transform: translate3d(
             calc(7vw - 25px),
-            calc(70px - 50%),
+            calc(20px - 50%),
             0
         );
         font-size: 7vw;
@@ -960,9 +960,15 @@
         }
 
         .nav-list a {
-            padding: 9px 12px;
-            font-size: 12px;
-            line-height: 1.2;
+            min-height: 44px;
+            padding: 14px 12px;
+            font-size: 13px;
+            line-height: 1.25;
+            box-sizing: border-box;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
         }
 
         .nav-bar-label {
@@ -992,7 +998,7 @@
         body.is-home #catchword {
             transform: translate3d(
                 calc(7vw - 110px),
-                calc(190px - 50%),
+                calc(140px - 50%),
                 0
             );
             font-size:
