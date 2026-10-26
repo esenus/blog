@@ -700,11 +700,38 @@
             padding-left 0.4s var(--ease);
     }
 
+    .panel-link {
+        position: relative;
+        padding-right: 22px;
+    }
+
+    /* Draw the external-link arrow in CSS to avoid font-dependent glyphs. */
+    .panel-link::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 1px;
+        width: 12px;
+        height: 12px;
+        transform: translateY(-50%);
+        background: linear-gradient(
+            135deg,
+            transparent 44%,
+            currentColor 46%,
+            currentColor 53%,
+            transparent 55%
+        );
+    }
+
     .panel-link::after {
-        content: '↗';
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        font-weight: 400;
+        content: '';
+        position: absolute;
+        top: calc(50% - 6px);
+        right: 1px;
+        width: 6px;
+        height: 6px;
+        border-top: 1px solid currentColor;
+        border-right: 1px solid currentColor;
     }
 
     .panel-note {
@@ -1068,7 +1095,7 @@
         type="button"
         aria-label="Go to Home"
     >
-        ESENUS<br>logs
+        ESENUS<br>✎_ blog
     </button>
 
     <div class="ui-label nav-bar-label">
