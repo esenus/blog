@@ -12,6 +12,9 @@
         rel="stylesheet"
     >
     <style>
+    /* =====================================================
+       VARIABLES
+    ===================================================== */
     :root {
         --bg-color: #f2f2f0;
         --line-color: rgba(43, 42, 41, 0.15);
@@ -36,9 +39,14 @@
             clamp(10px, calc(0.566vw + 8.19px), 13px);
         --mobile-top-shield-height: 110px;
     }
+
+    /* =====================================================
+       BASE
+    ===================================================== */
     html {
         scroll-behavior: smooth;
     }
+
     body {
         min-height: 100vh;
         margin: 0;
@@ -48,6 +56,10 @@
         color: var(--text-dark);
         font-family: 'Average', serif;
     }
+
+    /* =====================================================
+       FIXED UI
+    ===================================================== */
     #logo {
         position: fixed;
         top: 25px;
@@ -65,6 +77,7 @@
         box-shadow:
             0 5px 15px rgba(0, 0, 0, 0.1);
     }
+
     .ui-label {
         position: fixed;
         z-index: 1005;
@@ -73,15 +86,12 @@
         font-weight: 700;
         white-space: nowrap;
         pointer-events: none;
-        will-change:
-            top,
-            left,
-            right,
-            bottom,
-            width,
-            transform,
-            opacity;
+        will-change: transform, opacity;
     }
+
+    /* =====================================================
+       HEADER / NAVIGATION
+    ===================================================== */
     #site-header {
         position: fixed;
         bottom: 0;
@@ -98,6 +108,7 @@
             width var(--transition-speed) var(--ease),
             height var(--transition-speed) var(--ease);
     }
+
     .nav-list {
         position: absolute;
         display: flex;
@@ -110,6 +121,7 @@
             opacity 0.4s ease,
             transform 0.4s var(--ease);
     }
+
     .nav-list a {
         display: inline-block;
         padding:
@@ -125,6 +137,7 @@
             color 0.3s ease,
             background-color 0.3s ease;
     }
+
     .nav-bar-label {
         display: flex;
         align-items: center;
@@ -140,6 +153,7 @@
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
     }
+
     .nav-bar-label::after {
         content: '';
         display: block;
@@ -149,26 +163,40 @@
         height: 1px;
         transition: width 0.7s var(--ease);
     }
+
+    /* =====================================================
+       POINTER HOVER
+    ===================================================== */
     @media (hover: hover) and (pointer: fine) {
         .nav-list a:hover {
             opacity: 1;
             color: var(--accent-red);
         }
+
         .panel-link:hover {
             padding-left: 10px;
             color: var(--accent-red);
         }
+
         .sticky-tape:hover {
             transform:
                 translate3d(0, 0, 0)
                 rotate(var(--random-rotate, 0deg));
         }
     }
+
+    /* =====================================================
+       ACTIVE NAVIGATION
+    ===================================================== */
     .nav-list a.is-active {
         opacity: 1;
         background: var(--text-dark);
         color: #fff !important;
     }
+
+    /* =====================================================
+       HERO
+    ===================================================== */
     .hero-section {
         position: fixed;
         top: 0;
@@ -178,23 +206,25 @@
         height: 100vh;
         pointer-events: none;
     }
+
     .hero-section h2,
     .hero-section p {
         position: absolute;
         margin: 0;
         white-space: nowrap;
         font-family: 'Syncopate';
-        will-change:
-            top,
-            left,
-            transform,
-            font-size,
-            opacity;
+        will-change: transform, opacity;
     }
+
+    /* Suppress catchword travel while responsive layout is recalculated. */
     body.is-resizing #catchword,
     body.is-resizing #home-updates {
         transition: none !important;
     }
+
+    /* =====================================================
+       HOME HERO
+    ===================================================== */
     #catchword {
         top: 160px;
         left: 25px;
@@ -207,6 +237,7 @@
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
     }
+
     body.is-home #catchword {
         transform: translate3d(
             calc(7vw - 25px),
@@ -218,13 +249,18 @@
         line-height: 0.9;
         letter-spacing: 0.02em;
     }
+
     body.catchword-sub #catchword,
     body.is-sub #catchword {
         transform: translate3d(0, 0, 0);
         font-size: 24px;
         line-height: 0.9;
     }
+
     #subtitle {
+        /* Match the footer's state-based motion model.
+           Keep the text box stable so WebKit does not reflow
+           the text while the element is moving. */
         transition:
             top 0.7s var(--ease),
             left 0.7s var(--ease),
@@ -238,6 +274,7 @@
         box-sizing: border-box;
         white-space: nowrap;
     }
+
     body.is-home #subtitle {
         top: 45px;
         left: 50%;
@@ -251,6 +288,10 @@
         text-align: center;
         opacity: 0.6;
     }
+
+    /* =====================================================
+       SUB HERO
+    ===================================================== */
     body.is-sub #subtitle {
         top: 135px;
         left: 25px;
@@ -264,12 +305,17 @@
         opacity: 0.5;
         text-align: left;
     }
+
+    /* =====================================================
+       HOME
+    ===================================================== */
     #section-01 {
         position: relative;
         min-height: 100vh;
         padding-top: var(--home-updates-start);
         box-sizing: border-box;
     }
+
     #home-updates {
         position: relative;
         width: min(620px, 86vw);
@@ -284,6 +330,7 @@
         background: var(--bg-color);
         overflow: visible;
     }
+
     .home-updates-label {
         display: flex;
         align-items: center;
@@ -294,17 +341,20 @@
         font-weight: 700;
         letter-spacing: 0.25em;
     }
+
     .home-updates-label::after {
         content: '';
         flex: 1;
         height: 1px;
         background: var(--line-color);
     }
+
     .home-updates-list {
         margin: 0;
         padding: 0;
         list-style: none;
     }
+
     .home-update-item {
         display: grid;
         grid-template-columns: 105px minmax(0, 1fr);
@@ -314,20 +364,27 @@
         font-size: 15px;
         line-height: 1.35;
     }
+
     .home-update-date {
         color: var(--text-light);
         font-family: 'Syncopate';
         font-size: 10px;
         letter-spacing: 0.05em;
     }
+
     .home-update-text {
         min-width: 0;
     }
+
+    /* =====================================================
+       PAGE
+    ===================================================== */
     .page-section {
         position: relative;
         min-height: 100vh;
         box-sizing: border-box;
     }
+
     .sub-section {
         min-height: 100vh;
         margin-left: var(--sidebar-width);
@@ -337,10 +394,15 @@
             180px;
         box-sizing: border-box;
     }
+
     .sub-section article {
         max-width: 1400px;
         margin: 0 auto;
     }
+
+    /* =====================================================
+       PAGE CONTENT
+    ===================================================== */
     .page-title {
         margin: 0 0 30px;
         padding-left: 15px;
@@ -348,6 +410,7 @@
         font-family: 'Syncopate';
         font-size: 1.5rem;
     }
+
     .page-intro-grid {
         display: grid;
         grid-template-columns: 1fr 200px;
@@ -356,11 +419,13 @@
         padding-bottom: 40px;
         border-bottom: 1px solid var(--line-color);
     }
+
     .page-main-text p {
         margin: 0;
         font-size: 1.6rem;
         line-height: 1.5;
     }
+
     .page-meta {
         padding-left: 20px;
         border-left: 1px solid var(--line-color);
@@ -368,15 +433,21 @@
         font-family: 'Syncopate';
         font-size: 9px;
     }
+
     .page-meta-item {
         margin-bottom: 20px;
     }
+
     .page-meta h4 {
         margin: 0 0 5px;
         color: var(--text-dark);
         font-weight: 700;
         letter-spacing: 0.2em;
     }
+
+    /* =====================================================
+       GRID
+    ===================================================== */
     .dynamic-grid {
         display: grid;
         grid-template-columns:
@@ -387,10 +458,12 @@
         gap: 40px;
         width: 100%;
     }
+
     .grid-item {
         padding-bottom: 20px;
         border-bottom: 1px solid var(--line-color);
     }
+
     .grid-item .thumb {
         display: flex;
         align-items: center;
@@ -404,27 +477,34 @@
         font-family: 'Syncopate';
         font-size: 10px;
     }
+
     .grid-item h3 {
         margin: 0 0 8px;
         font-family: 'Syncopate';
         font-size: 12px;
         line-height: 1.4;
     }
+
     .grid-item p {
         margin: 0;
         font-size: 14px;
         line-height: 1.5;
     }
+
+    /* =====================================================
+       STICKY ACTIONS
+    ===================================================== */
     #side-sticky {
         position: fixed;
-        top: 25px;
+        top: 60px;
         right: 0;
         z-index: 1800;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        transform: none;
+        will-change: transform;
     }
+
     #side-sticky > ul {
         display: flex;
         flex-direction: column;
@@ -433,6 +513,7 @@
         padding: 0;
         list-style: none;
     }
+
     .sticky-tape {
         position: relative;
         margin-bottom: 10px;
@@ -446,16 +527,22 @@
         transition:
             transform var(--sticky-speed) var(--ease);
     }
+
     .sticky-tape.is-open {
         transform:
             translate3d(0, 0, 0)
             rotate(var(--random-rotate, 0deg));
     }
+
+    /* HOME: at the top, show the complete sticky notes.
+       Once scrolling begins, retract them to the right and
+       leave only the icon visible. */
     body.is-home:not(.has-scrolled) #side-sticky .sticky-tape {
         transform:
             translate3d(0, 0, 0)
             rotate(var(--random-rotate, 0deg));
     }
+
     body.is-home.has-scrolled #side-sticky .sticky-tape:not(.is-open) {
         transform:
             translate3d(
@@ -465,6 +552,7 @@
             )
             rotate(var(--random-rotate, 0deg));
     }
+
     .sticky-tape a {
         position: relative;
         display: flex;
@@ -480,9 +568,11 @@
         font-family: 'Vast Shadow';
         font-size: 13px;
     }
+
     .sticky-tape--behind a {
         background: var(--text-dark);
     }
+
     .sticky-tape a::after {
         content: '×';
         position: absolute;
@@ -498,23 +588,15 @@
         transition:
             opacity 0.2s ease;
     }
+
     .sticky-tape.is-open a {
         padding-right: 42px;
     }
+
     .sticky-tape.is-open a::after {
         opacity: 1;
     }
-    @media (max-width: 850px) {
-        body.is-home:not(.has-scrolled) #side-sticky .sticky-tape:not(.is-open) {
-            transform:
-                translate3d(
-                    calc(100% - var(--sticky-peek)),
-                    0,
-                    0
-                )
-                rotate(var(--random-rotate, 0deg));
-        }
-    }
+
     .tape-icon {
         display: inline-block;
         width: 24px;
@@ -522,6 +604,10 @@
         text-align: center;
         font-size: 20px;
     }
+
+    /* =====================================================
+       ACTION PANEL
+    ===================================================== */
     #content-panel {
         position: fixed;
         top: 0;
@@ -543,6 +629,7 @@
             opacity 0.35s ease,
             visibility 0s linear 0.7s;
     }
+
     #content-panel.is-open {
         transform: translate3d(0, 0, 0);
         opacity: 1;
@@ -553,6 +640,7 @@
             opacity 0.35s ease,
             visibility 0s;
     }
+
     .content-panel-inner {
         position: relative;
         width: 100%;
@@ -564,21 +652,27 @@
             50px
             100px;
     }
+
     .panel-page {
         display: none;
     }
+
     .panel-page.is-active {
         display: block;
     }
+
     .panel-page .page-title {
         margin-top: 0;
     }
+
     .panel-page .page-intro-grid {
         grid-template-columns: 1fr 150px;
     }
+
     .panel-page .page-main-text p {
         font-size: 1.4rem;
     }
+
     .panel-close-label {
         position: absolute;
         top: 25px;
@@ -589,12 +683,17 @@
         opacity: 0.35;
         pointer-events: none;
     }
+
+    /* =====================================================
+       EXTERNAL LINKS
+    ===================================================== */
     .panel-links {
         display: flex;
         flex-direction: column;
         margin-top: 35px;
         border-top: 1px solid var(--line-color);
     }
+
     .panel-link {
         display: flex;
         align-items: center;
@@ -611,12 +710,14 @@
             color 0.3s ease,
             padding-left 0.4s var(--ease);
     }
+
     .panel-link::after {
         content: '↗';
         font-family: Arial, sans-serif;
         font-size: 16px;
         font-weight: 400;
     }
+
     .panel-note {
         margin-top: 15px;
         color: var(--text-light);
@@ -625,6 +726,10 @@
         line-height: 1.6;
         letter-spacing: 0.08em;
     }
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
     #site-footer {
         position: fixed;
         z-index: 1200;
@@ -656,6 +761,8 @@
             max-width,
             transform;
     }
+
+    /* HOME / SUB — desktop */
     @media screen and (min-width: 851px) {
         body.is-home #site-footer {
             top: auto;
@@ -668,6 +775,7 @@
             transform: translate3d(-50%, 0, 0);
             text-align: center;
         }
+
         body.is-sub #site-footer {
             top: auto;
             bottom: clamp(24px, 6vh, 60px);
@@ -678,10 +786,15 @@
             text-align: center;
         }
     }
+
+    /* =====================================================
+       REDUCED MOTION
+    ===================================================== */
     @media (prefers-reduced-motion: reduce) {
         html {
             scroll-behavior: auto;
         }
+
         *,
         *::before,
         *::after {
@@ -690,25 +803,38 @@
             animation-iteration-count: 1 !important;
         }
     }
+
+    /* =====================================================
+       DESKTOP
+    ===================================================== */
     @media screen and (min-width: 851px) {
+
+        /* NAV LABEL — HOME / SUB */
         body.is-home .nav-bar-label {
+            /* Anchor the label's center to the HOME header boundary. */
             top: calc(100vh - var(--desktop-menu-height));
             left: 50%;
             transform: translate3d(-50%, -50%, 0) rotate(0deg);
             opacity: 0.6;
         }
+
         body.is-home .nav-bar-label::after {
             width: 60px;
         }
+
         body.is-sub .nav-bar-label {
+            /* Keep the rotated label centered on the sidebar boundary. */
             top: 50%;
             left: var(--sidebar-width);
             transform: translate3d(-50%, -50%, 0) rotate(90deg);
             opacity: 0.5;
         }
+
         body.is-sub .nav-bar-label::after {
             width: 140px;
         }
+
+        /* HOME HEADER */
         body.is-home #site-header {
             bottom: 0;
             left: 0;
@@ -716,12 +842,15 @@
             height: var(--desktop-menu-height);
             border-top: 1px solid var(--line-color);
         }
+
         body.is-home .nav-list {
             flex-direction: row;
             justify-content: center;
             align-items: center;
             gap: var(--nav-gap);
         }
+
+        /* SUB HEADER */
         body.is-sub #site-header {
             top: 0;
             left: 0;
@@ -730,12 +859,15 @@
             height: 100vh;
             border-right: 1px solid var(--line-color);
         }
+
         body.is-sub .nav-list {
             top: 260px;
             flex-direction: column;
             padding-left: 35px;
             gap: 10px;
         }
+
+        /* HOME UPDATE → SUB */
         body.is-sub #home-updates {
             margin-left:
                 calc(
@@ -744,7 +876,13 @@
                 );
         }
     }
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
     @media screen and (max-width: 850px) {
+
+        /* FOOTER */
         #site-footer {
             top: auto;
             bottom: calc(var(--mobile-menu-height) + 4px);
@@ -756,6 +894,8 @@
             transform: rotate(-90deg);
             text-align: left;
         }
+
+        /* HEADER */
         #site-header {
             top: auto !important;
             bottom: 0 !important;
@@ -765,6 +905,8 @@
             border-top: 1px solid var(--line-color);
             border-right: none !important;
         }
+
+        /* MOBILE TOP SHIELD */
         #site-header::after {
             content: '';
             position: fixed;
@@ -783,6 +925,7 @@
             pointer-events: none;
             z-index: 0;
         }
+
         .nav-list {
             top: 0 !important;
             flex-direction: row !important;
@@ -791,18 +934,24 @@
             padding: 0 !important;
             gap: var(--nav-gap) !important;
         }
+
         .nav-list a {
             padding: 9px 12px;
             font-size: 12px;
             line-height: 1.2;
         }
+
         .nav-bar-label {
             display: none !important;
         }
+
+        /* HOME */
         #section-01 {
             min-height: 100vh;
             padding-top: var(--home-updates-start);
         }
+
+        /* HERO */
         .hero-section {
             position: fixed;
             top: 0;
@@ -810,10 +959,12 @@
             width: 100vw;
             height: 100vh;
         }
+
         #catchword {
             top: 40px;
             left: 110px;
         }
+
         body.is-home #catchword {
             transform: translate3d(
                 calc(7vw - 110px),
@@ -827,6 +978,7 @@
                     59.5px
                 );
         }
+
         body.catchword-sub #catchword,
         body.is-sub #catchword {
             transform: translate3d(0, 0, 0);
@@ -834,6 +986,7 @@
             line-height: 0.9;
             letter-spacing: 0.02em;
         }
+
         body.is-home #subtitle {
             top: 110px;
             left: 50%;
@@ -845,6 +998,8 @@
             text-align: center;
             line-height: 1.5;
         }
+
+        /* SUB HERO */
         body.is-sub #subtitle {
             top: 25px;
             left: 110px;
@@ -858,6 +1013,8 @@
             white-space: nowrap;
             text-align: left;
         }
+
+        /* SUB CONTENT */
         .sub-section {
             margin-left: 0;
             padding:
@@ -865,13 +1022,17 @@
                 25px
                 120px;
         }
+
         .page-intro-grid {
             grid-template-columns: 1fr;
             gap: 20px;
         }
+
         .page-main-text p {
             font-size: 1.25rem;
         }
+
+        /* ACTION PANEL */
         #content-panel {
             top: 0;
             right: 0;
@@ -880,41 +1041,51 @@
             box-shadow:
                 -10px 0 25px rgba(0, 0, 0, 0.08);
         }
+
         .content-panel-inner {
             padding:
                 75px
                 30px
                 80px;
         }
+
         .panel-page .page-intro-grid {
             grid-template-columns: 1fr;
         }
+
         .panel-page .page-main-text p {
             font-size: 1.25rem;
         }
+
         .panel-close-label {
             top: 25px;
             right: 20px;
             font-size: 6px;
         }
+
         .panel-links {
             margin-top: 25px;
         }
+
         .panel-link {
             padding: 14px 0;
             font-size: 9px;
         }
+
         .panel-note {
             font-size: 6px;
         }
     }
     </style>
 </head>
+
 <body class="is-home">
+
 <!-- =====================================================
      HEADER
 ===================================================== -->
 <header id="site-header">
+
     <button
         id="logo"
         type="button"
@@ -922,9 +1093,11 @@
     >
         ESENUS<br>logs
     </button>
+
     <div class="ui-label nav-bar-label">
         MENU / NAVIGATION
     </div>
+
     <nav aria-label="Main Navigation">
         <ul id="main-nav-list" class="nav-list">
             <li>
@@ -944,7 +1117,9 @@
             </li>
         </ul>
     </nav>
+
 </header>
+
 <!-- =====================================================
      HERO
 ===================================================== -->
@@ -955,14 +1130,17 @@
     <p id="subtitle">
         A PERSONAL PLACE TO MAKE THINGS
     </p>
+
     <h2 id="catchword">
         JUST<br>BECAUSE.
     </h2>
 </section>
+
 <!-- =====================================================
      MAIN CONTENT
 ===================================================== -->
 <main>
+
     <!-- HOME -->
     <section
         id="section-01"
@@ -977,7 +1155,9 @@
             <div class="home-updates-label">
                 UPDATE
             </div>
+
             <ul class="home-updates-list">
+
                 <li class="home-update-item">
                     <time
                         class="home-update-date"
@@ -985,10 +1165,12 @@
                     >
                         2026.09.18
                     </time>
+
                     <span class="home-update-text">
                         The Playground website started.
                     </span>
                 </li>
+
                 <li class="home-update-item">
                     <time
                         class="home-update-date"
@@ -996,10 +1178,12 @@
                     >
                         2026.09.16
                     </time>
+
                     <span class="home-update-text">
                         Furby Rebuild project updated.
                     </span>
                 </li>
+
                 <li class="home-update-item">
                     <time
                         class="home-update-date"
@@ -1007,13 +1191,16 @@
                     >
                         2026.09.12
                     </time>
+
                     <span class="home-update-text">
                         Started building things again.
                     </span>
                 </li>
+
             </ul>
         </section>
     </section>
+
     <!-- PLAY -->
     <section
         id="section-02"
@@ -1021,10 +1208,13 @@
         data-section="02"
     >
         <article>
+
             <h1 class="page-title">
                 PLAY
             </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Things I'm trying.
@@ -1037,26 +1227,34 @@
                         right now.
                     </p>
                 </div>
+
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>01</div>
                     </div>
+
                     <div class="page-meta-item">
                         <h4>STATUS</h4>
                         <div>
                             IN PROGRESS
                         </div>
                     </div>
+
                 </aside>
+
             </div>
+
             <div
                 class="dynamic-grid"
                 data-grid-count="3"
                 data-grid-prefix="PLAY"
             ></div>
+
         </article>
     </section>
+
     <!-- MAKE -->
     <section
         id="section-03"
@@ -1064,10 +1262,13 @@
         data-section="03"
     >
         <article>
+
             <h1 class="page-title">
                 MAKE
             </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Things I've made.
@@ -1079,26 +1280,34 @@
                         built for no particular reason.
                     </p>
                 </div>
+
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>02</div>
                     </div>
+
                     <div class="page-meta-item">
                         <h4>TYPE</h4>
                         <div>
                             BUILDS
                         </div>
                     </div>
+
                 </aside>
+
             </div>
+
             <div
                 class="dynamic-grid"
                 data-grid-count="4"
                 data-grid-prefix="MAKE"
             ></div>
+
         </article>
     </section>
+
     <!-- NOTE -->
     <section
         id="section-04"
@@ -1106,10 +1315,13 @@
         data-section="04"
     >
         <article>
+
             <h1 class="page-title">
                 NOTE
             </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Things I've thought about.
@@ -1120,26 +1332,34 @@
                         and things worth leaving behind.
                     </p>
                 </div>
+
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>03</div>
                     </div>
+
                     <div class="page-meta-item">
                         <h4>FORM</h4>
                         <div>
                             NOTES / LOG
                         </div>
                     </div>
+
                 </aside>
+
             </div>
+
             <div
                 class="dynamic-grid"
                 data-grid-count="6"
                 data-grid-prefix="NOTE"
             ></div>
+
         </article>
     </section>
+
     <!-- ARCHIVE -->
     <section
         id="section-05"
@@ -1147,10 +1367,13 @@
         data-section="05"
     >
         <article>
+
             <h1 class="page-title">
                 ARCHIVE
             </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Things from the past.
@@ -1164,27 +1387,36 @@
                         it is no longer active.
                     </p>
                 </div>
+
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>04</div>
                     </div>
+
                     <div class="page-meta-item">
                         <h4>STATUS</h4>
                         <div>
                             PAST
                         </div>
                     </div>
+
                 </aside>
+
             </div>
+
             <div
                 class="dynamic-grid"
                 data-grid-count="8"
                 data-grid-prefix="ARC"
             ></div>
+
         </article>
     </section>
+
 </main>
+
 <!-- =====================================================
      STICKY ACTIONS
 ===================================================== -->
@@ -1193,6 +1425,7 @@
     aria-label="More"
 >
     <ul>
+
         <li
             class="sticky-tape"
             data-action="01"
@@ -1209,6 +1442,7 @@
                 KNOCK
             </a>
         </li>
+
         <li
             class="sticky-tape sticky-tape--behind"
             data-action="02"
@@ -1225,8 +1459,10 @@
                 BEHIND
             </a>
         </li>
+
     </ul>
 </aside>
+
 <!-- =====================================================
      ACTION PANEL
 ===================================================== -->
@@ -1236,39 +1472,51 @@
     aria-label="More"
 >
     <div class="content-panel-inner">
+
         <div class="panel-close-label">
             CLOSE / SAME STICKY
         </div>
+
         <!-- KNOCK -->
         <section
             class="panel-page"
             id="panel-action-01"
             data-action-page="01"
         >
+
             <h1 class="page-title">
                 KNOCK
             </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         Want to get in touch?
                         Knock on any door.
                     </p>
                 </div>
+
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>--</div>
                     </div>
+
                     <div class="page-meta-item">
                         <h4>TYPE</h4>
                         <div>
                             CONTACT
                         </div>
                     </div>
+
                 </aside>
+
             </div>
+
             <div class="panel-links">
+
                 <a
                     class="panel-link"
                     href="https://x.com/"
@@ -1279,6 +1527,7 @@
                         X / DIRECT MESSAGE
                     </span>
                 </a>
+
                 <a
                     class="panel-link"
                     href="https://www.instagram.com/"
@@ -1289,6 +1538,7 @@
                         INSTAGRAM / DIRECT MESSAGE
                     </span>
                 </a>
+
                 <a
                     class="panel-link"
                     href="https://bsky.app/"
@@ -1299,21 +1549,28 @@
                         BLUESKY / DIRECT MESSAGE
                     </span>
                 </a>
+
             </div>
+
             <p class="panel-note">
                 Choose whichever door feels right.
             </p>
+
         </section>
+
         <!-- BEHIND -->
         <section
             class="panel-page"
             id="panel-action-02"
             data-action-page="02"
         >
+
             <h1 class="page-title">
                 BEHIND
             </h1>
+
             <div class="page-intro-grid">
+
                 <div class="page-main-text">
                     <p>
                         The back of the flyer.
@@ -1326,20 +1583,27 @@
                         and unnecessarily long stories.
                     </p>
                 </div>
+
                 <aside class="page-meta">
+
                     <div class="page-meta-item">
                         <h4>EDITION</h4>
                         <div>--</div>
                     </div>
+
                     <div class="page-meta-item">
                         <h4>TYPE</h4>
                         <div>
                             WHATEVER
                         </div>
                     </div>
+
                 </aside>
+
             </div>
+
             <div class="panel-links">
+
                 <a
                     class="panel-link"
                     href="https://discord.com/"
@@ -1350,14 +1614,19 @@
                         ENTER THE BACKROOM / DISCORD
                     </span>
                 </a>
+
             </div>
+
             <p class="panel-note">
                 Come hang out.
                 No particular reason required.
             </p>
+
         </section>
+
     </div>
 </aside>
+
 <!-- =====================================================
      FOOTER
 ===================================================== -->
@@ -1367,320 +1636,265 @@
 >
     ©2026 ESENUS LOGS / THE PLAYGROUND - KUMI FELT LIKE MAKING
 </footer>
+
 <script>
+    const $ = (selector, root = document) =>
+        root.querySelector(selector);
+    const $$ = (selector, root = document) =>
+        [...root.querySelectorAll(selector)];
+
     const DOM = {
         body: document.body,
-        logo:
-            document.getElementById('logo'),
-        mainNav:
-            document.querySelectorAll(
-                '#main-nav-list a'
-            ),
-        sections:
-            document.querySelectorAll(
-                'main .page-section'
-            ),
-        stickyItems:
-            document.querySelectorAll(
-                '#side-sticky .sticky-tape'
-            ),
-        panel:
-            document.getElementById(
-                'content-panel'
-            ),
-        panelPages:
-            document.querySelectorAll(
-                '.panel-page'
-            ),
-        grids:
-            document.querySelectorAll(
-                '.dynamic-grid'
-            )
+        logo: $('#logo'),
+        mainNav: $$('#main-nav-list a'),
+        sections: $$('main .page-section'),
+        stickyItems: $$('#side-sticky .sticky-tape'),
+        panel: $('#content-panel'),
+        panelPages: $$('.panel-page'),
+        grids: $$('.dynamic-grid')
     };
+
     const state = {
         section: null,
         action: null,
-        motionFrame: 0
+        frame: 0,
+        resizeTimer: 0
     };
+
+    /* =====================================================
+       GRID
+    ===================================================== */
     function initializeGrids() {
         DOM.grids.forEach(grid => {
-            const { gridCount, gridPrefix } = grid.dataset;
-            grid.innerHTML = Array.from({ length: Number(gridCount) }, (_, index) => {
-                const number = String(index + 1).padStart(2, '0');
-                return `<div class="grid-item"><div class="thumb">${gridPrefix} ${number}</div><h3>${gridPrefix} ${index + 1}</h3><p>Try something. See what happens.</p></div>`;
-            }).join('');
+            const count = Number(grid.dataset.gridCount);
+            const prefix = grid.dataset.gridPrefix;
+
+            grid.innerHTML = Array.from(
+                { length: count },
+                (_, i) => {
+                    const number = String(i + 1).padStart(2, '0');
+                    return `<div class="grid-item">
+                        <div class="thumb">${prefix} ${number}</div>
+                        <h3>${prefix} ${i + 1}</h3>
+                        <p>Try something. See what happens.</p>
+                    </div>`;
+                }
+            ).join('');
         });
     }
-    function getSectionAtViewportPoint(ratio) {
-        if (!DOM.sections.length) {
-            return null;
-        }
-        const position =
-            window.scrollY +
-            window.innerHeight * ratio;
-        let active =
-            DOM.sections[0];
+
+    /* =====================================================
+       SECTION / NAVIGATION
+    ===================================================== */
+    function sectionAt(ratio) {
+        const position = window.scrollY + window.innerHeight * ratio;
+        let active = DOM.sections[0];
+
         for (const section of DOM.sections) {
-            if (
-                section.offsetTop <=
-                position
-            ) {
-                active = section;
-                continue;
-            }
-            break;
+            if (section.offsetTop > position) break;
+            active = section;
         }
         return active;
     }
+
     function updateSectionState() {
-        const section = getSectionAtViewportPoint(0.9);
-        if (!section) {
-            return;
+        const section = sectionAt(0.9);
+        if (!section) return;
+
+        const id = section.dataset.section;
+        const isHome = id === '01';
+
+        if (state.section !== id) {
+            state.section = id;
+            DOM.body.classList.toggle('is-home', isHome);
+            DOM.body.classList.toggle('is-sub', !isHome);
         }
-        const sectionId =
-            section.dataset.section;
-        if (
-            state.section ===
-            sectionId
-        ) {
-            updateMainNav();
-            return;
-        }
-        state.section =
-            sectionId;
-        const isHome =
-            sectionId === '01';
+
+        updateNavigation();
+
         DOM.body.classList.toggle(
-            'is-home',
-            isHome
+            'catchword-sub',
+            isHome && window.scrollY / Math.max(
+                DOM.sections[0]?.offsetHeight || window.innerHeight,
+                window.innerHeight
+            ) >= 0.42
         );
+
         DOM.body.classList.toggle(
-            'is-sub',
-            !isHome
+            'has-scrolled',
+            isHome && window.scrollY > 1
         );
-        updateMainNav();
     }
-    function updateMainNav() {
-        const section = getSectionAtViewportPoint(0.5);
-        const sectionId =
-            section?.dataset.section;
+
+    function goToSection(id) {
+        const target = $(`#section-${id}`);
+        if (!target) return;
+        closePanel();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function initializeMainNavigation() {
+        let startX = 0;
+        let startY = 0;
+        let moved = false;
+
         DOM.mainNav.forEach(link => {
-            const target =
-                link.getAttribute('href');
-            const isActive =
-                !state.action &&
-                target ===
-                    `#section-${sectionId}`;
+            const navigate = event => {
+                event.preventDefault();
+                goToSection(link.hash.replace('#section-', ''));
+            };
+
+            link.addEventListener('click', navigate);
+            link.addEventListener('touchstart', event => {
+                const touch = event.changedTouches[0];
+                startX = touch.clientX;
+                startY = touch.clientY;
+                moved = false;
+            }, { passive: true });
+            link.addEventListener('touchmove', event => {
+                const touch = event.changedTouches[0];
+                moved = Math.hypot(
+                    touch.clientX - startX,
+                    touch.clientY - startY
+                ) > 10;
+            }, { passive: true });
+            link.addEventListener('touchend', event => {
+                if (moved) return;
+                event.preventDefault();
+                event.stopPropagation();
+                navigate(event);
+            }, { passive: false });
+        });
+
+        DOM.logo.addEventListener('click', () => goToSection('01'));
+    }
+
+    /* =====================================================
+       PANEL
+    ===================================================== */
+    function updateNavigation() {
+        const navId = sectionAt(0.5)?.dataset.section;
+        DOM.mainNav.forEach(link =>
             link.classList.toggle(
                 'is-active',
-                isActive
-            );
-        });
-    }
-    function goToSection(sectionId) {
-        const target =
-            document.getElementById(
-                `section-${sectionId}`
-            );
-        if (!target) {
-            return;
-        }
-        closePanel();
-        target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-    function initializeMainNavigation() {
-        DOM.mainNav.forEach(link => {
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let touchMoved = false;
-            const navigateFromLink = event => {
-                event.preventDefault();
-                const href =
-                    link.getAttribute('href');
-                const sectionId =
-                    href.replace('#section-', '');
-                goToSection(sectionId);
-            };
-            link.addEventListener(
-                'click',
-                navigateFromLink
-            );
-            link.addEventListener(
-                'touchstart',
-                event => {
-                    const touch = event.changedTouches[0];
-                    touchStartX = touch.clientX;
-                    touchStartY = touch.clientY;
-                    touchMoved = false;
-                },
-                { passive: true }
-            );
-            link.addEventListener(
-                'touchmove',
-                event => {
-                    const touch = event.changedTouches[0];
-                    const deltaX = touch.clientX - touchStartX;
-                    const deltaY = touch.clientY - touchStartY;
-                    if (Math.hypot(deltaX, deltaY) > 10) {
-                        touchMoved = true;
-                    }
-                },
-                { passive: true }
-            );
-            link.addEventListener(
-                'touchend',
-                event => {
-                    if (touchMoved) {
-                        return;
-                    }
-                    event.preventDefault();
-                    event.stopPropagation();
-                    navigateFromLink(event);
-                },
-                { passive: false }
-            );
-        });
-        DOM.logo.addEventListener(
-            'click',
-            () => goToSection('01')
+                !state.action && link.hash === `#section-${navId}`
+            )
         );
     }
-    function getScrollProgress() {
-        const homeHeight =
-            Math.max(
-                DOM.sections[0]?.offsetHeight ||
-                    window.innerHeight,
-                window.innerHeight
-            );
-        return Math.min(1, Math.max(0, window.scrollY / homeHeight));
-    }
-    function updateScrollState() {
-        const progress = getScrollProgress();
-        DOM.body.classList.toggle('catchword-sub', progress >= 0.42);
-        const isHome = DOM.body.classList.contains('is-home');
-        DOM.body.classList.toggle('has-scrolled', isHome && window.scrollY > 1);
-    }
+
     function renderPanel() {
+        const open = Boolean(state.action);
+
         DOM.panelPages.forEach(page =>
             page.classList.toggle('is-active', page.dataset.actionPage === state.action)
         );
+
         DOM.stickyItems.forEach(item => {
             const active = item.dataset.action === state.action;
             item.classList.toggle('is-open', active);
-            item.querySelector('a')?.setAttribute('aria-expanded', String(active));
+            $('a', item)?.setAttribute('aria-expanded', String(active));
         });
-        updateMainNav();
-        DOM.panel.classList.toggle('is-open', Boolean(state.action));
-        DOM.panel.setAttribute('aria-hidden', String(!state.action));
+
+        DOM.panel.classList.toggle('is-open', open);
+        DOM.panel.setAttribute('aria-hidden', String(!open));
+        updateNavigation();
     }
-    function openPanel(actionId) {
-        if (
-            state.action ===
-            actionId
-        ) {
+
+    function openPanel(id) {
+        if (state.action === id) {
             closePanel();
             return;
         }
+
         if (state.action) {
             state.action = null;
             renderPanel();
             setTimeout(() => {
-                state.action = actionId;
+                state.action = id;
                 renderPanel();
             }, 100);
             return;
         }
-        state.action = actionId;
+
+        state.action = id;
         renderPanel();
     }
+
     function closePanel() {
-        if (!state.action) {
-            return;
-        }
+        if (!state.action) return;
         state.action = null;
         renderPanel();
     }
+
     function initializeStickyNavigation() {
-        DOM.stickyItems.forEach(item => {
-            const link =
-                item.querySelector('a');
-            link?.addEventListener(
-                'click',
-                event => {
-                    event.preventDefault();
-                    openPanel(
-                        item.dataset.action
-                    );
-                }
-            );
-        });
-    }
-    function initializeKeyboard() {
-        document.addEventListener(
-            'keydown',
-            event => {
-                if (
-                    event.key === 'Escape' &&
-                    state.action
-                ) {
-                    closePanel();
-                }
-            }
+        DOM.stickyItems.forEach(item =>
+            $('a', item)?.addEventListener('click', event => {
+                event.preventDefault();
+                openPanel(item.dataset.action);
+            })
         );
     }
-    function applyRandomRotation() {
-        DOM.stickyItems.forEach(item => {
-            const rotation =
-                (Math.random() - 0.5) * 6;
-            item.style.setProperty(
-                '--random-rotate',
-                `${rotation}deg`
-            );
+
+    /* =====================================================
+       KEYBOARD / STICKY
+    ===================================================== */
+    function initializeKeyboard() {
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') closePanel();
         });
     }
-    function requestScrollUpdate() {
-        if (state.motionFrame) {
-            return;
-        }
-        state.motionFrame =
-            requestAnimationFrame(() => {
-                state.motionFrame = 0;
-                updateSectionState();
-                updateScrollState();
-            });
+
+    function initializeSticky() {
+        DOM.stickyItems.forEach(item =>
+            item.style.setProperty(
+                '--random-rotate',
+                `${(Math.random() - 0.5) * 6}deg`
+            )
+        );
     }
-    window.addEventListener(
-        'scroll',
-        requestScrollUpdate,
-        { passive: true }
-    );
-    let resizeSettleTimer = 0;
+
+    /* =====================================================
+       SCROLL / RESIZE
+
+       Motion itself is CSS. JS only updates state classes.
+    ===================================================== */
+    function requestUpdate() {
+        if (state.frame) return;
+
+        state.frame = requestAnimationFrame(() => {
+            state.frame = 0;
+            updateSectionState();
+        });
+    }
+
     function handleResize() {
         DOM.body.classList.add('is-resizing');
-        window.clearTimeout(resizeSettleTimer);
-        resizeSettleTimer = window.setTimeout(() => {
-            DOM.body.classList.remove('is-resizing');
-        }, 180);
-        requestScrollUpdate();
+        clearTimeout(state.resizeTimer);
+        state.resizeTimer = setTimeout(
+            () => DOM.body.classList.remove('is-resizing'),
+            180
+        );
+        requestUpdate();
     }
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
     window.addEventListener('resize', handleResize, { passive: true });
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
     function initialize() {
         initializeGrids();
-        applyRandomRotation();
+        initializeSticky();
         initializeMainNavigation();
         initializeStickyNavigation();
         initializeKeyboard();
         updateSectionState();
-        updateScrollState();
         renderPanel();
     }
-    window.addEventListener(
-        'DOMContentLoaded',
-        initialize
-    );
+
+    window.addEventListener('DOMContentLoaded', initialize);
 </script>
+
 </body>
 </html>
