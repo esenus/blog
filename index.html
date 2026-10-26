@@ -30,7 +30,7 @@
         --mobile-menu-height: 64px;
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
-        --home-updates-start: 420px;
+        --home-updates-start: 400px;
         --nav-gap:
             clamp(10px, calc(1.887vw + 3.96px), 20px);
         --nav-link-horizontal-padding:
@@ -151,11 +151,15 @@
         padding: 0 15px;
         background: var(--bg-color);
         letter-spacing: 0.3em;
+        transition:
+            transform 0.7s var(--ease),
+            font-size 0.7s var(--ease),
+            opacity 0.7s ease;
         will-change:
-            top,
-            left,
             transform,
             opacity;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
 
     .nav-bar-label::after {
@@ -163,8 +167,9 @@
         display: block;
         margin-left: 10px;
         background: var(--text-dark);
-        width: var(--nav-line-width, 60px);
+        width: 60px;
         height: 1px;
+        transition: width 0.7s var(--ease);
     }
 
     /* =====================================================
@@ -227,26 +232,70 @@
     /* =====================================================
        HOME HERO
     ===================================================== */
+    #catchword {
+        top: 160px;
+        left: 25px;
+        transition:
+            transform 0.7s var(--ease),
+            font-size 0.7s var(--ease),
+            opacity 0.7s ease;
+        will-change:
+            transform,
+            opacity;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
     body.is-home #catchword {
-        top: 280px;
-        left: 7vw;
-        transform: translate3d(0, -50%, 0);
+        transform: translate3d(
+            calc(7vw - 25px),
+            calc(100px - 50%),
+            0
+        );
         font-size: 7vw;
         font-weight: 700;
         line-height: 0.9;
         letter-spacing: 0.02em;
     }
 
-    #subtitle {
+    @media (max-width: 850px) {
+        body.is-home #catchword {
+            font-size: clamp(50px, calc(1.79vw + 44.27px), 59.5px);
+        }
+    }
+
+    body.catchword-sub #catchword,
+    body.is-sub #catchword {
+        transform: translate3d(0, 0, 0);
+        font-size: 24px;
+        line-height: 0.9;
+    }
+
+    /* Safari: keep the position motion, but switch font size instantly.
+       WebKit is more stable when the glyph metrics are not interpolated
+       while the catchword is moving. */
+    body.is-safari #catchword {
         transition:
-            top var(--transition-speed) var(--ease),
-            left var(--transition-speed) var(--ease),
-            width var(--transition-speed) var(--ease),
-            max-width var(--transition-speed) var(--ease),
-            transform var(--transition-speed) var(--ease),
-            font-size var(--transition-speed) var(--ease),
-            letter-spacing var(--transition-speed) var(--ease),
-            opacity var(--transition-speed) ease;
+            transform 0.7s var(--ease),
+            opacity 0.7s ease;
+    }
+
+    #subtitle {
+        /* Match the footer's state-based motion model.
+           Keep the text box stable so WebKit does not reflow
+           the text while the element is moving. */
+        transition:
+            top 0.7s var(--ease),
+            left 0.7s var(--ease),
+            transform 0.7s var(--ease),
+            opacity 0.7s ease;
+        will-change:
+            top,
+            left,
+            transform,
+            opacity;
+        box-sizing: border-box;
+        white-space: nowrap;
     }
 
     body.is-home #subtitle {
@@ -254,13 +303,11 @@
         left: 50%;
         transform: translate3d(-50%, -50%, 0);
         width: min(620px, calc(100vw - 140px));
-        max-width: calc(100vw - 140px);
-        box-sizing: border-box;
+        max-width: min(620px, calc(100vw - 140px));
         padding-right: calc(var(--sticky-peek) + 15px);
         font-size: 10px;
         line-height: 1.4;
         letter-spacing: 0.3em;
-        white-space: normal;
         text-align: center;
         opacity: 0.6;
     }
@@ -268,14 +315,6 @@
     /* =====================================================
        SUB HERO
     ===================================================== */
-    body.is-sub #catchword {
-        top: 160px;
-        left: 25px;
-        transform: translate3d(0, 0, 0);
-        font-size: 24px;
-        line-height: 0.9;
-    }
-
     body.is-sub #subtitle {
         top: 135px;
         left: 25px;
@@ -284,6 +323,7 @@
         max-width: none;
         padding-right: 0;
         font-size: 8px;
+        line-height: 1.4;
         letter-spacing: 0.1em;
         opacity: 0.5;
         text-align: left;
@@ -732,11 +772,10 @@
 
     /* =====================================================
        FOOTER
-       Position / width / transform are controlled by JS.
     ===================================================== */
     #site-footer {
+        position: fixed;
         z-index: 1200;
-        max-width: none;
         color: var(--text-dark);
         font-family: 'Syncopate';
         font-size: 8px;
@@ -749,6 +788,46 @@
         text-align: center;
         overflow-wrap: break-word;
         word-break: normal;
+        transition:
+            top 0.7s var(--ease),
+            bottom 0.7s var(--ease),
+            left 0.7s var(--ease),
+            width 0.7s var(--ease),
+            max-width 0.7s var(--ease),
+            transform 0.7s var(--ease),
+            text-align 0.7s var(--ease);
+        will-change:
+            top,
+            bottom,
+            left,
+            width,
+            max-width,
+            transform;
+    }
+
+    /* HOME / SUB — desktop */
+    @media screen and (min-width: 851px) {
+        body.is-home #site-footer {
+            top: auto;
+            bottom: calc(
+                clamp(80px, calc(8.333vw + 50px), 120px) + 18px
+            );
+            left: 50%;
+            width: min(760px, 70vw);
+            max-width: min(760px, 70vw);
+            transform: translate3d(-50%, 0, 0);
+            text-align: center;
+        }
+
+        body.is-sub #site-footer {
+            top: auto;
+            bottom: clamp(24px, 6vh, 60px);
+            left: 130px;
+            width: 210px;
+            max-width: 210px;
+            transform: translate3d(-50%, 0, 0);
+            text-align: center;
+        }
     }
 
     /* =====================================================
@@ -772,6 +851,31 @@
        DESKTOP
     ===================================================== */
     @media screen and (min-width: 851px) {
+
+        /* NAV LABEL — HOME / SUB */
+        body.is-home .nav-bar-label {
+            /* Center the label directly on the HOME header boundary.
+               The pseudo-element bar therefore sits on top of the border. */
+            top: calc(100vh - var(--desktop-menu-height));
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0) rotate(0deg);
+            opacity: 0.6;
+        }
+
+        body.is-home .nav-bar-label::after {
+            width: 60px;
+        }
+
+        body.is-sub .nav-bar-label {
+            top: 50%;
+            left: var(--sidebar-width);
+            transform: translate3d(-50%, -50%, 0) rotate(90deg);
+            opacity: 0.5;
+        }
+
+        body.is-sub .nav-bar-label::after {
+            width: 140px;
+        }
 
         /* HOME HEADER */
         body.is-home #site-header {
@@ -820,6 +924,17 @@
        MOBILE
     ===================================================== */
     @media screen and (max-width: 850px) {
+
+        /* FOOTER */
+        #site-footer {
+            top: clamp(90px, 50vh, calc(100vh - 90px));
+            bottom: auto;
+            left: clamp(12px, 1vw, 20px);
+            width: max-content;
+            max-width: none;
+            transform: translate3d(-50%, -50%, 0) rotate(-90deg);
+            text-align: left;
+        }
 
         /* HEADER */
         #site-header {
@@ -880,16 +995,31 @@
             height: 100vh;
         }
 
+        #catchword {
+            top: 40px;
+            left: 110px;
+        }
+
         body.is-home #catchword {
-            top: 280px;
-            left: 7vw;
-            transform: translate3d(0, -50%, 0);
+            transform: translate3d(
+                calc(7vw - 110px),
+                calc(220px - 50%),
+                0
+            );
             font-size:
                 clamp(
                     50px,
                     calc(1.79vw + 44.27px),
                     59.5px
                 );
+        }
+
+        body.catchword-sub #catchword,
+        body.is-sub #catchword {
+            transform: translate3d(0, 0, 0);
+            font-size: 23px;
+            line-height: 0.9;
+            letter-spacing: 0.02em;
         }
 
         body.is-home #subtitle {
@@ -905,22 +1035,13 @@
         }
 
         /* SUB HERO */
-        body.is-sub #catchword {
-            top: 40px;
-            left: 110px;
-            transform: translate3d(0, 0, 0);
-            font-size: 23px;
-            line-height: 0.9;
-            letter-spacing: 0.02em;
-        }
-
         body.is-sub #subtitle {
             top: 25px;
             left: 110px;
             transform: translate3d(0, 0, 0);
-            width: auto;
-            max-width: none;
-            padding-right: 0;
+            width: calc(100vw - 50px);
+            max-width: calc(100vw - 50px);
+            padding-right: calc(var(--sticky-peek) + 15px);
             font-size: 8px;
             line-height: 1.3;
             letter-spacing: 0.1em;
@@ -1881,392 +2002,20 @@
     }
 
     /* =====================================================
-       HERO MOTION
-       
-       subtitle:
-       0.0 - 0.18
-           HOME positionを維持しながら縮小
-       
-       0.18 - 1.0
-           絶対位置を固定しながら
-           SUB positionへ移動
+       HERO / NAV MOTION
+
+       Motion is handled by CSS transitions.
+       JS only changes the state classes.
     ===================================================== */
     function updateHeroMotion() {
-        const progress =
-            getScrollProgress();
+        const progress = getScrollProgress();
 
-        const isMobile =
-            window.innerWidth <= 850;
-
-        /* -------------------------------------------------
-           CATCHWORD
-        ------------------------------------------------- */
-        if (isMobile) {
-
-            /* Move the catchword earlier to clear HOME UPDATE content. */
-            const catchwordProgress =
-                clamp(progress / 0.42, 0, 1);
-
-            const homeTop = 280;
-            const subTop = 40;
-
-            const homeLeft =
-                window.innerWidth * 0.07;
-
-            const subLeft = 110;
-
-            const homeSize =
-                Math.min(
-                    59.5,
-                    Math.max(
-                        50,
-                        window.innerWidth *
-                            0.0179 +
-                            44.27
-                    )
-                );
-
-            const subSize = 23;
-
-            const top =
-                lerp(
-                    homeTop,
-                    subTop,
-                    catchwordProgress
-                );
-
-            const left =
-                lerp(
-                    homeLeft,
-                    subLeft,
-                    catchwordProgress
-                );
-
-            const size =
-                lerp(
-                    homeSize,
-                    subSize,
-                    catchwordProgress
-                );
-
-            const translateY =
-                lerp(
-                    -50,
-                    0,
-                    catchwordProgress
-                );
-
-            DOM.catchword.style.top =
-                `${top}px`;
-
-            DOM.catchword.style.left =
-                `${left}px`;
-
-            DOM.catchword.style.fontSize =
-                `${size}px`;
-
-            DOM.catchword.style.transform =
-                `translate3d(0, ${translateY}%, 0)`;
-
-        } else {
-
-            /* Move the catchword earlier to clear HOME UPDATE content. */
-            const catchwordProgress =
-                clamp(progress / 0.42, 0, 1);
-
-            const homeTop = 280;
-            const subTop = 160;
-
-            const homeLeft =
-                window.innerWidth * 0.07;
-
-            const subLeft = 25;
-
-            const homeSize =
-                window.innerWidth * 0.07;
-
-            const subSize = 24;
-
-            const top =
-                lerp(
-                    homeTop,
-                    subTop,
-                    catchwordProgress
-                );
-
-            const left =
-                lerp(
-                    homeLeft,
-                    subLeft,
-                    catchwordProgress
-                );
-
-            const size =
-                lerp(
-                    homeSize,
-                    subSize,
-                    catchwordProgress
-                );
-
-            const translateY =
-                lerp(
-                    -50,
-                    0,
-                    catchwordProgress
-                );
-
-            DOM.catchword.style.top =
-                `${top}px`;
-
-            DOM.catchword.style.left =
-                `${left}px`;
-
-            DOM.catchword.style.fontSize =
-                `${size}px`;
-
-            DOM.catchword.style.transform =
-                `translate3d(0, ${translateY}%, 0)`;
-        }
-
-        /* -------------------------------------------------
-           NAV BAR LABEL
-        ------------------------------------------------- */
-        if (isMobile) {
-            return;
-        }
-
-        const menuHeight =
-            Math.min(
-                120,
-                Math.max(
-                    80,
-                    window.innerWidth *
-                        0.08333 +
-                        50
-                )
-            );
-
-        const homeTop =
-            window.innerHeight -
-            menuHeight;
-
-        const subTop =
-            window.innerHeight / 2;
-
-        const homeLeft =
-            window.innerWidth / 2;
-
-        const subLeft = 260;
-
-        const top =
-            lerp(
-                homeTop,
-                subTop,
-                progress
-            );
-
-        const left =
-            lerp(
-                homeLeft,
-                subLeft,
-                progress
-            );
-
-        const rotation =
-            lerp(
-                0,
-                90,
-                progress
-            );
-
-        const lineWidth =
-            lerp(
-                60,
-                140,
-                progress
-            );
-
-        const opacity =
-            lerp(
-                0.6,
-                0.5,
-                progress
-            );
-
-        DOM.navBarLabel.style.top =
-            `${top}px`;
-
-        DOM.navBarLabel.style.left =
-            `${left}px`;
-
-        DOM.navBarLabel.style.transform =
-            `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
-
-        DOM.navBarLabel.style.opacity =
-            opacity;
-
-        DOM.navBarLabel.style.setProperty(
-            '--nav-line-width',
-            `${lineWidth}px`
+        DOM.body.classList.toggle(
+            'catchword-sub',
+            progress >= 0.42
         );
     }
 
-    /* =====================================================
-       FOOTER MOTION
-       
-       HOME:
-       ナビゲーションバー直上に固定。
-
-       SUB:
-       sidebar中央へ移動。
-       同時にwidthを狭めていくことで、
-       文字が自然に折り返される。
-    ===================================================== */
-    function updateFooterMotion() {
-        const progress =
-            getScrollProgress();
-
-        const isMobile =
-            window.innerWidth <= 850;
-
-        if (isMobile) {
-
-            /*
-             * Mobileでは既存の縦配置を
-             * JSだけで再現する。
-             */
-            const top =
-                clamp(
-                    window.innerHeight * 0.5,
-                    90,
-                    window.innerHeight - 90
-                );
-
-            const left =
-                clamp(
-                    window.innerWidth * 0.01,
-                    12,
-                    20
-                );
-
-            DOM.footer.style.top =
-                `${top}px`;
-
-            DOM.footer.style.bottom =
-                'auto';
-
-            DOM.footer.style.left =
-                `${left}px`;
-
-            DOM.footer.style.width =
-                'max-content';
-
-            DOM.footer.style.maxWidth =
-                'none';
-
-            DOM.footer.style.transform =
-                'translate(-50%, -50%) rotate(-90deg)';
-
-            DOM.footer.style.textAlign =
-                'left';
-
-            return;
-        }
-
-        const menuHeight =
-            Math.min(
-                120,
-                Math.max(
-                    80,
-                    window.innerWidth *
-                        0.08333 +
-                        50
-                )
-            );
-
-        /*
-         * HOME:
-         * footerの中心を画面中央に置き、
-         * navigation barのすぐ上に配置。
-         */
-        const homeLeft =
-            window.innerWidth / 2;
-
-        const homeBottom =
-            menuHeight + 18;
-
-        /*
-         * SUB:
-         * sidebarの中央。
-         */
-        const subLeft =
-            260 / 2;
-
-        const subBottom =
-            clamp(
-                window.innerHeight * 0.06,
-                24,
-                60
-            );
-
-        /*
-         * HOMEでは一行を基本とする。
-         * SUBではnavigation areaに収まる幅へ。
-         */
-        const homeWidth =
-            Math.min(
-                760,
-                window.innerWidth * 0.7
-            );
-
-        const subWidth = 210;
-
-        /*
-         * 位置・幅をすべて連続補間。
-         * CSSのstate transitionには頼らない。
-         */
-        const left =
-            lerp(
-                homeLeft,
-                subLeft,
-                progress
-            );
-
-        const bottom =
-            lerp(
-                homeBottom,
-                subBottom,
-                progress
-            );
-
-        const width =
-            lerp(
-                homeWidth,
-                subWidth,
-                progress
-            );
-
-        DOM.footer.style.top =
-            'auto';
-
-        DOM.footer.style.bottom =
-            `${bottom}px`;
-
-        DOM.footer.style.left =
-            `${left}px`;
-
-        DOM.footer.style.width =
-            `${width}px`;
-
-        DOM.footer.style.maxWidth =
-            `${width}px`;
-
-        DOM.footer.style.transform =
-            'translateX(-50%)';
-
-        DOM.footer.style.textAlign =
-            'center';
-    }
 
     /* =====================================================
        STICKY POSITION
@@ -2505,7 +2254,6 @@
                 updateSectionState();
                 updateHomeStickyState();
                 updateStickyMotion();
-                updateFooterMotion();
             });
     }
 
@@ -2533,6 +2281,19 @@
     );
 
     /* =====================================================
+       BROWSER
+    ===================================================== */
+    const isSafari =
+        /Safari/i.test(navigator.userAgent) &&
+        !/Chrome|Chromium|CriOS|Edg/i.test(
+            navigator.userAgent
+        );
+
+    if (isSafari) {
+        DOM.body.classList.add('is-safari');
+    }
+
+    /* =====================================================
        INITIALIZE
     ===================================================== */
     function initialize() {
@@ -2546,7 +2307,6 @@
         updateHomeStickyState();
         updateHeroMotion();
         updateStickyMotion();
-        updateFooterMotion();
         renderPanel();
     }
 
