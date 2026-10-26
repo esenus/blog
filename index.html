@@ -766,9 +766,7 @@
     @media screen and (min-width: 851px) {
         body.is-home #site-footer {
             top: auto;
-            bottom: calc(
-                clamp(80px, calc(8.333vw + 50px), 120px) + 18px
-            );
+            bottom: calc(var(--desktop-menu-height) + 18px);
             left: 50%;
             width: min(760px, 70vw);
             max-width: min(760px, 70vw);
@@ -946,19 +944,6 @@
         }
 
         /* HOME */
-        #section-01 {
-            min-height: 100vh;
-            padding-top: var(--home-updates-start);
-        }
-
-        /* HERO */
-        .hero-section {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-        }
 
         #catchword {
             top: 40px;
@@ -1638,263 +1623,177 @@
 </footer>
 
 <script>
-    const $ = (selector, root = document) =>
-        root.querySelector(selector);
-    const $$ = (selector, root = document) =>
-        [...root.querySelectorAll(selector)];
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-    const DOM = {
-        body: document.body,
-        logo: $('#logo'),
-        mainNav: $$('#main-nav-list a'),
-        sections: $$('main .page-section'),
-        stickyItems: $$('#side-sticky .sticky-tape'),
-        panel: $('#content-panel'),
-        panelPages: $$('.panel-page'),
-        grids: $$('.dynamic-grid')
-    };
+const body = document.body;
+const logo = $('#logo');
+const nav = $('#main-nav-list');
+const sections = $$('main .page-section');
+const stickies = $$('#side-sticky .sticky-tape');
+const panel = $('#content-panel');
+const panelPages = $$('.panel-page');
+const grids = $$('.dynamic-grid');
 
-    const state = {
-        section: null,
-        action: null,
-        frame: 0,
-        resizeTimer: 0
-    };
+const state = {
+    action: '',
+    frame: 0,
+    resizeTimer: 0,
+    panelTimer: 0,
+    touch: null
+};
 
-    /* =====================================================
-       GRID
-    ===================================================== */
-    function initializeGrids() {
-        DOM.grids.forEach(grid => {
-            const count = Number(grid.dataset.gridCount);
-            const prefix = grid.dataset.gridPrefix;
-
-            grid.innerHTML = Array.from(
-                { length: count },
-                (_, i) => {
-                    const number = String(i + 1).padStart(2, '0');
-                    return `<div class="grid-item">
-                        <div class="thumb">${prefix} ${number}</div>
-                        <h3>${prefix} ${i + 1}</h3>
-                        <p>Try something. See what happens.</p>
-                    </div>`;
-                }
-            ).join('');
-        });
-    }
-
-    /* =====================================================
-       SECTION / NAVIGATION
-    ===================================================== */
-    function sectionAt(ratio) {
-        const position = window.scrollY + window.innerHeight * ratio;
-        let active = DOM.sections[0];
-
-        for (const section of DOM.sections) {
-            if (section.offsetTop > position) break;
-            active = section;
+/* CONTENT */
+grids.forEach(grid => {
+    const { gridCount, gridPrefix: prefix } = grid.dataset;
+    grid.innerHTML = Array.from(
+        { length: Number(gridCount) },
+        (_, i) => {
+            const n = String(i + 1).padStart(2, '0');
+            return `<div class="grid-item">
+                <div class="thumb">${prefix} ${n}</div>
+                <h3>${prefix} ${i + 1}</h3>
+                <p>Try something. See what happens.</p>
+            </div>`;
         }
-        return active;
+    ).join('');
+});
+
+/* STATE */
+const sectionAt = ratio => {
+    const position = scrollY + innerHeight * ratio;
+    let active = sections[0];
+    for (const section of sections) {
+        if (section.offsetTop > position) break;
+        active = section;
     }
+    return active;
+};
 
-    function updateSectionState() {
-        const section = sectionAt(0.9);
-        if (!section) return;
+const sync = () => {
+    const section = sectionAt(0.9);
+    if (!section) return;
 
-        const id = section.dataset.section;
-        const isHome = id === '01';
+    const isHome = section.dataset.section === '01';
+    body.classList.toggle('is-home', isHome);
+    body.classList.toggle('is-sub', !isHome);
+    body.classList.toggle(
+        'catchword-sub',
+        isHome && scrollY / Math.max(sections[0].offsetHeight, innerHeight) >= 0.42
+    );
+    body.classList.toggle('has-scrolled', isHome && scrollY > 1);
 
-        if (state.section !== id) {
-            state.section = id;
-            DOM.body.classList.toggle('is-home', isHome);
-            DOM.body.classList.toggle('is-sub', !isHome);
-        }
+    const navId = sectionAt(0.5)?.dataset.section;
+    nav.querySelectorAll('a').forEach(link =>
+        link.classList.toggle(
+            'is-active',
+            !state.action && link.hash === `#section-${navId}`
+        )
+    );
+};
 
-        updateNavigation();
+const requestSync = () => {
+    if (state.frame) return;
+    state.frame = requestAnimationFrame(() => {
+        state.frame = 0;
+        sync();
+    });
+};
 
-        DOM.body.classList.toggle(
-            'catchword-sub',
-            isHome && window.scrollY / Math.max(
-                DOM.sections[0]?.offsetHeight || window.innerHeight,
-                window.innerHeight
-            ) >= 0.42
+/* NAVIGATION */
+const go = id => {
+    const target = $(`#section-${id}`);
+    if (!target) return;
+    setPanel('');
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+nav.addEventListener('click', event => {
+    const link = event.target.closest('a');
+    if (!link) return;
+    event.preventDefault();
+    go(link.hash.slice(9));
+});
+
+nav.addEventListener('touchstart', event => {
+    const { clientX: x, clientY: y } = event.changedTouches[0];
+    state.touch = { x, y, moved: false };
+}, { passive: true });
+
+nav.addEventListener('touchmove', event => {
+    if (!state.touch) return;
+    const { clientX: x, clientY: y } = event.changedTouches[0];
+    state.touch.moved = Math.hypot(x - state.touch.x, y - state.touch.y) > 10;
+}, { passive: true });
+
+nav.addEventListener('touchend', event => {
+    if (!state.touch || state.touch.moved) return;
+    const link = event.target.closest('a');
+    state.touch = null;
+    if (!link) return;
+    event.preventDefault();
+    event.stopPropagation();
+    go(link.hash.slice(9));
+}, { passive: false });
+
+logo.addEventListener('click', () => go('01'));
+
+/* PANEL */
+function setPanel(id) {
+    clearTimeout(state.panelTimer);
+
+    const render = () => {
+        state.action = id;
+        panelPages.forEach(page =>
+            page.classList.toggle('is-active', page.dataset.actionPage === id)
         );
-
-        DOM.body.classList.toggle(
-            'has-scrolled',
-            isHome && window.scrollY > 1
-        );
-    }
-
-    function goToSection(id) {
-        const target = $(`#section-${id}`);
-        if (!target) return;
-        closePanel();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function initializeMainNavigation() {
-        let startX = 0;
-        let startY = 0;
-        let moved = false;
-
-        DOM.mainNav.forEach(link => {
-            const navigate = event => {
-                event.preventDefault();
-                goToSection(link.hash.replace('#section-', ''));
-            };
-
-            link.addEventListener('click', navigate);
-            link.addEventListener('touchstart', event => {
-                const touch = event.changedTouches[0];
-                startX = touch.clientX;
-                startY = touch.clientY;
-                moved = false;
-            }, { passive: true });
-            link.addEventListener('touchmove', event => {
-                const touch = event.changedTouches[0];
-                moved = Math.hypot(
-                    touch.clientX - startX,
-                    touch.clientY - startY
-                ) > 10;
-            }, { passive: true });
-            link.addEventListener('touchend', event => {
-                if (moved) return;
-                event.preventDefault();
-                event.stopPropagation();
-                navigate(event);
-            }, { passive: false });
-        });
-
-        DOM.logo.addEventListener('click', () => goToSection('01'));
-    }
-
-    /* =====================================================
-       PANEL
-    ===================================================== */
-    function updateNavigation() {
-        const navId = sectionAt(0.5)?.dataset.section;
-        DOM.mainNav.forEach(link =>
-            link.classList.toggle(
-                'is-active',
-                !state.action && link.hash === `#section-${navId}`
-            )
-        );
-    }
-
-    function renderPanel() {
-        const open = Boolean(state.action);
-
-        DOM.panelPages.forEach(page =>
-            page.classList.toggle('is-active', page.dataset.actionPage === state.action)
-        );
-
-        DOM.stickyItems.forEach(item => {
-            const active = item.dataset.action === state.action;
+        stickies.forEach(item => {
+            const active = item.dataset.action === id;
             item.classList.toggle('is-open', active);
             $('a', item)?.setAttribute('aria-expanded', String(active));
         });
+        panel.classList.toggle('is-open', Boolean(id));
+        panel.setAttribute('aria-hidden', String(!id));
+        sync();
+    };
 
-        DOM.panel.classList.toggle('is-open', open);
-        DOM.panel.setAttribute('aria-hidden', String(!open));
-        updateNavigation();
+    if (state.action && id && state.action !== id) {
+        state.action = '';
+        render();
+        state.panelTimer = setTimeout(render, 100);
+        return;
     }
+    render();
+}
 
-    function openPanel(id) {
-        if (state.action === id) {
-            closePanel();
-            return;
-        }
+$('#side-sticky').addEventListener('click', event => {
+    const item = event.target.closest('.sticky-tape');
+    if (!item) return;
+    event.preventDefault();
+    setPanel(state.action === item.dataset.action ? '' : item.dataset.action);
+});
 
-        if (state.action) {
-            state.action = null;
-            renderPanel();
-            setTimeout(() => {
-                state.action = id;
-                renderPanel();
-            }, 100);
-            return;
-        }
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') setPanel('');
+});
 
-        state.action = id;
-        renderPanel();
-    }
+/* STICKY */
+stickies.forEach(item =>
+    item.style.setProperty('--random-rotate', `${(Math.random() - 0.5) * 6}deg`)
+);
 
-    function closePanel() {
-        if (!state.action) return;
-        state.action = null;
-        renderPanel();
-    }
+/* SCROLL / RESIZE */
+window.addEventListener('scroll', requestSync, { passive: true });
+window.addEventListener('resize', () => {
+    body.classList.add('is-resizing');
+    clearTimeout(state.resizeTimer);
+    state.resizeTimer = setTimeout(() => body.classList.remove('is-resizing'), 180);
+    requestSync();
+}, { passive: true });
 
-    function initializeStickyNavigation() {
-        DOM.stickyItems.forEach(item =>
-            $('a', item)?.addEventListener('click', event => {
-                event.preventDefault();
-                openPanel(item.dataset.action);
-            })
-        );
-    }
-
-    /* =====================================================
-       KEYBOARD / STICKY
-    ===================================================== */
-    function initializeKeyboard() {
-        document.addEventListener('keydown', event => {
-            if (event.key === 'Escape') closePanel();
-        });
-    }
-
-    function initializeSticky() {
-        DOM.stickyItems.forEach(item =>
-            item.style.setProperty(
-                '--random-rotate',
-                `${(Math.random() - 0.5) * 6}deg`
-            )
-        );
-    }
-
-    /* =====================================================
-       SCROLL / RESIZE
-
-       Motion itself is CSS. JS only updates state classes.
-    ===================================================== */
-    function requestUpdate() {
-        if (state.frame) return;
-
-        state.frame = requestAnimationFrame(() => {
-            state.frame = 0;
-            updateSectionState();
-        });
-    }
-
-    function handleResize() {
-        DOM.body.classList.add('is-resizing');
-        clearTimeout(state.resizeTimer);
-        state.resizeTimer = setTimeout(
-            () => DOM.body.classList.remove('is-resizing'),
-            180
-        );
-        requestUpdate();
-    }
-
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', handleResize, { passive: true });
-
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-    function initialize() {
-        initializeGrids();
-        initializeSticky();
-        initializeMainNavigation();
-        initializeStickyNavigation();
-        initializeKeyboard();
-        updateSectionState();
-        renderPanel();
-    }
-
-    window.addEventListener('DOMContentLoaded', initialize);
+sync();
 </script>
+
 
 </body>
 </html>
