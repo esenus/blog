@@ -496,7 +496,7 @@
     ===================================================== */
     #side-sticky {
         position: fixed;
-        top: 60px;
+        top: 45px;
         right: 0;
         z-index: 1800;
         display: flex;
@@ -982,6 +982,15 @@
             padding-right: calc(var(--sticky-peek) + 15px);
             text-align: center;
             line-height: 1.5;
+        }
+
+        /* Keep the subtitle clear of the fully visible stickies.
+           Wrapping only begins when the available width becomes tight. */
+        @media (max-width: 500px) {
+            body.is-home #subtitle {
+                padding-right: calc(var(--sticky-peek) + 100px);
+                white-space: normal;
+            }
         }
 
         /* SUB HERO */
