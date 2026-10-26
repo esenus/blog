@@ -30,7 +30,7 @@
         --mobile-menu-height: 80px;
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
-        --home-updates-start: 300px;
+        --home-updates-start: 320px;
         --nav-gap:
             clamp(10px, calc(1.887vw + 3.96px), 20px);
         --nav-link-horizontal-padding:
@@ -247,7 +247,7 @@
     body.is-home #catchword {
         transform: translate3d(
             calc(7vw - 25px),
-            calc(35px - 50%),
+            calc(60px - 50%),
             0
         );
         font-size: 7vw;
@@ -910,12 +910,14 @@
 
         /* FOOTER */
         #site-footer {
-            top: clamp(90px, 50vh, calc(100vh - 90px));
-            bottom: auto;
-            left: clamp(12px, 1vw, 20px);
+            top: auto;
+            bottom: calc(var(--mobile-menu-height) + 4px);
+            left: 12px;
             width: max-content;
             max-width: none;
-            transform: translate3d(-50%, -50%, 0) rotate(-90deg);
+            letter-spacing: clamp(0em, calc((100vh - 220px) / 140), 0.4em);
+            transform-origin: left bottom;
+            transform: rotate(-90deg);
             text-align: left;
         }
 
@@ -992,7 +994,7 @@
         body.is-home #catchword {
             transform: translate3d(
                 calc(7vw - 110px),
-                calc(140px - 50%),
+                calc(165px - 50%),
                 0
             );
             font-size:
