@@ -27,10 +27,10 @@
         --sidebar-width: 260px;
         --desktop-menu-height:
             clamp(80px, calc(8.333vw + 50px), 120px);
-        --mobile-menu-height: clamp(96px, 18vh, 124px);
+        --mobile-menu-height: 80px;
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
-        --home-updates-start: 310px;
+        --home-updates-start: 300px;
         --nav-gap:
             clamp(10px, calc(1.887vw + 3.96px), 20px);
         --nav-link-horizontal-padding:
@@ -247,7 +247,7 @@
     body.is-home #catchword {
         transform: translate3d(
             calc(7vw - 25px),
-            calc(20px - 50%),
+            calc(35px - 50%),
             0
         );
         font-size: 7vw;
@@ -960,15 +960,9 @@
         }
 
         .nav-list a {
-            min-height: 44px;
-            padding: 14px 12px;
-            font-size: 13px;
-            line-height: 1.25;
-            box-sizing: border-box;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            touch-action: manipulation;
+            padding: 9px 12px;
+            font-size: 12px;
+            line-height: 1.2;
         }
 
         .nav-bar-label {
@@ -1932,26 +1926,71 @@
 
     function initializeMainNavigation() {
         DOM.mainNav.forEach(link => {
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchMoved = false;
+
+            const navigateFromLink = event => {
+                event.preventDefault();
+
+                const href =
+                    link.getAttribute('href');
+
+                const sectionId =
+                    href.replace('#section-', '');
+
+                goToSection(sectionId);
+            };
+
             link.addEventListener(
                 'click',
+                navigateFromLink
+            );
+
+            /*
+             * On touch devices, Safari can postpone or drop the
+             * synthetic click while momentum scrolling is settling.
+             * Handle a stationary touch directly on touchend, while
+             * ignoring genuine swipe gestures.
+             */
+            link.addEventListener(
+                'touchstart',
                 event => {
+                    const touch = event.changedTouches[0];
+                    touchStartX = touch.clientX;
+                    touchStartY = touch.clientY;
+                    touchMoved = false;
+                },
+                { passive: true }
+            );
+
+            link.addEventListener(
+                'touchmove',
+                event => {
+                    const touch = event.changedTouches[0];
+                    const deltaX = touch.clientX - touchStartX;
+                    const deltaY = touch.clientY - touchStartY;
+
+                    if (Math.hypot(deltaX, deltaY) > 10) {
+                        touchMoved = true;
+                    }
+                },
+                { passive: true }
+            );
+
+            link.addEventListener(
+                'touchend',
+                event => {
+                    if (touchMoved) {
+                        return;
+                    }
+
+                    /* Prevent a duplicate synthetic click after navigation. */
                     event.preventDefault();
-
-                    const href =
-                        link.getAttribute(
-                            'href'
-                        );
-
-                    const sectionId =
-                        href.replace(
-                            '#section-',
-                            ''
-                        );
-
-                    goToSection(
-                        sectionId
-                    );
-                }
+                    event.stopPropagation();
+                    navigateFromLink(event);
+                },
+                { passive: false }
             );
         });
 
