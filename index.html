@@ -1,17 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-    <title>esenus - Personal Playground</title>
-    <link
-        href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap"
-        rel="stylesheet"
-    >
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>esenus - Personal Playground</title>
+<link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&amp;display=swap" rel="stylesheet"/>
+<style>
     /* =====================================================
        VARIABLES
     ===================================================== */
@@ -32,7 +27,7 @@
         --sticky-peek: 45px;
         --home-updates-start: 320px;
         --nav-gap:
-            clamp(10px, calc(1.887vw + 3.96px), 20px);
+            clamp(8px, calc(1.6vw + 2px), 16px);
         --nav-link-horizontal-padding:
             clamp(5px, calc(0.943vw + 1.98px), 10px);
         --nav-link-font-size:
@@ -70,7 +65,7 @@
         background: var(--text-dark);
         color: #fff;
         font-family: 'Syncopate';
-        font-size: 9px;
+        font-size: 11px;
         font-weight: 800;
         line-height: 1.2;
         cursor: pointer;
@@ -496,7 +491,7 @@
     ===================================================== */
     #side-sticky {
         position: fixed;
-        top: 20px;
+        top: 45px;
         right: 0;
         z-index: 1800;
         display: flex;
@@ -700,38 +695,15 @@
             padding-left 0.4s var(--ease);
     }
 
-    .panel-link {
-        position: relative;
-        padding-right: 22px;
-    }
-
-    /* Draw the external-link arrow in CSS to avoid font-dependent glyphs. */
-    .panel-link::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        right: 1px;
-        width: 12px;
-        height: 12px;
-        transform: translateY(-50%);
-        background: linear-gradient(
-            135deg,
-            transparent 44%,
-            currentColor 46%,
-            currentColor 53%,
-            transparent 55%
-        );
-    }
-
     .panel-link::after {
         content: '';
-        position: absolute;
-        top: calc(50% - 6px);
-        right: 1px;
-        width: 6px;
-        height: 6px;
+        width: 9px;
+        height: 9px;
+        flex: 0 0 9px;
         border-top: 1px solid currentColor;
         border-right: 1px solid currentColor;
+        transform: rotate(45deg);
+        opacity: 0.7;
     }
 
     .panel-note {
@@ -950,8 +922,8 @@
         }
 
         .nav-list a {
-            padding: 9px 12px;
-            font-size: 12px;
+            padding: 10px 11px;
+            font-size: clamp(11px, 2.6vw, 13px);
             line-height: 1.2;
         }
 
@@ -1082,145 +1054,131 @@
     }
     </style>
 </head>
-
 <body class="is-home">
-
 <!-- =====================================================
      HEADER
 ===================================================== -->
 <header id="site-header">
-
-    <button
-        id="logo"
-        type="button"
-        aria-label="Go to Home"
-    >
-        ESENUS<br>✎_ blog
+<button aria-label="Go to Home" id="logo" type="button">
+        ESENUS<br/>blog
     </button>
-
-    <div class="ui-label nav-bar-label">
+<div class="ui-label nav-bar-label">
         MENU / NAVIGATION
     </div>
+<nav aria-label="Main Navigation">
+<ul class="nav-list" id="main-nav-list">
 
-    <nav aria-label="Main Navigation">
-        <ul id="main-nav-list" class="nav-list">
-            <li>
-                <a href="#section-01">HOME</a>
-            </li>
-            <li>
-                <a href="#section-02">PLAY</a>
-            </li>
-            <li>
-                <a href="#section-03">MAKE</a>
-            </li>
-            <li>
-                <a href="#section-04">NOTE</a>
-            </li>
-            <li>
-                <a href="#section-05">ARCHIVE</a>
-            </li>
-        </ul>
-    </nav>
 
+
+
+
+<li>
+<a href="#section-01">HOME</a>
+</li><li>
+<a href="#section-04">NOTE</a>
+</li><li>
+<a href="#section-02">PLAY</a>
+</li><li>
+<a href="#section-03">MAKE</a>
+</li><li>
+<a href="#section-05">ARCHIVE</a>
+</li></ul>
+</nav>
 </header>
-
 <!-- =====================================================
      HERO
 ===================================================== -->
-<section
-    class="hero-section"
-    aria-hidden="true"
->
-    <p id="subtitle">
+<section aria-hidden="true" class="hero-section">
+<p id="subtitle">
         A PERSONAL PLACE TO MAKE THINGS
     </p>
-
-    <h2 id="catchword">
-        JUST<br>BECAUSE.
+<h2 id="catchword">
+        JUST<br/>BECAUSE.
     </h2>
 </section>
-
 <!-- =====================================================
      MAIN CONTENT
 ===================================================== -->
 <main>
+<!-- HOME -->
 
-    <!-- HOME -->
-    <section
-        id="section-01"
-        class="page-section"
-        data-section="01"
-        aria-label="Home"
-    >
-        <section
-            id="home-updates"
-            aria-label="Recent Updates"
-        >
-            <div class="home-updates-label">
-                UPDATE
-            </div>
+<!-- PLAY -->
 
-            <ul class="home-updates-list">
+<!-- MAKE -->
 
-                <li class="home-update-item">
-                    <time
-                        class="home-update-date"
-                        datetime="2026-09-18"
-                    >
+<!-- NOTE -->
+
+<!-- ARCHIVE -->
+
+<section aria-label="Home" class="page-section" data-section="01" id="section-01">
+<section aria-label="Recent Updates" id="home-updates">
+<div class="home-updates-label">TOPIX</div>
+<ul class="home-updates-list">
+<li class="home-update-item">
+<time class="home-update-date" datetime="2026-09-18">
                         2026.09.18
                     </time>
-
-                    <span class="home-update-text">
+<span class="home-update-text">
                         The Playground website started.
                     </span>
-                </li>
-
-                <li class="home-update-item">
-                    <time
-                        class="home-update-date"
-                        datetime="2026-09-16"
-                    >
+</li>
+<li class="home-update-item">
+<time class="home-update-date" datetime="2026-09-16">
                         2026.09.16
                     </time>
-
-                    <span class="home-update-text">
+<span class="home-update-text">
                         Furby Rebuild project updated.
                     </span>
-                </li>
-
-                <li class="home-update-item">
-                    <time
-                        class="home-update-date"
-                        datetime="2026-09-12"
-                    >
+</li>
+<li class="home-update-item">
+<time class="home-update-date" datetime="2026-09-12">
                         2026.09.12
                     </time>
-
-                    <span class="home-update-text">
+<span class="home-update-text">
                         Started building things again.
                     </span>
-                </li>
-
-            </ul>
-        </section>
-    </section>
-
-    <!-- PLAY -->
-    <section
-        id="section-02"
-        class="page-section sub-section"
-        data-section="02"
-    >
-        <article>
-
-            <h1 class="page-title">
+</li>
+</ul>
+</section>
+</section><section class="page-section sub-section" data-section="04" id="section-04">
+<article>
+<h1 class="page-title">
+                NOTE
+            </h1>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
+                        Things I've thought about.
+                        Things I've looked into,
+                        ideas from making,
+                        technical notes,
+                        discoveries,
+                        and things worth leaving behind.
+                    </p>
+</div>
+<aside class="page-meta">
+<div class="page-meta-item">
+<h4>EDITION</h4>
+<div>03</div>
+</div>
+<div class="page-meta-item">
+<h4>FORM</h4>
+<div>
+                            NOTES / LOG
+                        </div>
+</div>
+</aside>
+</div>
+<div class="dynamic-grid" data-grid-count="6" data-grid-prefix="NOTE"></div>
+</article>
+</section><section class="page-section sub-section" data-section="02" id="section-02">
+<article>
+<h1 class="page-title">
                 PLAY
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
                         Things I'm trying.
                         Experiments,
                         tests,
@@ -1230,51 +1188,30 @@
                         whatever I'm working on
                         right now.
                     </p>
-                </div>
-
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>01</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>STATUS</h4>
-                        <div>
+</div>
+<aside class="page-meta">
+<div class="page-meta-item">
+<h4>EDITION</h4>
+<div>01</div>
+</div>
+<div class="page-meta-item">
+<h4>STATUS</h4>
+<div>
                             IN PROGRESS
                         </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div
-                class="dynamic-grid"
-                data-grid-count="3"
-                data-grid-prefix="PLAY"
-            ></div>
-
-        </article>
-    </section>
-
-    <!-- MAKE -->
-    <section
-        id="section-03"
-        class="page-section sub-section"
-        data-section="03"
-    >
-        <article>
-
-            <h1 class="page-title">
+</div>
+</aside>
+</div>
+<div class="dynamic-grid" data-grid-count="3" data-grid-prefix="PLAY"></div>
+</article>
+</section><section class="page-section sub-section" data-section="03" id="section-03">
+<article>
+<h1 class="page-title">
                 MAKE
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
                         Things I've made.
                         Websites,
                         software,
@@ -1283,103 +1220,30 @@
                         and small things
                         built for no particular reason.
                     </p>
-                </div>
-
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>02</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>TYPE</h4>
-                        <div>
+</div>
+<aside class="page-meta">
+<div class="page-meta-item">
+<h4>EDITION</h4>
+<div>02</div>
+</div>
+<div class="page-meta-item">
+<h4>TYPE</h4>
+<div>
                             BUILDS
                         </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div
-                class="dynamic-grid"
-                data-grid-count="4"
-                data-grid-prefix="MAKE"
-            ></div>
-
-        </article>
-    </section>
-
-    <!-- NOTE -->
-    <section
-        id="section-04"
-        class="page-section sub-section"
-        data-section="04"
-    >
-        <article>
-
-            <h1 class="page-title">
-                NOTE
-            </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
-                        Things I've thought about.
-                        Things I've looked into,
-                        ideas from making,
-                        technical notes,
-                        discoveries,
-                        and things worth leaving behind.
-                    </p>
-                </div>
-
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>03</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>FORM</h4>
-                        <div>
-                            NOTES / LOG
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div
-                class="dynamic-grid"
-                data-grid-count="6"
-                data-grid-prefix="NOTE"
-            ></div>
-
-        </article>
-    </section>
-
-    <!-- ARCHIVE -->
-    <section
-        id="section-05"
-        class="page-section sub-section"
-        data-section="05"
-    >
-        <article>
-
-            <h1 class="page-title">
+</div>
+</aside>
+</div>
+<div class="dynamic-grid" data-grid-count="4" data-grid-prefix="MAKE"></div>
+</article>
+</section><section class="page-section sub-section" data-section="05" id="section-05">
+<article>
+<h1 class="page-title">
                 ARCHIVE
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
                         Things from the past.
                         Finished,
                         abandoned,
@@ -1390,189 +1254,91 @@
                         to disappear just because
                         it is no longer active.
                     </p>
-                </div>
-
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>04</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>STATUS</h4>
-                        <div>
+</div>
+<aside class="page-meta">
+<div class="page-meta-item">
+<h4>EDITION</h4>
+<div>04</div>
+</div>
+<div class="page-meta-item">
+<h4>STATUS</h4>
+<div>
                             PAST
                         </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div
-                class="dynamic-grid"
-                data-grid-count="8"
-                data-grid-prefix="ARC"
-            ></div>
-
-        </article>
-    </section>
-
-</main>
-
+</div>
+</aside>
+</div>
+<div class="dynamic-grid" data-grid-count="8" data-grid-prefix="ARC"></div>
+</article>
+</section></main>
 <!-- =====================================================
      STICKY ACTIONS
 ===================================================== -->
-<aside
-    id="side-sticky"
-    aria-label="More"
->
-    <ul>
-
-        <li
-            class="sticky-tape"
-            data-action="01"
-        >
-            <a
-                href="#"
-                aria-controls="content-panel"
-                aria-expanded="false"
-            >
-                <span
-                    class="tape-icon"
-                    aria-hidden="true"
-                >✦</span>
+<aside aria-label="More" id="side-sticky">
+<ul>
+<li class="sticky-tape" data-action="01">
+<a aria-controls="content-panel" aria-expanded="false" href="#">
+<span aria-hidden="true" class="tape-icon">✦</span>
                 KNOCK
             </a>
-        </li>
-
-        <li
-            class="sticky-tape sticky-tape--behind"
-            data-action="02"
-        >
-            <a
-                href="#"
-                aria-controls="content-panel"
-                aria-expanded="false"
-            >
-                <span
-                    class="tape-icon"
-                    aria-hidden="true"
-                >☞</span>
+</li>
+<li class="sticky-tape sticky-tape--behind" data-action="02">
+<a aria-controls="content-panel" aria-expanded="false" href="#">
+<span aria-hidden="true" class="tape-icon">☞</span>
                 BEHIND
             </a>
-        </li>
-
-    </ul>
+</li>
+</ul>
 </aside>
-
 <!-- =====================================================
      ACTION PANEL
 ===================================================== -->
-<aside
-    id="content-panel"
-    aria-hidden="true"
-    aria-label="More"
->
-    <div class="content-panel-inner">
+<aside aria-hidden="true" aria-label="More" id="content-panel">
+<div class="content-panel-inner">
 
-        <!-- KNOCK -->
-        <section
-            class="panel-page"
-            id="panel-action-01"
-            data-action-page="01"
-        >
-
-            <h1 class="page-title">
+<!-- KNOCK -->
+<section class="panel-page" data-action-page="01" id="panel-action-01">
+<h1 class="page-title">
                 KNOCK
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
                         Want to get in touch?
                         Knock on any door.
                     </p>
-                </div>
+</div>
 
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>--</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>TYPE</h4>
-                        <div>
-                            CONTACT
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div class="panel-links">
-
-                <a
-                    class="panel-link"
-                    href="https://x.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <span>
+</div>
+<div class="panel-links">
+<a class="panel-link" href="https://x.com/" rel="noopener noreferrer" target="_blank">
+<span>
                         X / DIRECT MESSAGE
                     </span>
-                </a>
-
-                <a
-                    class="panel-link"
-                    href="https://www.instagram.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <span>
+</a>
+<a class="panel-link" href="https://www.instagram.com/" rel="noopener noreferrer" target="_blank">
+<span>
                         INSTAGRAM / DIRECT MESSAGE
                     </span>
-                </a>
-
-                <a
-                    class="panel-link"
-                    href="https://bsky.app/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <span>
+</a>
+<a class="panel-link" href="https://bsky.app/" rel="noopener noreferrer" target="_blank">
+<span>
                         BLUESKY / DIRECT MESSAGE
                     </span>
-                </a>
-
-            </div>
-
-            <p class="panel-note">
+</a>
+</div>
+<p class="panel-note">
                 Choose whichever door feels right.
             </p>
-
-        </section>
-
-        <!-- BEHIND -->
-        <section
-            class="panel-page"
-            id="panel-action-02"
-            data-action-page="02"
-        >
-
-            <h1 class="page-title">
+</section>
+<!-- BEHIND -->
+<section class="panel-page" data-action-page="02" id="panel-action-02">
+<h1 class="page-title">
                 BEHIND
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
                         The back of the flyer.
                         Things that don't really matter,
                         but somehow ended up here.
@@ -1582,61 +1348,29 @@
                         strange obsessions,
                         and unnecessarily long stories.
                     </p>
-                </div>
+</div>
 
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>--</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>TYPE</h4>
-                        <div>
-                            WHATEVER
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div class="panel-links">
-
-                <a
-                    class="panel-link"
-                    href="https://discord.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <span>
+</div>
+<div class="panel-links">
+<a class="panel-link" href="https://discord.com/" rel="noopener noreferrer" target="_blank">
+<span>
                         ENTER THE BACKROOM / DISCORD
                     </span>
-                </a>
-
-            </div>
-
-            <p class="panel-note">
+</a>
+</div>
+<p class="panel-note">
                 Come hang out.
                 No particular reason required.
             </p>
-
-        </section>
-
-    </div>
+</section>
+</div>
 </aside>
-
 <!-- =====================================================
      FOOTER
 ===================================================== -->
-<footer
-    id="site-footer"
-    class="ui-label"
->
-    ©2026 ESENUS LOGS / THE PLAYGROUND - KUMI FELT LIKE MAKING
+<footer class="ui-label" id="site-footer">
+    ©2026 ESENUS BLOG / THE PLAYGROUND - KUMI FELT LIKE MAKING
 </footer>
-
 <script>
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -1808,7 +1542,5 @@ window.addEventListener('resize', () => {
 
 sync();
 </script>
-
-
 </body>
 </html>
