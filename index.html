@@ -248,7 +248,7 @@
     body.catchword-sub #catchword,
     body.is-sub #catchword {
         transform: translate3d(0, 0, 0);
-        font-size: 24px;
+        font-size: clamp(23px, 2.8vw, 24px);
         line-height: 0.9;
     }
 
@@ -491,7 +491,7 @@
     ===================================================== */
     #side-sticky {
         position: fixed;
-        top: 45px;
+        top: 25px;
         right: 0;
         z-index: 1800;
         display: flex;
@@ -918,13 +918,7 @@
             justify-content: center !important;
             align-items: center !important;
             padding: 0 !important;
-            gap: var(--nav-gap) !important;
-        }
-
-        .nav-list a {
-            padding: 10px 11px;
-            font-size: clamp(11px, 2.6vw, 13px);
-            line-height: 1.2;
+            gap: var(--nav-gap);
         }
 
         .nav-bar-label {
@@ -952,11 +946,7 @@
                 );
         }
 
-        body.catchword-sub #catchword,
-        body.is-sub #catchword {
-            transform: translate3d(0, 0, 0);
-            font-size: 23px;
-            line-height: 0.9;
+        body.catchword-sub #catchword {
             letter-spacing: 0.02em;
         }
 
@@ -1436,7 +1426,7 @@ const sync = () => {
     nav.querySelectorAll('a').forEach(link =>
         link.classList.toggle(
             'is-active',
-            !state.action && link.hash === `#section-${navId}`
+            link.hash === `#section-${navId}`
         )
     );
 };
