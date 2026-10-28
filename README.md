@@ -1,13 +1,13 @@
-# muse
+# blog
 
-This repository contains the website for `muse`.
+This repository contains the website for `blog`.
 
 The website is built and published using **Loom**, the Web Publishing Platform of esenus.
 
 ## Documentation
 
 - `docs/README.md` — Documentation structure and writing rules
-- `docs/Concept.md` — Purpose and position of `muse`
+- `docs/Concept.md` — Purpose and position of `blog`
 - `docs/Design.md` — Site structure and content presentation
 - `docs/Architecture.md` — Implementation structure and boundaries
 
