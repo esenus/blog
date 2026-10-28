@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>esenus - Personal Playground</title>
+<title>blog.esenus</title>
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&amp;display=swap" rel="stylesheet"/>
 <style>
     /* =====================================================
@@ -487,6 +487,113 @@
     }
 
     /* =====================================================
+       CONTENT CARDS
+    ===================================================== */
+    .content-card {
+        min-width: 0;
+        padding-bottom: 22px;
+        border-bottom: 1px solid var(--line-color);
+    }
+
+    .content-card__meta {
+        margin-bottom: 12px;
+        color: var(--text-light);
+        font-family: 'Syncopate';
+        font-size: 8px;
+        line-height: 1.4;
+        letter-spacing: 0.08em;
+    }
+
+    .content-card__title {
+        margin: 0 0 8px;
+        font-family: 'Syncopate';
+        font-size: clamp(13px, 1vw, 16px);
+        line-height: 1.35;
+        font-weight: 700;
+    }
+
+    .content-card__text {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.55;
+    }
+
+    .content-card__type {
+        margin-top: 14px;
+        color: var(--text-light);
+        font-family: 'Syncopate';
+        font-size: 7px;
+        letter-spacing: 0.12em;
+    }
+
+    .archive-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 0 40px;
+    }
+
+    .archive-card {
+        position: relative;
+        padding: 24px 0 26px;
+    }
+
+    .archive-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: var(--line-color);
+    }
+
+    .archive-card__year {
+        margin-bottom: 18px;
+        color: var(--text-light);
+        font-family: 'Syncopate';
+        font-size: 9px;
+        letter-spacing: 0.12em;
+    }
+
+    .archive-card__title {
+        margin: 0 0 8px;
+        font-family: 'Syncopate';
+        font-size: 15px;
+        line-height: 1.35;
+    }
+
+    .archive-card__type {
+        margin-top: 16px;
+        font-family: 'Syncopate';
+        font-size: 7px;
+        letter-spacing: 0.12em;
+        opacity: 0.55;
+    }
+
+    .section-more {
+        display: inline-block;
+        margin-top: 35px;
+        color: var(--text-dark);
+        font-family: 'Syncopate';
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-decoration: none;
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 4px;
+    }
+
+    .section-more::after {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin-left: 9px;
+        border-top: 1px solid currentColor;
+        border-right: 1px solid currentColor;
+        transform: rotate(45deg);
+    }
+
+    /* =====================================================
        STICKY ACTIONS
     ===================================================== */
     #side-sticky {
@@ -529,16 +636,15 @@
             rotate(var(--random-rotate, 0deg));
     }
 
-    /* HOME: at the top, show the complete sticky notes.
-       Once scrolling begins, retract them to the right and
-       leave only the icon visible. */
-    body.is-home:not(.has-scrolled) #side-sticky .sticky-tape {
+    /* HOME: keep the notes open until the next section approaches.
+       When a sticky is opened, keep the other one retracted. */
+    body.is-home #side-sticky .sticky-tape {
         transform:
             translate3d(0, 0, 0)
             rotate(var(--random-rotate, 0deg));
     }
 
-    body.is-home.has-scrolled #side-sticky .sticky-tape:not(.is-open) {
+    body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open) {
         transform:
             translate3d(
                 calc(100% - var(--sticky-peek)),
@@ -1050,7 +1156,7 @@
 ===================================================== -->
 <header id="site-header">
 <button aria-label="Go to Home" id="logo" type="button">
-        ESENUS<br/>blog
+    blog.<br/>ESENUS
     </button>
 <div class="ui-label nav-bar-label">
         MENU / NAVIGATION
@@ -1109,7 +1215,7 @@
                         2026.09.18
                     </time>
 <span class="home-update-text">
-                        The Playground website started.
+                        blog.esenus.com started taking shape.
                     </span>
 </li>
 <li class="home-update-item">
@@ -1117,7 +1223,7 @@
                         2026.09.16
                     </time>
 <span class="home-update-text">
-                        Furby Rebuild project updated.
+                        Bruscoh: Furby reverse-engineering updated.
                     </span>
 </li>
 <li class="home-update-item">
@@ -1125,7 +1231,7 @@
                         2026.09.12
                     </time>
 <span class="home-update-text">
-                        Started building things again.
+                        Nest is taking shape.
                     </span>
 </li>
 </ul>
@@ -1138,28 +1244,16 @@
 <div class="page-intro-grid">
 <div class="page-main-text">
 <p>
-                        Things I've thought about.
-                        Things I've looked into,
-                        ideas from making,
-                        technical notes,
-                        discoveries,
-                        and things worth leaving behind.
+                        Things I've been thinking about.
+                        Notes from making,
+                        building,
+                        experimenting,
+                        and figuring things out.
                     </p>
 </div>
-<aside class="page-meta">
-<div class="page-meta-item">
-<h4>EDITION</h4>
-<div>03</div>
+
 </div>
-<div class="page-meta-item">
-<h4>FORM</h4>
-<div>
-                            NOTES / LOG
-                        </div>
-</div>
-</aside>
-</div>
-<div class="dynamic-grid" data-grid-count="6" data-grid-prefix="NOTE"></div>
+<div class="dynamic-grid content-grid" data-content="NOTE"></div>
 </article>
 </section><section class="page-section sub-section" data-section="02" id="section-02">
 <article>
@@ -1169,30 +1263,16 @@
 <div class="page-intro-grid">
 <div class="page-main-text">
 <p>
-                        Things I'm trying.
-                        Experiments,
-                        tests,
-                        prototypes,
-                        and unfinished ideas.
-                        This is where I keep
-                        whatever I'm working on
-                        right now.
+                        Things I'm playing with.
+                        Services, projects,
+                        experiments,
+                        and unfinished ideas
+                        that are moving right now.
                     </p>
 </div>
-<aside class="page-meta">
-<div class="page-meta-item">
-<h4>EDITION</h4>
-<div>01</div>
+
 </div>
-<div class="page-meta-item">
-<h4>STATUS</h4>
-<div>
-                            IN PROGRESS
-                        </div>
-</div>
-</aside>
-</div>
-<div class="dynamic-grid" data-grid-count="3" data-grid-prefix="PLAY"></div>
+<div class="dynamic-grid content-grid" data-content="PLAY"></div>
 </article>
 </section><section class="page-section sub-section" data-section="03" id="section-03">
 <article>
@@ -1203,28 +1283,17 @@
 <div class="page-main-text">
 <p>
                         Things I've made.
-                        Websites,
+                        Electronics,
                         software,
-                        hardware,
-                        electronics,
+                        food,
+                        websites,
                         and small things
                         built for no particular reason.
                     </p>
 </div>
-<aside class="page-meta">
-<div class="page-meta-item">
-<h4>EDITION</h4>
-<div>02</div>
+
 </div>
-<div class="page-meta-item">
-<h4>TYPE</h4>
-<div>
-                            BUILDS
-                        </div>
-</div>
-</aside>
-</div>
-<div class="dynamic-grid" data-grid-count="4" data-grid-prefix="MAKE"></div>
+<div class="dynamic-grid content-grid" data-content="MAKE"></div>
 </article>
 </section><section class="page-section sub-section" data-section="05" id="section-05">
 <article>
@@ -1235,30 +1304,19 @@
 <div class="page-main-text">
 <p>
                         Things from the past.
-                        Finished,
-                        abandoned,
-                        discontinued,
-                        old projects,
-                        and old ideas.
+                        Old projects,
+                        portfolios,
+                        photographs,
+                        travels,
+                        finished or abandoned ideas.
                         Not everything needs
                         to disappear just because
                         it is no longer active.
                     </p>
 </div>
-<aside class="page-meta">
-<div class="page-meta-item">
-<h4>EDITION</h4>
-<div>04</div>
+
 </div>
-<div class="page-meta-item">
-<h4>STATUS</h4>
-<div>
-                            PAST
-                        </div>
-</div>
-</aside>
-</div>
-<div class="dynamic-grid" data-grid-count="8" data-grid-prefix="ARC"></div>
+<div class="dynamic-grid content-grid archive-grid" data-content="ARCHIVE"></div>
 </article>
 </section></main>
 <!-- =====================================================
@@ -1372,7 +1430,7 @@ const sections = $$('main .page-section');
 const stickies = $$('#side-sticky .sticky-tape');
 const panel = $('#content-panel');
 const panelPages = $$('.panel-page');
-const grids = $$('.dynamic-grid');
+const grids = $$('.content-grid');
 
 const state = {
     action: '',
@@ -1383,19 +1441,35 @@ const state = {
 };
 
 /* CONTENT */
+const content = {"NOTE":[["2026.10.28","Why I started building Nest","A personal system should make everyday life easier, not add another layer of work."],["2026.10.21","Making a place for unfinished ideas","Thinking about where experiments, failures, and half-formed ideas should live."],["2026.10.16","What Git could be for everyone","Git is useful far beyond software development when the ceremony gets out of the way."],["2026.10.09","Building a quieter web","A small reflection on spaces that do not need to compete for attention."],["2026.10.02","The things worth keeping","Some records matter precisely because they were never intended to become finished work."],["2026.09.25","Starting again","A note about returning to making things after a long pause."]],"PLAY":[["NEST","Personal Systems","A collection of small systems for making everyday information and activity work better.","IN PROGRESS"],["LOOM","Web Publishing Platform","A way to shape information into websites and publish them without making Git the obstacle.","BUILDING"],["BRUSCOH","Furby Reverse Engineering","Exploring a 1998 Furby through hardware, software, experiments, and records.","EXPERIMENT"]],"MAKE":[["FURBY CORE","Electronics / 2026","A Pico 2 W based core for exploring the original Furby.","MAKE"],["SMALL WEB THINGS","Web / 2026","Small websites and interfaces made while figuring out how they should feel.","MAKE"],["KITCHEN EXPERIMENTS","Food / 2026","Things cooked simply because I wanted to see what would happen.","MAKE"],["OLD HARDWARE","Electronics / Various","Devices, repairs, modifications, and experiments collected over time.","MAKE"]],"ARCHIVE":[["1996","India","Photographs and records from a trip to India.","TRAVEL"],["2006","Portfolio","An old portfolio and the work collected around it.","WEB"],["2004","Old Website","A previous website, preserved as part of the trail.","WEB"],["2001","Electronics","Early experiments with hardware and electronics.","MAKE"],["2012","Photographs","A collection of photographs from a different period.","TRAVEL"],["2014","Works","Older projects that no longer have an active home.","WORK"],["2018","Experiments","Small things tried, tested, and eventually left behind.","MAKE"],["2020","Old Ideas","Ideas that never became projects, but are still worth keeping.","NOTE"]]};
+
+const card = ([meta, title, description, type], archive = false) =>
+    archive
+        ? `<article class="content-card archive-card">
+            <div class="archive-card__year">${meta}</div>
+            <h3 class="archive-card__title">${title}</h3>
+            <p class="content-card__text">${description}</p>
+            <div class="archive-card__type">${type}</div>
+        </article>`
+        : `<article class="content-card">
+            <div class="content-card__meta">${meta}</div>
+            <h3 class="content-card__title">${title}</h3>
+            <p class="content-card__text">${description}</p>
+            <div class="content-card__type">${type}</div>
+        </article>`;
+
 grids.forEach(grid => {
-    const { gridCount, gridPrefix: prefix } = grid.dataset;
-    grid.innerHTML = Array.from(
-        { length: Number(gridCount) },
-        (_, i) => {
-            const n = String(i + 1).padStart(2, '0');
-            return `<div class="grid-item">
-                <div class="thumb">${prefix} ${n}</div>
-                <h3>${prefix} ${i + 1}</h3>
-                <p>Try something. See what happens.</p>
-            </div>`;
-        }
-    ).join('');
+    const key = grid.dataset.content;
+    grid.innerHTML = (content[key] || [])
+        .map(item => card(item, key === 'ARCHIVE'))
+        .join('');
+
+    if (key === 'NOTE') {
+        grid.insertAdjacentHTML(
+            'afterend',
+            '<a class="section-more" href="#section-05">VIEW ARCHIVE</a>'
+        );
+    }
 });
 
 /* STATE */
@@ -1420,7 +1494,6 @@ const sync = () => {
         'catchword-sub',
         isHome && scrollY / Math.max(sections[0].offsetHeight, innerHeight) >= 0.42
     );
-    body.classList.toggle('has-scrolled', isHome && scrollY > 1);
 
     const navId = sectionAt(0.5)?.dataset.section;
     nav.querySelectorAll('a').forEach(link =>
