@@ -117,16 +117,23 @@
             transform 0.4s var(--ease);
     }
 
-    .nav-list a {
+    .nav-list button {
         display: inline-block;
+        appearance: none;
+        border: 0;
+        border-radius: 0;
+        margin: 0;
         padding:
             5px
             var(--nav-link-horizontal-padding);
+        background: transparent;
         color: var(--text-dark);
         text-decoration: none;
         font-family: 'Syncopate';
         font-size: var(--nav-link-font-size);
+        line-height: normal;
         opacity: 0.4;
+        cursor: pointer;
         transition:
             opacity 0.3s ease,
             color 0.3s ease,
@@ -163,7 +170,7 @@
        POINTER HOVER
     ===================================================== */
     @media (hover: hover) and (pointer: fine) {
-        .nav-list a:hover {
+        .nav-list button:hover {
             opacity: 1;
             color: var(--accent-red);
         }
@@ -183,7 +190,7 @@
     /* =====================================================
        ACTIVE NAVIGATION
     ===================================================== */
-    .nav-list a.is-active {
+    .nav-list button.is-active {
         opacity: 1;
         background: var(--text-dark);
         color: #fff !important;
@@ -1185,16 +1192,24 @@
             min-width: max-content;
         }
 
-        .nav-list a {
+        .nav-list button {
             display: flex;
             flex: 0 0 auto;
             align-items: center;
             justify-content: center;
+            appearance: none;
+            border: 0;
+            border-radius: 0;
+            margin: 0;
             min-width: max-content;
             min-height: 64px;
             padding: 0 var(--nav-item-padding);
             box-sizing: border-box;
+            background: transparent;
+            color: var(--text-dark);
+            font-family: 'Syncopate';
             font-size: var(--nav-font-size);
+            font-weight: 400;
             letter-spacing: var(--nav-letter-spacing);
             line-height: 1;
             text-align: center;
@@ -1383,15 +1398,15 @@
 
 
 <li>
-<a href="#section-01">HOME</a>
+<button type="button" data-section="01">HOME</button>
 </li><li>
-<a href="#section-04">NOTE</a>
+<button type="button" data-section="04">NOTE</button>
 </li><li>
-<a href="#section-02">PLAY</a>
+<button type="button" data-section="02">PLAY</button>
 </li><li>
-<a href="#section-03">MAKE</a>
+<button type="button" data-section="03">MAKE</button>
 </li><li>
-<a href="#section-05">ARCHIVE</a>
+<button type="button" data-section="05">ARCHIVE</button>
 </li></ul>
 </nav>
 </header>
@@ -1913,28 +1928,13 @@ const go = id => {
     scrollToSection(target);
 };
 
-// Use the native click activation path for both touch and pointer input.
-// Prevent the anchor's fragment jump and route through the site's section navigation.
+// Use button activation for section navigation on every device.
+// This avoids mobile browsers treating the bottom menu as link-preview targets,
+// while keeping the same one-tap section transition used by the sticky controls.
 nav.addEventListener('click', event => {
-    const link = event.target.closest('a');
-    if (!link || !nav.contains(link)) return;
-
-    // On mobile, let the real in-page anchor perform the navigation.
-    // This avoids intercepting the browser's native touch/click activation.
-    if (window.innerWidth <= 850) {
-        setPanel('');
-        return;
-    }
-
-    // Desktop keeps the custom title-aligned section navigation.
-    event.preventDefault();
-    const sectionId = link.hash.slice(9);
-    if (sectionId) go(sectionId);
-});
-
-// Prevent long-press link previews on the in-page navigation controls.
-nav.addEventListener('contextmenu', event => {
-    if (event.target.closest('a')) event.preventDefault();
+    const button = event.target.closest('button[data-section]');
+    if (!button || !nav.contains(button)) return;
+    go(button.dataset.section);
 });
 
 logo.addEventListener('click', () => go('01'));
