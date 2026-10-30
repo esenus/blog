@@ -5,7 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>blog.esenus</title>
-<!-- BLOG_VERSION: 0.1.1 -->
+<!-- BLOG_VERSION: 0.1.2 -->
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&amp;display=swap" rel="stylesheet"/>
 <style>
     /* =====================================================
@@ -1297,19 +1297,10 @@
             text-align: left;
         }
 
-        /* iOS WebKit: keep the menu clear of Safari's bottom toolbar gesture zone.
-           The header background stays at the viewport edge; the complete menu
-           hit area is lifted by 28px so taps do not begin beside the browser edge. */
+        /* iOS WebKit: preserve the menu's bottom position while preventing
+           touch gestures inside the navigation hit area from becoming page pans. */
         @supports (-webkit-touch-callout: none) {
-            nav[aria-label="Main Navigation"] {
-                top: -28px;
-                right: 0;
-                bottom: 28px;
-                left: 0;
-                height: auto;
-                touch-action: none;
-            }
-
+            nav[aria-label="Main Navigation"],
             .nav-list,
             .nav-list a {
                 touch-action: none;
@@ -1402,7 +1393,7 @@
     </style>
 </head>
 <body class="is-home">
-<div aria-label="Version 0.1.1" id="site-version">v0.1.1</div>
+<div aria-label="Version 0.1.2" id="site-version">v0.1.2</div>
 <!-- =====================================================
      HEADER
 ===================================================== -->
@@ -1973,7 +1964,11 @@ nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
         const { clientX, clientY } = event.changedTouches[0];
         touchStart = { x: clientX, y: clientY };
         touchMoved = false;
-    }, { passive: true });
+
+        // Claim the touch at its start on iOS Safari. This prevents the browser
+        // from taking over the gesture as a bottom-edge pan before touchend.
+        if (event.cancelable) event.preventDefault();
+    }, { passive: false });
 
     link.addEventListener('touchmove', event => {
         if (!touchStart || !event.changedTouches.length) return;
