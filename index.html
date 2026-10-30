@@ -18,8 +18,7 @@
         --sticky-speed: 0.7s;
         --sidebar-width: 260px;
         --desktop-menu-height: clamp(80px, calc(8.333vw + 50px), 120px);
-        --mobile-menu-dead-zone: 40px; /* Safari縮小バーが反応する下端の逃げ領域 */
-        --mobile-menu-height: calc(80px + var(--mobile-menu-dead-zone));
+        --mobile-menu-height: 80px;
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
         --home-updates-start: 320px;
@@ -909,7 +908,7 @@
         /* FIX: ホームバー/タブバー領域(safe-area)をタップ領域から除外 */
         nav[aria-label="Main Navigation"] {
             position: absolute;
-            inset: 0 0 calc(env(safe-area-inset-bottom, 0px) + var(--mobile-menu-dead-zone)) 0;
+            inset: 0 0 env(safe-area-inset-bottom, 0px) 0;
             z-index: 2;
             touch-action: manipulation;
             overscroll-behavior: contain;
