@@ -1281,6 +1281,22 @@
             text-align: left;
         }
 
+        /* iOS WebKit: keep the bottom browser gesture area clear of the menu.
+           The header background remains at the screen edge; only the tappable
+           navigation area is raised slightly. */
+        @supports (-webkit-touch-callout: none) {
+            nav[aria-label="Main Navigation"] {
+                inset: 0 0 12px;
+                height: auto;
+                touch-action: none;
+            }
+
+            .nav-list,
+            .nav-list a {
+                touch-action: none;
+            }
+        }
+
         .note-pagination {
             right: 10px;
             bottom: calc(var(--mobile-menu-height) + 12px);
