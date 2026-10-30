@@ -40,10 +40,12 @@
     ===================================================== */
     html {
         scroll-behavior: smooth;
+        overscroll-behavior: none;
     }
 
     body {
         min-height: 100vh;
+        overscroll-behavior: none;
         margin: 0;
         padding: 0;
         overflow-x: hidden;
@@ -1125,7 +1127,7 @@
             width: 100% !important;
             /* Keep the visual bar full-width, but lift the tap targets away from the
                physical bottom edge where mobile browsers reserve system gestures. */
-            height: calc(var(--mobile-menu-height) + env(safe-area-inset-bottom, 0px) + 12px) !important;
+            height: calc(var(--mobile-menu-height) + env(safe-area-inset-bottom, 0px) + 64px) !important;
             border-top: 1px solid var(--line-color);
             border-right: none !important;
             padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -1166,7 +1168,8 @@
             position: absolute;
             z-index: 1;
             top: auto !important;
-            bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+            /* Keep the complete hit area farther above Safari's bottom browser/system UI. */
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 64px);
             left: 0;
             width: calc(100% - 20px);
             height: 64px;
@@ -1181,6 +1184,7 @@
             --nav-item-padding: 10px;
             --nav-letter-spacing: 0.02em;
             --nav-font-size: 14px;
+            /* Preserve native tap/click activation; do not capture browser navigation gestures. */
             touch-action: manipulation;
             overscroll-behavior: contain;
             -webkit-user-select: none;
@@ -1208,7 +1212,6 @@
             text-align: center;
             white-space: nowrap;
             touch-action: manipulation;
-            overscroll-behavior: contain;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
