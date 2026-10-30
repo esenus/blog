@@ -5,6 +5,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>blog.esenus</title>
+<!-- BLOG_VERSION: 0.1.1 -->
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&amp;display=swap" rel="stylesheet"/>
 <style>
     /* =====================================================
@@ -89,6 +90,21 @@
     /* =====================================================
        HEADER / NAVIGATION
     ===================================================== */
+    #site-version {
+        position: fixed;
+        top: 12px;
+        right: 14px;
+        z-index: 2001;
+        color: var(--text-light);
+        font-family: 'Syncopate', sans-serif;
+        font-size: 8px;
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        line-height: 1;
+        opacity: 0.72;
+        pointer-events: none;
+        user-select: none;
+    }
     #site-header {
         position: fixed;
         bottom: 0;
@@ -1281,12 +1297,15 @@
             text-align: left;
         }
 
-        /* iOS WebKit: keep the bottom browser gesture area clear of the menu.
-           The header background remains at the screen edge; only the tappable
-           navigation area is raised slightly. */
+        /* iOS WebKit: keep the menu clear of Safari's bottom toolbar gesture zone.
+           The header background stays at the viewport edge; the complete menu
+           hit area is lifted by 28px so taps do not begin beside the browser edge. */
         @supports (-webkit-touch-callout: none) {
             nav[aria-label="Main Navigation"] {
-                inset: 0 0 12px;
+                top: -28px;
+                right: 0;
+                bottom: 28px;
+                left: 0;
                 height: auto;
                 touch-action: none;
             }
@@ -1383,6 +1402,7 @@
     </style>
 </head>
 <body class="is-home">
+<div aria-label="Version 0.1.1" id="site-version">v0.1.1</div>
 <!-- =====================================================
      HEADER
 ===================================================== -->
