@@ -1697,6 +1697,8 @@ const state = {
     frame: 0,
     resizeTimer: 0,
     panelTimer: 0,
+    navPointer: null,
+    suppressNavClick: null,
 };
 
 /* CONTENT */
@@ -1917,11 +1919,74 @@ const go = id => {
     scrollToSection(target);
 };
 
-// Use the native click activation path for both touch and pointer input.
-// Prevent the anchor's fragment jump and route through the site's section navigation.
+// Separate a deliberate tap from a swipe/scroll gesture.
+// Touch and pen use the refined Pointer Events path; mouse and keyboard retain click.
+nav.addEventListener('pointerdown', event => {
+    if (!event.isPrimary || event.button !== 0) return;
+    const link = event.target.closest('a');
+    if (!link || !nav.contains(link)) return;
+
+    state.navPointer = {
+        pointerId: event.pointerId,
+        pointerType: event.pointerType,
+        link,
+        x: event.clientX,
+        y: event.clientY,
+        moved: false
+    };
+});
+
+nav.addEventListener('pointermove', event => {
+    const gesture = state.navPointer;
+    if (!gesture || gesture.pointerId !== event.pointerId) return;
+
+    if (Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y) > 10) {
+        gesture.moved = true;
+    }
+});
+
+nav.addEventListener('pointerup', event => {
+    const gesture = state.navPointer;
+    if (!gesture || gesture.pointerId !== event.pointerId) return;
+    state.navPointer = null;
+
+    // A moved pointer belongs to scrolling/swiping, not menu activation.
+    if (gesture.moved) return;
+    const releasedLink = event.target.closest('a');
+    if (!releasedLink || releasedLink !== gesture.link) return;
+
+    // Touch/pen activation is handled here so the browser-generated click
+    // cannot trigger the same section transition a second time.
+    if (gesture.pointerType === 'touch' || gesture.pointerType === 'pen') {
+        event.preventDefault();
+        state.suppressNavClick = {
+            link: gesture.link,
+            until: performance.now() + 700
+        };
+        const sectionId = gesture.link.hash.slice(9);
+        if (sectionId) go(sectionId);
+    }
+});
+
+nav.addEventListener('pointercancel', event => {
+    if (state.navPointer?.pointerId === event.pointerId) {
+        state.navPointer = null;
+    }
+});
+
+// Mouse, keyboard and assistive-technology activation remain on the click path.
 nav.addEventListener('click', event => {
     const link = event.target.closest('a');
     if (!link || !nav.contains(link)) return;
+
+    const suppressed = state.suppressNavClick;
+    if (suppressed && performance.now() <= suppressed.until && suppressed.link === link) {
+        state.suppressNavClick = null;
+        event.preventDefault();
+        return;
+    }
+    state.suppressNavClick = null;
+
     event.preventDefault();
     const sectionId = link.hash.slice(9);
     if (sectionId) go(sectionId);
