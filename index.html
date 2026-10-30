@@ -1,16 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>blog.esenus</title>
-<!-- BLOG_VERSION: 0.1.2 -->
-<link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&amp;display=swap" rel="stylesheet"/>
+<!-- BLOG_VERSION: 0.1.3 -->
+<link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap" rel="stylesheet"/>
 <style>
-    /* =====================================================
-       VARIABLES
-    ===================================================== */
     :root {
         --bg-color: #f2f2f0;
         --line-color: rgba(43, 42, 41, 0.15);
@@ -21,24 +17,20 @@
         --transition-speed: 0.9s;
         --sticky-speed: 0.7s;
         --sidebar-width: 260px;
-        --desktop-menu-height:
-            clamp(80px, calc(8.333vw + 50px), 120px);
+        --desktop-menu-height: clamp(80px, calc(8.333vw + 50px), 120px);
         --mobile-menu-height: 80px;
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
         --home-updates-start: 320px;
-        --nav-gap:
-            clamp(8px, calc(1.6vw + 2px), 16px);
-        --nav-link-horizontal-padding:
-            clamp(5px, calc(0.943vw + 1.98px), 10px);
-        --nav-link-font-size:
-            clamp(11px, calc(0.566vw + 9.19px), 14px);
+        --nav-gap: clamp(8px, calc(1.6vw + 2px), 16px);
+        --nav-link-horizontal-padding: clamp(5px, calc(0.943vw + 1.98px), 10px);
+        --nav-link-font-size: clamp(11px, calc(0.566vw + 9.19px), 14px);
         --mobile-top-shield-height: 110px;
+        --nav-item-padding: 10px;
+        --nav-letter-spacing: 0.02em;
+        --nav-font-size: 14px;
     }
 
-    /* =====================================================
-       BASE
-    ===================================================== */
     html {
         scroll-behavior: smooth;
         overscroll-behavior: none;
@@ -55,9 +47,6 @@
         font-family: 'Average', serif;
     }
 
-    /* =====================================================
-       FIXED UI
-    ===================================================== */
     #logo {
         position: fixed;
         top: 25px;
@@ -72,8 +61,7 @@
         font-weight: 800;
         line-height: 1.2;
         cursor: pointer;
-        box-shadow:
-            0 5px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
     .ui-label {
@@ -87,9 +75,6 @@
         will-change: transform, opacity;
     }
 
-    /* =====================================================
-       HEADER / NAVIGATION
-    ===================================================== */
     #site-version {
         position: fixed;
         top: 12px;
@@ -105,6 +90,7 @@
         pointer-events: none;
         user-select: none;
     }
+
     #site-header {
         position: fixed;
         bottom: 0;
@@ -130,25 +116,18 @@
         margin: 0;
         padding: 0;
         list-style: none;
-        transition:
-            opacity 0.4s ease,
-            transform 0.4s var(--ease);
+        transition: opacity 0.4s ease, transform 0.4s var(--ease);
     }
 
     .nav-list a {
         display: inline-block;
-        padding:
-            5px
-            var(--nav-link-horizontal-padding);
+        padding: 5px var(--nav-link-horizontal-padding);
         color: var(--text-dark);
         text-decoration: none;
         font-family: 'Syncopate';
         font-size: var(--nav-link-font-size);
         opacity: 0.4;
-        transition:
-            opacity 0.3s ease,
-            color 0.3s ease,
-            background-color 0.3s ease;
+        transition: opacity 0.3s ease, color 0.3s ease, background-color 0.3s ease;
     }
 
     .nav-bar-label {
@@ -157,12 +136,8 @@
         padding: 0 15px;
         background: var(--bg-color);
         letter-spacing: 0.3em;
-        transition:
-            transform 0.7s var(--ease),
-            opacity 0.7s ease;
-        will-change:
-            transform,
-            opacity;
+        transition: transform 0.7s var(--ease), opacity 0.7s ease;
+        will-change: transform, opacity;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
     }
@@ -177,39 +152,26 @@
         transition: width 0.7s var(--ease);
     }
 
-    /* =====================================================
-       POINTER HOVER
-    ===================================================== */
     @media (hover: hover) and (pointer: fine) {
         .nav-list a:hover {
             opacity: 1;
             color: var(--accent-red);
         }
-
         .panel-link:hover {
             padding-left: 10px;
             color: var(--accent-red);
         }
-
         .sticky-tape:hover {
-            transform:
-                translate3d(0, 0, 0)
-                rotate(var(--random-rotate, 0deg));
+            transform: translate3d(0, 0, 0) rotate(var(--random-rotate, 0deg));
         }
     }
 
-    /* =====================================================
-       ACTIVE NAVIGATION
-    ===================================================== */
     .nav-list a.is-active {
         opacity: 1;
         background: var(--text-dark);
         color: #fff !important;
     }
 
-    /* =====================================================
-       HERO
-    ===================================================== */
     .hero-section {
         position: fixed;
         top: 0;
@@ -229,35 +191,23 @@
         will-change: transform, opacity;
     }
 
-    /* Suppress catchword travel while responsive layout is recalculated. */
     body.is-resizing #catchword,
     body.is-resizing #home-updates {
         transition: none !important;
     }
 
-    /* =====================================================
-       HOME HERO
-    ===================================================== */
     #catchword {
         top: 160px;
         left: 25px;
-        transition:
-            transform 0.7s var(--ease),
-            opacity 0.7s ease;
-        will-change:
-            transform,
-            opacity;
+        transition: transform 0.7s var(--ease), opacity 0.7s ease;
+        will-change: transform, opacity;
         -webkit-backface-visibility: hidden;
         backface-visibility: hidden;
     }
 
     body.is-home #catchword {
-        transform: translate3d(
-            calc(7vw - 25px),
-            calc(60px - 50%),
-            0
-        );
-        font-size: 7vw;
+        transform: translate3d(calc(7vw - 25px), calc(60px - 50%), 0);
+        font-size: clamp(32px, 5.2vw, 68px);
         font-weight: 700;
         line-height: 0.9;
         letter-spacing: 0.02em;
@@ -271,19 +221,12 @@
     }
 
     #subtitle {
-        /* Match the footer's state-based motion model.
-           Keep the text box stable so WebKit does not reflow
-           the text while the element is moving. */
         transition:
             top 0.7s var(--ease),
             left 0.7s var(--ease),
             transform 0.7s var(--ease),
             opacity 0.7s ease;
-        will-change:
-            top,
-            left,
-            transform,
-            opacity;
+        will-change: top, left, transform, opacity;
         box-sizing: border-box;
         white-space: nowrap;
     }
@@ -302,9 +245,6 @@
         opacity: 0.6;
     }
 
-    /* =====================================================
-       SUB HERO
-    ===================================================== */
     body.is-sub #subtitle {
         top: 135px;
         left: 25px;
@@ -319,9 +259,6 @@
         text-align: left;
     }
 
-    /* =====================================================
-       HOME
-    ===================================================== */
     #section-01 {
         position: relative;
         min-height: 100vh;
@@ -333,11 +270,7 @@
         position: relative;
         width: min(620px, 86vw);
         margin-left: 7vw;
-        min-height:
-            calc(
-                100vh -
-                var(--home-updates-start)
-            );
+        min-height: calc(100vh - var(--home-updates-start));
         padding-bottom: 4px;
         box-sizing: border-box;
         background: var(--bg-color);
@@ -389,9 +322,6 @@
         min-width: 0;
     }
 
-    /* =====================================================
-       PAGE
-    ===================================================== */
     .page-section {
         position: relative;
         min-height: 100vh;
@@ -401,10 +331,7 @@
     .sub-section {
         min-height: 100vh;
         margin-left: var(--sidebar-width);
-        padding:
-            135px
-            60px
-            180px;
+        padding: 135px 60px 180px;
         box-sizing: border-box;
     }
 
@@ -413,9 +340,6 @@
         margin: 0 auto;
     }
 
-    /* =====================================================
-       PAGE CONTENT
-    ===================================================== */
     .page-title {
         margin: 0 0 30px;
         padding-left: 15px;
@@ -427,11 +351,9 @@
     .page-intro-grid {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
-        /* Reserve only the visible sticky-note icon/peek width,
-           plus a small breathing gap, for the section description. */
         padding-right: calc(var(--sticky-peek) + 15px);
-        margin-bottom: 60px;
-        padding-bottom: 40px;
+        margin-bottom: 40px;
+        padding-bottom: 25px;
         border-bottom: 1px solid var(--line-color);
         box-sizing: border-box;
     }
@@ -442,81 +364,21 @@
         line-height: 1.5;
     }
 
-    .page-meta {
-        padding-left: 20px;
-        border-left: 1px solid var(--line-color);
-        color: var(--text-light);
-        font-family: 'Syncopate';
-        font-size: 9px;
-    }
-
-    .page-meta-item {
-        margin-bottom: 20px;
-    }
-
-    .page-meta h4 {
-        margin: 0 0 5px;
-        color: var(--text-dark);
-        font-weight: 700;
-        letter-spacing: 0.2em;
-    }
-
-    /* =====================================================
-       GRID
-    ===================================================== */
     .dynamic-grid {
         display: grid;
-        grid-template-columns:
-            repeat(
-                auto-fill,
-                minmax(280px, 1fr)
-            );
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 40px;
         width: 100%;
     }
 
-    .grid-item {
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--line-color);
-    }
-
-    .grid-item .thumb {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        margin-bottom: 15px;
-        background: #ddd;
-        border: 1px solid var(--line-color);
-        color: #999;
-        font-family: 'Syncopate';
-        font-size: 10px;
-    }
-
-    .grid-item h3 {
-        margin: 0 0 8px;
-        font-family: 'Syncopate';
-        font-size: 12px;
-        line-height: 1.4;
-    }
-
-    .grid-item p {
-        margin: 0;
-        font-size: 14px;
-        line-height: 1.5;
-    }
-
-    /* =====================================================
-       CONTENT CARDS
-    ===================================================== */
     .content-card {
         min-width: 0;
         padding-bottom: 22px;
         border-bottom: 1px solid var(--line-color);
     }
 
-    .content-card__meta {
+    .content-card__meta,
+    .archive-card__year {
         margin-bottom: 12px;
         color: var(--text-light);
         font-family: 'Syncopate';
@@ -525,12 +387,23 @@
         letter-spacing: 0.08em;
     }
 
-    .content-card__title {
+    .archive-card__year {
+        margin-bottom: 18px;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+    }
+
+    .content-card__title,
+    .archive-card__title {
         margin: 0 0 8px;
         font-family: 'Syncopate';
         font-size: clamp(13px, 1vw, 16px);
         line-height: 1.35;
         font-weight: 700;
+    }
+
+    .archive-card__title {
+        font-size: 15px;
     }
 
     .content-card__text {
@@ -539,7 +412,8 @@
         line-height: 1.55;
     }
 
-    .content-card__type {
+    .content-card__type,
+    .archive-card__type {
         margin-top: 14px;
         color: var(--text-light);
         font-family: 'Syncopate';
@@ -547,9 +421,31 @@
         letter-spacing: 0.12em;
     }
 
-    /* =====================================================
-       NOTE PAGINATION
-    ===================================================== */
+    .archive-card__type {
+        margin-top: 16px;
+        opacity: 0.55;
+    }
+
+    .archive-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 0 40px;
+    }
+
+    .archive-card {
+        position: relative;
+        padding: 24px 0 26px;
+    }
+
+    .archive-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: var(--line-color);
+    }
+
     .note-pagination {
         position: fixed;
         right: 25px;
@@ -567,10 +463,7 @@
         visibility: hidden;
         pointer-events: none;
         transform: translate3d(0, 10px, 0);
-        transition:
-            opacity 0.3s ease,
-            transform 0.4s var(--ease),
-            visibility 0.3s ease;
+        transition: opacity 0.3s ease, transform 0.4s var(--ease), visibility 0.3s ease;
     }
 
     body.is-note .note-pagination {
@@ -605,18 +498,13 @@
         min-height: 44px;
         padding: 8px 10px;
         border: 1px solid transparent;
-        border-radius: 0;
         background: transparent;
         color: var(--text-dark);
         font: inherit;
         font-size: 9px;
         letter-spacing: 0.04em;
         cursor: pointer;
-        transition:
-            background-color 0.25s ease,
-            color 0.25s ease,
-            border-color 0.25s ease,
-            opacity 0.25s ease;
+        transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
     }
 
     .note-pagination button[aria-current="page"] {
@@ -642,76 +530,6 @@
         }
     }
 
-    .archive-grid {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 0 40px;
-    }
-
-    .archive-card {
-        position: relative;
-        padding: 24px 0 26px;
-    }
-
-    .archive-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background: var(--line-color);
-    }
-
-    .archive-card__year {
-        margin-bottom: 18px;
-        color: var(--text-light);
-        font-family: 'Syncopate';
-        font-size: 9px;
-        letter-spacing: 0.12em;
-    }
-
-    .archive-card__title {
-        margin: 0 0 8px;
-        font-family: 'Syncopate';
-        font-size: 15px;
-        line-height: 1.35;
-    }
-
-    .archive-card__type {
-        margin-top: 16px;
-        font-family: 'Syncopate';
-        font-size: 7px;
-        letter-spacing: 0.12em;
-        opacity: 0.55;
-    }
-
-    .section-more {
-        display: inline-block;
-        margin-top: 35px;
-        color: var(--text-dark);
-        font-family: 'Syncopate';
-        font-size: 9px;
-        font-weight: 700;
-        letter-spacing: 0.12em;
-        text-decoration: none;
-        border-bottom: 1px solid currentColor;
-        padding-bottom: 4px;
-    }
-
-    .section-more::after {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        margin-left: 9px;
-        border-top: 1px solid currentColor;
-        border-right: 1px solid currentColor;
-        transform: rotate(45deg);
-    }
-
-    /* =====================================================
-       STICKY ACTIONS
-    ===================================================== */
     #side-sticky {
         position: fixed;
         top: 25px;
@@ -735,39 +553,17 @@
     .sticky-tape {
         position: relative;
         margin-bottom: 10px;
-        transform:
-            translate3d(
-                calc(100% - var(--sticky-peek)),
-                0,
-                0
-            )
-            rotate(var(--random-rotate, 0deg));
-        transition:
-            transform var(--sticky-speed) var(--ease);
+        transform: translate3d(calc(100% - var(--sticky-peek)), 0, 0) rotate(var(--random-rotate, 0deg));
+        transition: transform var(--sticky-speed) var(--ease);
     }
 
-    .sticky-tape.is-open {
-        transform:
-            translate3d(0, 0, 0)
-            rotate(var(--random-rotate, 0deg));
-    }
-
-    /* HOME: keep the notes open until the next section approaches.
-       When a sticky is opened, keep the other one retracted. */
+    .sticky-tape.is-open,
     body.is-home #side-sticky .sticky-tape {
-        transform:
-            translate3d(0, 0, 0)
-            rotate(var(--random-rotate, 0deg));
+        transform: translate3d(0, 0, 0) rotate(var(--random-rotate, 0deg));
     }
 
     body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open) {
-        transform:
-            translate3d(
-                calc(100% - var(--sticky-peek)),
-                0,
-                0
-            )
-            rotate(var(--random-rotate, 0deg));
+        transform: translate3d(calc(100% - var(--sticky-peek)), 0, 0) rotate(var(--random-rotate, 0deg));
     }
 
     .sticky-tape a {
@@ -779,8 +575,7 @@
         box-sizing: border-box;
         background: var(--accent-red);
         color: #fff;
-        box-shadow:
-            -4px 4px 10px rgba(0, 0, 0, 0.15);
+        box-shadow: -4px 4px 10px rgba(0, 0, 0, 0.15);
         text-decoration: none;
         font-family: 'Vast Shadow';
         font-size: 13px;
@@ -795,15 +590,13 @@
         position: absolute;
         top: 50%;
         right: 13px;
-        transform:
-            translate3d(0, -50%, 0);
+        transform: translate3d(0, -50%, 0);
         font-family: Arial, sans-serif;
         font-size: 20px;
         font-weight: 400;
         line-height: 1;
         opacity: 0;
-        transition:
-            opacity 0.2s ease;
+        transition: opacity 0.2s ease;
     }
 
     .sticky-tape.is-open a {
@@ -822,9 +615,6 @@
         font-size: 20px;
     }
 
-    /* =====================================================
-       ACTION PANEL
-    ===================================================== */
     #content-panel {
         position: fixed;
         top: 0;
@@ -835,8 +625,7 @@
         box-sizing: border-box;
         background: var(--bg-color);
         border-left: 1px solid var(--line-color);
-        box-shadow:
-            -12px 0 35px rgba(0, 0, 0, 0.08);
+        box-shadow: -12px 0 35px rgba(0, 0, 0, 0.08);
         transform: translate3d(100%, 0, 0);
         opacity: 0;
         visibility: hidden;
@@ -852,10 +641,7 @@
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
-        transition:
-            transform 0.7s var(--ease),
-            opacity 0.35s ease,
-            visibility 0s;
+        transition: transform 0.7s var(--ease), opacity 0.35s ease, visibility 0s;
     }
 
     .content-panel-inner {
@@ -864,10 +650,7 @@
         height: 100%;
         box-sizing: border-box;
         overflow-y: auto;
-        padding:
-            80px
-            50px
-            100px;
+        padding: 60px 50px 80px;
     }
 
     .panel-page {
@@ -886,19 +669,17 @@
         grid-template-columns: 1fr 150px;
         border-bottom: 0;
         padding-bottom: 0;
+        margin-bottom: 20px;
     }
 
     .panel-page .page-main-text p {
         font-size: 1.4rem;
     }
 
-    /* =====================================================
-       EXTERNAL LINKS
-    ===================================================== */
     .panel-links {
         display: flex;
         flex-direction: column;
-        margin-top: 35px;
+        margin-top: 15px;
         border-top: 1px solid var(--line-color);
     }
 
@@ -914,9 +695,7 @@
         font-size: 11px;
         font-weight: 700;
         letter-spacing: 0.08em;
-        transition:
-            color 0.3s ease,
-            padding-left 0.4s var(--ease);
+        transition: color 0.3s ease, padding-left 0.4s var(--ease);
     }
 
     .panel-link::after {
@@ -939,9 +718,6 @@
         letter-spacing: 0.08em;
     }
 
-    /* =====================================================
-       FOOTER
-    ===================================================== */
     #site-footer a {
         color: inherit;
         text-decoration: none;
@@ -981,17 +757,78 @@
             max-width 0.7s var(--ease),
             transform 0.7s var(--ease),
             text-align 0.7s var(--ease);
-        will-change:
-            top,
-            bottom,
-            left,
-            width,
-            max-width,
-            transform;
+        will-change: top, bottom, left, width, max-width, transform;
     }
 
-    /* HOME / SUB — desktop */
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+        *, *::before, *::after {
+            transition-duration: 0.01ms !important;
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+        }
+    }
+
     @media screen and (min-width: 851px) {
+        body.is-home .nav-bar-label {
+            top: calc(100vh - var(--desktop-menu-height));
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0) rotate(0deg);
+            opacity: 0.6;
+        }
+
+        body.is-home .nav-bar-label::after {
+            width: 60px;
+        }
+
+        body.is-sub .nav-bar-label {
+            top: 50%;
+            left: var(--sidebar-width);
+            transform: translate3d(-50%, -50%, 0) rotate(90deg);
+            opacity: 0.5;
+        }
+
+        body.is-sub .nav-bar-label::after {
+            width: 140px;
+        }
+
+        body.is-home #site-header {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--desktop-menu-height);
+            border-top: 1px solid var(--line-color);
+        }
+
+        body.is-home .nav-list {
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: var(--nav-gap);
+        }
+
+        body.is-sub #site-header {
+            top: 0;
+            left: 0;
+            bottom: auto;
+            width: var(--sidebar-width);
+            height: 100vh;
+            border-right: 1px solid var(--line-color);
+        }
+
+        body.is-sub .nav-list {
+            top: 260px;
+            flex-direction: column;
+            padding-left: 35px;
+            gap: 10px;
+        }
+
+        body.is-sub #home-updates {
+            margin-left: calc(7vw + var(--sidebar-width));
+        }
+
         body.is-home #site-footer {
             top: auto;
             bottom: calc(var(--desktop-menu-height) + 18px);
@@ -1013,102 +850,7 @@
         }
     }
 
-    /* =====================================================
-       REDUCED MOTION
-    ===================================================== */
-    @media (prefers-reduced-motion: reduce) {
-        html {
-            scroll-behavior: auto;
-        }
-
-        *,
-        *::before,
-        *::after {
-            transition-duration: 0.01ms !important;
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-        }
-    }
-
-    /* =====================================================
-       DESKTOP
-    ===================================================== */
-    @media screen and (min-width: 851px) {
-
-        /* NAV LABEL — HOME / SUB */
-        body.is-home .nav-bar-label {
-            /* Anchor the label's center to the HOME header boundary. */
-            top: calc(100vh - var(--desktop-menu-height));
-            left: 50%;
-            transform: translate3d(-50%, -50%, 0) rotate(0deg);
-            opacity: 0.6;
-        }
-
-        body.is-home .nav-bar-label::after {
-            width: 60px;
-        }
-
-        body.is-sub .nav-bar-label {
-            /* Keep the rotated label centered on the sidebar boundary. */
-            top: 50%;
-            left: var(--sidebar-width);
-            transform: translate3d(-50%, -50%, 0) rotate(90deg);
-            opacity: 0.5;
-        }
-
-        body.is-sub .nav-bar-label::after {
-            width: 140px;
-        }
-
-        /* HOME HEADER */
-        body.is-home #site-header {
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: var(--desktop-menu-height);
-            border-top: 1px solid var(--line-color);
-        }
-
-        body.is-home .nav-list {
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            gap: var(--nav-gap);
-        }
-
-        /* SUB HEADER */
-        body.is-sub #site-header {
-            top: 0;
-            left: 0;
-            bottom: auto;
-            width: var(--sidebar-width);
-            height: 100vh;
-            border-right: 1px solid var(--line-color);
-        }
-
-        body.is-sub .nav-list {
-            top: 260px;
-            flex-direction: column;
-            padding-left: 35px;
-            gap: 10px;
-        }
-
-        /* HOME UPDATE → SUB */
-        body.is-sub #home-updates {
-            margin-left:
-                calc(
-                    7vw +
-                    var(--sidebar-width)
-                );
-        }
-    }
-
-    /* =====================================================
-       MOBILE
-    ===================================================== */
     @media screen and (max-width: 850px) {
-
-        /* Hide section introductions on compact layouts, but keep sticky-panel descriptions visible. */
         .sub-section .page-intro-grid {
             display: none;
         }
@@ -1120,7 +862,6 @@
             padding-bottom: 0;
         }
 
-        /* FOOTER */
         #site-footer {
             top: auto;
             bottom: calc(var(--mobile-menu-height) + 4px);
@@ -1133,15 +874,12 @@
             text-align: left;
         }
 
-        /* HEADER */
         #site-header {
             top: auto !important;
             bottom: 0 !important;
             left: 0 !important;
-            /* Keep the fixed top shield behind the subtitle and sticky notes. */
             z-index: 1000;
             width: 100% !important;
-            /* Restore the original bottom-aligned menu position. */
             height: var(--mobile-menu-height) !important;
             border-top: 1px solid var(--line-color);
             border-right: none !important;
@@ -1149,7 +887,6 @@
             box-sizing: border-box;
         }
 
-        /* MOBILE TOP SHIELD */
         #site-header::after {
             content: '';
             position: fixed;
@@ -1157,14 +894,13 @@
             left: 0;
             width: 100vw;
             height: var(--mobile-top-shield-height);
-            background:
-                linear-gradient(
-                    to bottom,
-                    rgba(242, 242, 240, 0.96) 0%,
-                    rgba(242, 242, 240, 0.88) 45%,
-                    rgba(242, 242, 240, 0.55) 75%,
-                    rgba(242, 242, 240, 0) 100%
-                );
+            background: linear-gradient(
+                to bottom,
+                rgba(242, 242, 240, 0.96) 0%,
+                rgba(242, 242, 240, 0.88) 45%,
+                rgba(242, 242, 240, 0.55) 75%,
+                rgba(242, 242, 240, 0) 100%
+            );
             pointer-events: none;
             z-index: 0;
         }
@@ -1193,12 +929,7 @@
             justify-content: center !important;
             align-items: stretch !important;
             padding: 0 !important;
-            /* Keep visual spacing inside each link so the whole interval is tappable. */
             gap: 0;
-            --nav-item-padding: 10px;
-            --nav-letter-spacing: 0.02em;
-            --nav-font-size: 14px;
-            /* Distinguish a deliberate tap from a swipe before activating the link. */
             touch-action: pan-y;
             overscroll-behavior: contain;
             -webkit-user-select: none;
@@ -1236,25 +967,14 @@
             display: none !important;
         }
 
-        /* HOME */
-
         #catchword {
             top: 40px;
             left: 110px;
         }
 
         body.is-home #catchword {
-            transform: translate3d(
-                calc(7vw - 110px),
-                calc(165px - 50%),
-                0
-            );
-            font-size:
-                clamp(
-                    50px,
-                    calc(1.79vw + 44.27px),
-                    59.5px
-                );
+            transform: translate3d(calc(7vw - 110px), calc(165px - 50%), 0);
+            font-size: 44px;
         }
 
         body.catchword-sub #catchword {
@@ -1273,8 +993,6 @@
             line-height: 1.5;
         }
 
-        /* Keep the subtitle clear of the fully visible stickies.
-           Wrapping only begins when the available width becomes tight. */
         @media (max-width: 500px) {
             body.is-home #subtitle {
                 padding-right: calc(var(--sticky-peek) + 100px);
@@ -1282,7 +1000,6 @@
             }
         }
 
-        /* SUB HERO */
         body.is-sub #subtitle {
             top: 25px;
             left: 110px;
@@ -1297,8 +1014,6 @@
             text-align: left;
         }
 
-        /* iOS WebKit: preserve the menu's bottom position while preventing
-           touch gestures inside the navigation hit area from becoming page pans. */
         @supports (-webkit-touch-callout: none) {
             nav[aria-label="Main Navigation"],
             .nav-list,
@@ -1334,13 +1049,9 @@
             font-size: 7px;
         }
 
-        /* SUB CONTENT */
         .sub-section {
             margin-left: 0;
-            padding:
-                100px
-                25px
-                120px;
+            padding: 100px 25px 120px;
         }
 
         .page-intro-grid {
@@ -1352,21 +1063,16 @@
             font-size: 1.25rem;
         }
 
-        /* ACTION PANEL */
         #content-panel {
             top: 0;
             right: 0;
             bottom: var(--mobile-menu-height);
             width: calc(100vw - 20px);
-            box-shadow:
-                -10px 0 25px rgba(0, 0, 0, 0.08);
+            box-shadow: -10px 0 25px rgba(0, 0, 0, 0.08);
         }
 
         .content-panel-inner {
-            padding:
-                75px
-                30px
-                80px;
+            padding: 60px 30px 70px;
         }
 
         .panel-page .page-intro-grid {
@@ -1378,7 +1084,7 @@
         }
 
         .panel-links {
-            margin-top: 25px;
+            margin-top: 15px;
         }
 
         .panel-link {
@@ -1390,278 +1096,149 @@
             font-size: 6px;
         }
     }
-    </style>
+</style>
 </head>
 <body class="is-home">
-<div aria-label="Version 0.1.2" id="site-version">v0.1.2</div>
-<!-- =====================================================
-     HEADER
-===================================================== -->
+<div aria-label="Version 0.1.3" id="site-version">v0.1.3</div>
+
 <header id="site-header">
 <button aria-label="Go to Home" id="logo" type="button">
     blog.<br/>ESENUS
-    </button>
-<div class="ui-label nav-bar-label">
-        MENU / NAVIGATION
-    </div>
+</button>
+<div class="ui-label nav-bar-label">MENU / NAVIGATION</div>
 <nav aria-label="Main Navigation">
 <ul class="nav-list" id="main-nav-list">
-
-
-
-
-
-<li>
-<a href="#section-01">HOME</a>
-</li><li>
-<a href="#section-04">NOTE</a>
-</li><li>
-<a href="#section-02">PLAY</a>
-</li><li>
-<a href="#section-03">MAKE</a>
-</li><li>
-<a href="#section-05">ARCHIVE</a>
-</li></ul>
+<li><a href="#section-01">HOME</a></li>
+<li><a href="#section-04">NOTE</a></li>
+<li><a href="#section-02">PLAY</a></li>
+<li><a href="#section-03">MAKE</a></li>
+<li><a href="#section-05">ARCHIVE</a></li>
+</ul>
 </nav>
 </header>
-<!-- =====================================================
-     HERO
-===================================================== -->
+
 <section aria-hidden="true" class="hero-section">
-<p id="subtitle">
-        A PERSONAL PLACE TO MAKE THINGS
-    </p>
-<h2 id="catchword">
-        PLAY<br/>GROUND.
-    </h2>
+<p id="subtitle">A PERSONAL PLACE TO MAKE THINGS</p>
+<h2 id="catchword">PLAY<br/>GROUND.</h2>
 </section>
-<!-- =====================================================
-     MAIN CONTENT
-===================================================== -->
+
 <main>
-<!-- HOME -->
-
-<!-- PLAY -->
-
-<!-- MAKE -->
-
-<!-- NOTE -->
-
-<!-- ARCHIVE -->
-
 <section aria-label="Home" class="page-section" data-section="01" id="section-01">
 <section aria-label="Recent Updates" id="home-updates">
 <div class="home-updates-label">TOPIX</div>
 <ul class="home-updates-list">
 <li class="home-update-item">
-<time class="home-update-date" datetime="2026-09-18">
-                        2026.09.18
-                    </time>
-<span class="home-update-text">
-                        blog.esenus.com started taking shape.
-                    </span>
+<time class="home-update-date" datetime="2026-09-18">2026.09.18</time>
+<span class="home-update-text">blog.esenus.com started taking shape.</span>
 </li>
 <li class="home-update-item">
-<time class="home-update-date" datetime="2026-09-16">
-                        2026.09.16
-                    </time>
-<span class="home-update-text">
-                        Bruscoh: Furby reverse-engineering updated.
-                    </span>
+<time class="home-update-date" datetime="2026-09-16">2026.09.16</time>
+<span class="home-update-text">Bruscoh: Furby reverse-engineering updated.</span>
 </li>
 <li class="home-update-item">
-<time class="home-update-date" datetime="2026-09-12">
-                        2026.09.12
-                    </time>
-<span class="home-update-text">
-                        Nest is taking shape.
-                    </span>
+<time class="home-update-date" datetime="2026-09-12">2026.09.12</time>
+<span class="home-update-text">Nest is taking shape.</span>
 </li>
 </ul>
 </section>
-</section><section class="page-section sub-section" data-section="04" id="section-04">
+</section>
+
+<section class="page-section sub-section" data-section="04" id="section-04">
 <article>
-<h1 class="page-title">
-                NOTE
-            </h1>
+<h1 class="page-title">NOTE</h1>
 <div class="page-intro-grid">
 <div class="page-main-text">
-<p>
-                        Things I've been thinking about.
-                        Notes from making,
-                        building,
-                        experimenting,
-                        and figuring things out.
-                    </p>
+<p>Things I've been thinking about. Notes from making, building, experimenting, and figuring things out.</p>
 </div>
-
 </div>
 <div class="dynamic-grid content-grid" data-content="NOTE"></div>
 </article>
-</section><section class="page-section sub-section" data-section="02" id="section-02">
+</section>
+
+<section class="page-section sub-section" data-section="02" id="section-02">
 <article>
-<h1 class="page-title">
-                PLAY
-            </h1>
+<h1 class="page-title">PLAY</h1>
 <div class="page-intro-grid">
 <div class="page-main-text">
-<p>
-                        Things I'm playing with.
-                        Services, projects,
-                        experiments,
-                        and unfinished ideas
-                        that are moving right now.
-                    </p>
+<p>Things I'm playing with. Services, projects, experiments, and unfinished ideas that are moving right now.</p>
 </div>
-
 </div>
 <div class="dynamic-grid content-grid" data-content="PLAY"></div>
 </article>
-</section><section class="page-section sub-section" data-section="03" id="section-03">
+</section>
+
+<section class="page-section sub-section" data-section="03" id="section-03">
 <article>
-<h1 class="page-title">
-                MAKE
-            </h1>
+<h1 class="page-title">MAKE</h1>
 <div class="page-intro-grid">
 <div class="page-main-text">
-<p>
-                        Things I've made.
-                        Electronics,
-                        software,
-                        food,
-                        websites,
-                        and small things
-                        built for no particular reason.
-                    </p>
+<p>Things I've made. Electronics, software, food, websites, and small things built for no particular reason.</p>
 </div>
-
 </div>
 <div class="dynamic-grid content-grid" data-content="MAKE"></div>
 </article>
-</section><section class="page-section sub-section" data-section="05" id="section-05">
+</section>
+
+<section class="page-section sub-section" data-section="05" id="section-05">
 <article>
-<h1 class="page-title">
-                ARCHIVE
-            </h1>
+<h1 class="page-title">ARCHIVE</h1>
 <div class="page-intro-grid">
 <div class="page-main-text">
-<p>
-                        Things from the past.
-                        Old projects,
-                        portfolios,
-                        photographs,
-                        travels,
-                        finished or abandoned ideas.
-                        Not everything needs
-                        to disappear just because
-                        it is no longer active.
-                    </p>
+<p>Things from the past. Old projects, portfolios, photographs, travels, finished or abandoned ideas. Not everything needs to disappear just because it is no longer active.</p>
 </div>
-
 </div>
 <div class="dynamic-grid content-grid archive-grid" data-content="ARCHIVE"></div>
 </article>
-</section></main>
-<!-- =====================================================
-     STICKY ACTIONS
-===================================================== -->
+</section>
+</main>
+
 <aside aria-label="More" id="side-sticky">
 <ul>
 <li class="sticky-tape" data-action="01">
 <a aria-controls="content-panel" aria-expanded="false" href="#">
-<span aria-hidden="true" class="tape-icon">✦</span>
-                KNOCK
-            </a>
+<span aria-hidden="true" class="tape-icon">✦</span>KNOCK
+</a>
 </li>
 <li class="sticky-tape sticky-tape--behind" data-action="02">
 <a aria-controls="content-panel" aria-expanded="false" href="#">
-<span aria-hidden="true" class="tape-icon">☞</span>
-                BEHIND
-            </a>
+<span aria-hidden="true" class="tape-icon">☞</span>BEHIND
+</a>
 </li>
 </ul>
 </aside>
-<!-- =====================================================
-     ACTION PANEL
-===================================================== -->
+
 <aside aria-hidden="true" aria-label="More" id="content-panel">
 <div class="content-panel-inner">
-
-<!-- KNOCK -->
 <section class="panel-page" data-action-page="01" id="panel-action-01">
-<h1 class="page-title">
-                KNOCK
-            </h1>
+<h1 class="page-title">KNOCK</h1>
 <div class="page-intro-grid">
-<div class="page-main-text">
-<p>
-                        Want to get in touch?
-                        Knock on any door.
-                    </p>
-</div>
-
+<div class="page-main-text"><p>Want to get in touch? Knock on any door.</p></div>
 </div>
 <div class="panel-links">
-<a class="panel-link" href="https://x.com/" rel="noopener noreferrer" target="_blank">
-<span>
-                        X / DIRECT MESSAGE
-                    </span>
-</a>
-<a class="panel-link" href="https://www.instagram.com/" rel="noopener noreferrer" target="_blank">
-<span>
-                        INSTAGRAM / DIRECT MESSAGE
-                    </span>
-</a>
-<a class="panel-link" href="https://bsky.app/" rel="noopener noreferrer" target="_blank">
-<span>
-                        BLUESKY / DIRECT MESSAGE
-                    </span>
-</a>
+<a class="panel-link" href="https://x.com/" rel="noopener noreferrer" target="_blank"><span>X / DIRECT MESSAGE</span></a>
+<a class="panel-link" href="https://www.instagram.com/" rel="noopener noreferrer" target="_blank"><span>INSTAGRAM / DIRECT MESSAGE</span></a>
+<a class="panel-link" href="https://bsky.app/" rel="noopener noreferrer" target="_blank"><span>BLUESKY / DIRECT MESSAGE</span></a>
 </div>
-<p class="panel-note">
-                Choose whichever door feels right.
-            </p>
+<p class="panel-note">Choose whichever door feels right.</p>
 </section>
-<!-- BEHIND -->
-<section class="panel-page" data-action-page="02" id="panel-action-02">
-<h1 class="page-title">
-                BEHIND
-            </h1>
-<div class="page-intro-grid">
-<div class="page-main-text">
-<p>
-                        The back of the flyer.
-                        Things that don't really matter,
-                        but somehow ended up here.
-                        Side tracks,
-                        rejected ideas,
-                        random thoughts,
-                        strange obsessions,
-                        and unnecessarily long stories.
-                    </p>
-</div>
 
+<section class="panel-page" data-action-page="02" id="panel-action-02">
+<h1 class="page-title">BEHIND</h1>
+<div class="page-intro-grid">
+<div class="page-main-text"><p>The back of the flyer. Things that don't really matter, but somehow ended up here. Side tracks, rejected ideas, random thoughts, strange obsessions, and unnecessarily long stories.</p></div>
 </div>
 <div class="panel-links">
-<a class="panel-link" href="https://discord.com/" rel="noopener noreferrer" target="_blank">
-<span>
-                        ENTER THE BACKROOM / DISCORD
-                    </span>
-</a>
+<a class="panel-link" href="https://discord.com/" rel="noopener noreferrer" target="_blank"><span>ENTER THE BACKROOM / DISCORD</span></a>
 </div>
-<p class="panel-note">
-                Come hang out.
-                No particular reason required.
-            </p>
+<p class="panel-note">Come hang out. No particular reason required.</p>
 </section>
 </div>
 </aside>
-<!-- =====================================================
-     FOOTER
-===================================================== -->
+
 <footer class="ui-label" id="site-footer">
     ©2026 <a href="https://esenus.com">ESENUS</a> BLOG / THE PLAYGROUND - KUMI FELT LIKE MAKING
 </footer>
+
 <script>
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -1670,16 +1247,15 @@ const body = document.body;
 const logo = $('#logo');
 const nav = $('#main-nav-list');
 const sections = $$('main .page-section');
+const stickies = $$('#side-sticky .sticky-tape');
+const panel = $('#content-panel');
+const panelPages = $$('.panel-page');
+const grids = $$('.content-grid');
 
-// Fit the mobile navigation only when its real content exceeds the available width.
-// Priority: horizontal padding -> letter spacing -> font size.
 function fitMobileNavigation() {
     if (!nav) return;
-
     if (window.innerWidth > 850) {
-        nav.style.removeProperty('--nav-item-padding');
-        nav.style.removeProperty('--nav-letter-spacing');
-        nav.style.removeProperty('--nav-font-size');
+        ['--nav-item-padding', '--nav-letter-spacing', '--nav-font-size'].forEach(prop => nav.style.removeProperty(prop));
         return;
     }
 
@@ -1690,9 +1266,7 @@ function fitMobileNavigation() {
     };
     const overflows = () => nav.scrollWidth > nav.clientWidth + 1;
 
-    let padding = 10;
-    let spacing = 0.02;
-    let fontSize = 14;
+    let padding = 10, spacing = 0.02, fontSize = 14;
     setFit(padding, spacing, fontSize);
 
     while (overflows() && padding > 0) {
@@ -1712,19 +1286,9 @@ function fitMobileNavigation() {
 const navResizeObserver = new ResizeObserver(fitMobileNavigation);
 navResizeObserver.observe(nav);
 window.addEventListener('load', fitMobileNavigation, { once: true });
-const stickies = $$('#side-sticky .sticky-tape');
-const panel = $('#content-panel');
-const panelPages = $$('.panel-page');
-const grids = $$('.content-grid');
 
-const state = {
-    action: '',
-    frame: 0,
-    resizeTimer: 0,
-    panelTimer: 0,
-};
+const state = { action: '', frame: 0, resizeTimer: 0, panelTimer: 0 };
 
-/* CONTENT */
 const content = {
     "NOTE": [
         ["2026.10.28", "Why I started building Nest", "A personal system should make everyday life easier, not add another layer of work."],
@@ -1744,7 +1308,7 @@ const content = {
         ["2026.07.03", "Small systems, everyday life", "A collection of modest improvements can make daily routines easier to manage."],
         ["2026.06.26", "Learning by taking things apart", "Understanding often begins with looking closely at how something was put together."],
         ["2026.06.19", "Leaving room for detours", "Not every experiment needs to lead directly to a finished result."],
-        ["2026.06.12", "Keeping a trail", "A trail of attempts and decisions makes it easier to see how an idea changed." ]
+        ["2026.06.12", "Keeping a trail", "A trail of attempts and decisions makes it easier to see how an idea changed."]
     ],
     "PLAY": [
         ["NEST", "Personal Systems", "A collection of small systems for making everyday information and activity work better.", "IN PROGRESS"],
@@ -1769,30 +1333,17 @@ const content = {
     ]
 };
 
-const card = ([meta, title, description, type], archive = false) => {
-    const typeLabel = type
-        ? `<div class="${archive ? 'archive-card__type' : 'content-card__type'}">${type}</div>`
-        : '';
-
-    return archive
-        ? `<article class="content-card archive-card">
-            <div class="archive-card__year">${meta}</div>
-            <h3 class="archive-card__title">${title}</h3>
-            <p class="content-card__text">${description}</p>
-            ${typeLabel}
-        </article>`
-        : `<article class="content-card">
-            <div class="content-card__meta">${meta}</div>
-            <h3 class="content-card__title">${title}</h3>
-            <p class="content-card__text">${description}</p>
-            ${typeLabel}
-        </article>`;
-};
+const card = ([meta, title, description, type], isArchive = false) => `
+    <article class="content-card${isArchive ? ' archive-card' : ''}">
+        <div class="${isArchive ? 'archive-card__year' : 'content-card__meta'}">${meta}</div>
+        <h3 class="${isArchive ? 'archive-card__title' : 'content-card__title'}">${title}</h3>
+        <p class="content-card__text">${description}</p>
+        ${type ? `<div class="${isArchive ? 'archive-card__type' : 'content-card__type'}">${type}</div>` : ''}
+    </article>
+`;
 
 const notePageSize = 6;
-let notePage = 1;
-let noteGrid;
-let notePagination;
+let notePage = 1, noteGrid, notePagination;
 
 const renderNotePage = (scrollToList = false) => {
     if (!noteGrid || !notePagination) return;
@@ -1801,91 +1352,55 @@ const renderNotePage = (scrollToList = false) => {
     const pageCount = Math.max(1, Math.ceil(notes.length / notePageSize));
     notePage = Math.min(Math.max(1, notePage), pageCount);
     const start = (notePage - 1) * notePageSize;
-    const visibleNotes = notes.slice(start, start + notePageSize);
 
-    noteGrid.innerHTML = visibleNotes.map(item => card(item)).join('');
+    noteGrid.innerHTML = notes.slice(start, start + notePageSize).map(item => card(item)).join('');
 
-    const first = start + 1;
-    const last = Math.min(start + notePageSize, notes.length);
-    const pageButtons = Array.from({ length: pageCount }, (_, index) => {
-        const page = index + 1;
-        const current = page === notePage;
-        return `<button type="button" data-note-page="${page}"${current ? ' aria-current="page"' : ''} aria-label="Page ${page}">${String(page).padStart(2, '0')}</button>`;
+    const pageButtons = Array.from({ length: pageCount }, (_, i) => {
+        const page = i + 1;
+        return `<button type="button" data-note-page="${page}"${page === notePage ? ' aria-current="page"' : ''} aria-label="Page ${page}">${String(page).padStart(2, '0')}</button>`;
     }).join('');
 
     notePagination.innerHTML = `
-        <div class="note-pagination__status" aria-live="polite">${String(first).padStart(2, '0')}–${String(last).padStart(2, '0')} / ${String(notes.length).padStart(2, '0')} NOTES</div>
+        <div class="note-pagination__status" aria-live="polite">${String(start + 1).padStart(2, '0')}–${String(Math.min(start + notePageSize, notes.length)).padStart(2, '0')} / ${String(notes.length).padStart(2, '0')} NOTES</div>
         <nav class="note-pagination__controls" aria-label="NOTE pages">
             <button type="button" data-note-direction="prev" aria-label="Previous page"${notePage === 1 ? ' disabled' : ''}>← PREV</button>
             ${pageButtons}
             <button type="button" data-note-direction="next" aria-label="Next page"${notePage === pageCount ? ' disabled' : ''}>NEXT →</button>
         </nav>`;
 
-    if (scrollToList) {
-        scrollToSection($('#section-04'));
-    }
+    if (scrollToList) scrollToSection($('#section-04'));
 };
-
- ([meta, title, description, type], archive = false) =>
-    archive
-        ? `<article class="content-card archive-card">
-            <div class="archive-card__year">${meta}</div>
-            <h3 class="archive-card__title">${title}</h3>
-            <p class="content-card__text">${description}</p>
-            <div class="archive-card__type">${type}</div>
-        </article>`
-        : `<article class="content-card">
-            <div class="content-card__meta">${meta}</div>
-            <h3 class="content-card__title">${title}</h3>
-            <p class="content-card__text">${description}</p>
-            <div class="content-card__type">${type}</div>
-        </article>`;
 
 grids.forEach(grid => {
     const key = grid.dataset.content;
-
     if (key === 'NOTE') {
         noteGrid = grid;
-        grid.insertAdjacentHTML(
-            'afterend',
-            '<div class="note-pagination" aria-label="NOTE pagination"></div>'
-        );
+        grid.insertAdjacentHTML('afterend', '<div class="note-pagination" aria-label="NOTE pagination"></div>');
         notePagination = grid.nextElementSibling;
         renderNotePage();
         return;
     }
-
-    grid.innerHTML = (content[key] || [])
-        .map(item => card(item, key === 'ARCHIVE'))
-        .join('');
+    grid.innerHTML = (content[key] || []).map(item => card(item, key === 'ARCHIVE')).join('');
 });
 
 if (notePagination) {
     notePagination.addEventListener('click', event => {
-        const button = event.target.closest('button');
-        if (!button || button.disabled) return;
-
-        if (button.dataset.notePage) {
-            notePage = Number(button.dataset.notePage);
-        } else if (button.dataset.noteDirection === 'prev') {
-            notePage -= 1;
-        } else if (button.dataset.noteDirection === 'next') {
-            notePage += 1;
-        } else {
-            return;
-        }
-
+        const btn = event.target.closest('button');
+        if (!btn || btn.disabled) return;
+        if (btn.dataset.notePage) notePage = Number(btn.dataset.notePage);
+        else if (btn.dataset.noteDirection === 'prev') notePage -= 1;
+        else if (btn.dataset.noteDirection === 'next') notePage += 1;
+        else return;
         renderNotePage(true);
     });
 }
 
-/* STATE */
 const sectionAt = ratio => {
-    const position = scrollY + innerHeight * ratio;
+    const pos = scrollY + innerHeight * ratio;
     let active = sections[0];
-    for (const section of sections) {
-        if (section.offsetTop > position) break;
-        active = section;
+    for (const s of sections) {
+        if (s.offsetTop > pos) break;
+        active = s;
     }
     return active;
 };
@@ -1898,17 +1413,11 @@ const sync = () => {
     body.classList.toggle('is-home', isHome);
     body.classList.toggle('is-sub', !isHome);
     body.classList.toggle('is-note', sectionAt(0.5)?.dataset.section === '04');
-    body.classList.toggle(
-        'catchword-sub',
-        isHome && scrollY / Math.max(sections[0].offsetHeight, innerHeight) >= 0.42
-    );
+    body.classList.toggle('catchword-sub', isHome && scrollY / Math.max(sections[0].offsetHeight, innerHeight) >= 0.42);
 
     const navId = sectionAt(0.5)?.dataset.section;
     nav.querySelectorAll('a').forEach(link =>
-        link.classList.toggle(
-            'is-active',
-            link.hash === `#section-${navId}`
-        )
+        link.classList.toggle('is-active', link.hash === `#section-${navId}`)
     );
 };
 
@@ -1920,12 +1429,8 @@ const requestSync = () => {
     });
 };
 
-/* NAVIGATION */
 const scrollToSection = section => {
     if (!section) return;
-
-    // On wide screens, align the section title with the logo's top edge.
-    // On mobile, retain the existing section-start position.
     const title = section.querySelector('.page-title');
     if (innerWidth > 850 && title) {
         const top = window.scrollY + title.getBoundingClientRect().top - 25;
@@ -1942,12 +1447,8 @@ const go = id => {
     scrollToSection(target);
 };
 
-// Touch devices use the original touch-event path restored from the Muse build.
-// A deliberate tap is handled on touchend; movement remains a scroll/swipe.
 nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
-    let touchStart = null;
-    let touchMoved = false;
-    let handledTouchAt = 0;
+    let touchStart = null, touchMoved = false, handledTouchAt = 0;
 
     const navigate = () => {
         const sectionId = link.hash.slice(9);
@@ -1960,23 +1461,16 @@ nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
             touchMoved = true;
             return;
         }
-
         const { clientX, clientY } = event.changedTouches[0];
         touchStart = { x: clientX, y: clientY };
         touchMoved = false;
-
-        // Claim the touch at its start on iOS Safari. This prevents the browser
-        // from taking over the gesture as a bottom-edge pan before touchend.
         if (event.cancelable) event.preventDefault();
     }, { passive: false });
 
     link.addEventListener('touchmove', event => {
         if (!touchStart || !event.changedTouches.length) return;
-
         const { clientX, clientY } = event.changedTouches[0];
-        if (Math.hypot(clientX - touchStart.x, clientY - touchStart.y) > 10) {
-            touchMoved = true;
-        }
+        if (Math.hypot(clientX - touchStart.x, clientY - touchStart.y) > 10) touchMoved = true;
     }, { passive: true });
 
     link.addEventListener('touchend', event => {
@@ -1985,30 +1479,19 @@ nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
             touchMoved = false;
             return;
         }
-
         const touch = event.changedTouches[0];
-        const distance = Math.hypot(
-            touch.clientX - touchStart.x,
-            touch.clientY - touchStart.y
-        );
+        const dist = Math.hypot(touch.clientX - touchStart.x, touch.clientY - touchStart.y);
         touchStart = null;
         touchMoved = false;
-
-        if (distance > 10) return;
-
-        // Prevent Safari's synthetic click from activating the same link twice.
+        if (dist > 10) return;
         handledTouchAt = Date.now();
         event.preventDefault();
         event.stopPropagation();
         navigate();
     }, { passive: false });
 
-    link.addEventListener('touchcancel', () => {
-        touchStart = null;
-        touchMoved = false;
-    }, { passive: true });
+    link.addEventListener('touchcancel', () => { touchStart = null; touchMoved = false; }, { passive: true });
 
-    // Keep mouse, keyboard and assistive-technology activation available.
     link.addEventListener('click', event => {
         event.preventDefault();
         if (event.detail !== 0 && Date.now() - handledTouchAt < 700) return;
@@ -2016,22 +1499,18 @@ nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
     });
 });
 
-// Avoid the iOS long-press link preview on the in-page navigation controls.
 nav.addEventListener('contextmenu', event => {
     if (event.target.closest('a')) event.preventDefault();
 });
 
 logo.addEventListener('click', () => go('01'));
 
-/* PANEL */
 function setPanel(id) {
     clearTimeout(state.panelTimer);
 
     const render = () => {
         state.action = id;
-        panelPages.forEach(page =>
-            page.classList.toggle('is-active', page.dataset.actionPage === id)
-        );
+        panelPages.forEach(page => page.classList.toggle('is-active', page.dataset.actionPage === id));
         stickies.forEach(item => {
             const active = item.dataset.action === id;
             item.classList.toggle('is-open', active);
@@ -2062,12 +1541,8 @@ document.addEventListener('keydown', event => {
     if (event.key === 'Escape') setPanel('');
 });
 
-/* STICKY */
-stickies.forEach(item =>
-    item.style.setProperty('--random-rotate', `${(Math.random() - 0.5) * 6}deg`)
-);
+stickies.forEach(item => item.style.setProperty('--random-rotate', `${(Math.random() - 0.5) * 6}deg`));
 
-/* SCROLL / RESIZE */
 window.addEventListener('scroll', requestSync, { passive: true });
 window.addEventListener('resize', () => {
     fitMobileNavigation();
