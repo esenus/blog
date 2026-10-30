@@ -946,6 +946,8 @@
         font-size: 8px;
         font-weight: 350;
         letter-spacing: 0.4em;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
         text-transform: uppercase;
         opacity: 0.25 !important;
         box-sizing: border-box;
@@ -1118,10 +1120,14 @@
             top: auto !important;
             bottom: 0 !important;
             left: 0 !important;
+            /* Keep the fixed top shield behind the subtitle and sticky notes. */
+            z-index: 1000;
             width: 100% !important;
             height: var(--mobile-menu-height) !important;
             border-top: 1px solid var(--line-color);
             border-right: none !important;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            box-sizing: border-box;
         }
 
         /* MOBILE TOP SHIELD */
@@ -1145,12 +1151,43 @@
         }
 
         .nav-list {
+            position: relative;
+            z-index: 1;
             top: 0 !important;
+            width: 100%;
             flex-direction: row !important;
             justify-content: center !important;
-            align-items: center !important;
+            align-items: stretch !important;
             padding: 0 !important;
-            gap: var(--nav-gap);
+            /* Keep the desktop rhythm as the reference; tighten only as space runs out. */
+            gap: clamp(4px, calc(1.2vw + 3.3px), var(--nav-gap));
+            touch-action: manipulation;
+        }
+
+        .nav-list li {
+            display: flex;
+            flex: 0 1 auto;
+            min-width: 0;
+        }
+
+        .nav-list a {
+            display: flex;
+            flex: 0 1 auto;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            min-height: 56px;
+            padding: 0 clamp(2px, calc(1.15vw + 0.5px), var(--nav-link-horizontal-padding));
+            box-sizing: border-box;
+            font-size: clamp(8px, calc(1.18vw + 6.4px), var(--nav-link-font-size));
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .nav-bar-label {
@@ -1590,7 +1627,6 @@ const state = {
     frame: 0,
     resizeTimer: 0,
     panelTimer: 0,
-    touch: null
 };
 
 /* CONTENT */
@@ -1818,26 +1854,9 @@ nav.addEventListener('click', event => {
     go(link.hash.slice(9));
 });
 
-nav.addEventListener('touchstart', event => {
-    const { clientX: x, clientY: y } = event.changedTouches[0];
-    state.touch = { x, y, moved: false };
-}, { passive: true });
-
-nav.addEventListener('touchmove', event => {
-    if (!state.touch) return;
-    const { clientX: x, clientY: y } = event.changedTouches[0];
-    state.touch.moved = Math.hypot(x - state.touch.x, y - state.touch.y) > 10;
-}, { passive: true });
-
-nav.addEventListener('touchend', event => {
-    if (!state.touch || state.touch.moved) return;
-    const link = event.target.closest('a');
-    state.touch = null;
-    if (!link) return;
-    event.preventDefault();
-    event.stopPropagation();
-    go(link.hash.slice(9));
-}, { passive: false });
+// Use the standard click event for both mouse and touch input.
+// Avoid competing touchend handling, which can trigger duplicate or native actions.
+nav.addEventListener('contextmenu', event => event.preventDefault());
 
 logo.addEventListener('click', () => go('01'));
 
