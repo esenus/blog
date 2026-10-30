@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>blog.esenus</title>
-<!-- BLOG_VERSION: 0.1.5 -->
+<!-- BLOG_VERSION: 0.1.6 -->
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap" rel="stylesheet"/>
 <style>
     :root {
@@ -909,10 +909,16 @@
             z-index: 0;
         }
 
-        /* Safe Area分だけナビゲーション領域を拡張し、リンク位置はヘッダー基準で維持 */
+        /* safe-area-inset-bottom分だけナビゲーション領域を拡張し、リンク位置は維持 */
         nav[aria-label="Main Navigation"] {
             position: absolute;
-            inset: 0;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: calc(
+                var(--mobile-menu-height) +
+                env(safe-area-inset-bottom, 0px)
+            );
             z-index: 2;
             touch-action: manipulation;
             overscroll-behavior: contain;
@@ -1096,7 +1102,7 @@
 </style>
 </head>
 <body class="is-home">
-<div aria-label="Version 0.1.5" id="site-version">v0.1.5</div>
+<div aria-label="Version 0.1.6" id="site-version">v0.1.6</div>
 
 <header id="site-header">
 <button aria-label="Go to Home" id="logo" type="button">
