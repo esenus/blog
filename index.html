@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>blog.esenus</title>
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -117,23 +117,16 @@
             transform 0.4s var(--ease);
     }
 
-    .nav-list button {
+    .nav-list a {
         display: inline-block;
-        appearance: none;
-        border: 0;
-        border-radius: 0;
-        margin: 0;
         padding:
             5px
             var(--nav-link-horizontal-padding);
-        background: transparent;
         color: var(--text-dark);
         text-decoration: none;
         font-family: 'Syncopate';
         font-size: var(--nav-link-font-size);
-        line-height: normal;
         opacity: 0.4;
-        cursor: pointer;
         transition:
             opacity 0.3s ease,
             color 0.3s ease,
@@ -170,7 +163,7 @@
        POINTER HOVER
     ===================================================== */
     @media (hover: hover) and (pointer: fine) {
-        .nav-list button:hover {
+        .nav-list a:hover {
             opacity: 1;
             color: var(--accent-red);
         }
@@ -190,7 +183,7 @@
     /* =====================================================
        ACTIVE NAVIGATION
     ===================================================== */
-    .nav-list button.is-active {
+    .nav-list a.is-active {
         opacity: 1;
         background: var(--text-dark);
         color: #fff !important;
@@ -1130,8 +1123,9 @@
             /* Keep the fixed top shield behind the subtitle and sticky notes. */
             z-index: 1000;
             width: 100% !important;
-            /* Keep the full menu height above the device's bottom safe area. */
-            height: calc(var(--mobile-menu-height) + env(safe-area-inset-bottom, 0px)) !important;
+            /* Keep the visual bar full-width, but lift the tap targets away from the
+               physical bottom edge where mobile browsers reserve system gestures. */
+            height: calc(var(--mobile-menu-height) + env(safe-area-inset-bottom, 0px) + 12px) !important;
             border-top: 1px solid var(--line-color);
             border-right: none !important;
             padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -1159,23 +1153,23 @@
         }
 
         nav[aria-label="Main Navigation"] {
-            position: relative;
+            position: absolute;
+            inset: auto 0 0;
             z-index: 2;
             width: 100%;
             height: 100%;
-            /* Keep interactive targets clear of Safari's left/right history-swipe zones. */
-            padding-inline: 14px;
-            box-sizing: border-box;
             touch-action: manipulation;
-            overscroll-behavior-x: none;
-            overscroll-behavior-y: contain;
+            overscroll-behavior: contain;
         }
 
         .nav-list {
-            position: relative;
+            position: absolute;
             z-index: 1;
-            top: 0 !important;
+            top: auto !important;
+            bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+            left: 0;
             width: calc(100% - 20px);
+            height: 64px;
             margin: 0 10px;
             box-sizing: border-box;
             flex-direction: row !important;
@@ -1188,8 +1182,7 @@
             --nav-letter-spacing: 0.02em;
             --nav-font-size: 14px;
             touch-action: manipulation;
-            overscroll-behavior-x: none;
-            overscroll-behavior-y: contain;
+            overscroll-behavior: contain;
             -webkit-user-select: none;
             user-select: none;
         }
@@ -1200,45 +1193,23 @@
             min-width: max-content;
         }
 
-        .nav-list button {
+        .nav-list a {
             display: flex;
             flex: 0 0 auto;
             align-items: center;
             justify-content: center;
-            appearance: none;
-            border: 0;
-            border-radius: 0;
-            margin: 0;
             min-width: max-content;
             min-height: 64px;
             padding: 0 var(--nav-item-padding);
             box-sizing: border-box;
-            background: transparent;
-            color: var(--text-dark);
-            font-family: 'Syncopate';
             font-size: var(--nav-font-size);
-            font-weight: 400;
             letter-spacing: var(--nav-letter-spacing);
             line-height: 1;
             text-align: center;
             white-space: nowrap;
-            /* Preserve native tap activation without claiming all touch gestures. */
             touch-action: manipulation;
-            overscroll-behavior-x: none;
-            overscroll-behavior-y: contain;
+            overscroll-behavior: contain;
             -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-            -webkit-user-drag: none;
-            pointer-events: auto;
-            position: relative;
-            z-index: 1;
-            cursor: pointer;
-        }
-
-        .nav-list,
-        .nav-list li {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
@@ -1413,15 +1384,15 @@
 
 
 <li>
-<button type="button" data-section="01">HOME</button>
+<a href="#section-01">HOME</a>
 </li><li>
-<button type="button" data-section="04">NOTE</button>
+<a href="#section-04">NOTE</a>
 </li><li>
-<button type="button" data-section="02">PLAY</button>
+<a href="#section-02">PLAY</a>
 </li><li>
-<button type="button" data-section="03">MAKE</button>
+<a href="#section-03">MAKE</a>
 </li><li>
-<button type="button" data-section="05">ARCHIVE</button>
+<a href="#section-05">ARCHIVE</a>
 </li></ul>
 </nav>
 </header>
@@ -1943,14 +1914,19 @@ const go = id => {
     scrollToSection(target);
 };
 
-// Use button activation for section navigation on every device.
-// This avoids mobile browsers treating the bottom menu as link-preview targets,
-// while keeping the same one-tap section transition used by the sticky controls.
+// Use the native click activation path for both touch and pointer input.
+// Prevent the anchor's fragment jump and route through the site's section navigation.
 nav.addEventListener('click', event => {
-    const button = event.target.closest('button[data-section]');
-    if (!button || !nav.contains(button)) return;
+    const link = event.target.closest('a');
+    if (!link || !nav.contains(link)) return;
     event.preventDefault();
-    go(button.dataset.section);
+    const sectionId = link.hash.slice(9);
+    if (sectionId) go(sectionId);
+});
+
+// Prevent long-press link previews on the in-page navigation controls.
+nav.addEventListener('contextmenu', event => {
+    if (event.target.closest('a')) event.preventDefault();
 });
 
 logo.addEventListener('click', () => go('01'));
