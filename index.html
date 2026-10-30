@@ -1163,9 +1163,12 @@
             z-index: 2;
             width: 100%;
             height: 100%;
-            /* Keep touches inside the fixed navigation from becoming browser-edge gestures. */
-            touch-action: none;
-            overscroll-behavior: contain;
+            /* Keep interactive targets clear of Safari's left/right history-swipe zones. */
+            padding-inline: 14px;
+            box-sizing: border-box;
+            touch-action: manipulation;
+            overscroll-behavior-x: none;
+            overscroll-behavior-y: contain;
         }
 
         .nav-list {
@@ -1184,8 +1187,9 @@
             --nav-item-padding: 10px;
             --nav-letter-spacing: 0.02em;
             --nav-font-size: 14px;
-            touch-action: none;
-            overscroll-behavior: contain;
+            touch-action: manipulation;
+            overscroll-behavior-x: none;
+            overscroll-behavior-y: contain;
             -webkit-user-select: none;
             user-select: none;
         }
@@ -1218,9 +1222,10 @@
             line-height: 1;
             text-align: center;
             white-space: nowrap;
-            /* A tap stays a tap; vertical browser-toolbar gestures are disabled here. */
-            touch-action: none;
-            overscroll-behavior: contain;
+            /* Preserve native tap activation without claiming all touch gestures. */
+            touch-action: manipulation;
+            overscroll-behavior-x: none;
+            overscroll-behavior-y: contain;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
