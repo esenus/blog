@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>blog.esenus</title>
-<!-- BLOG_VERSION: 0.1.5 -->
+<!-- BLOG_VERSION: 0.1.6 -->
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap" rel="stylesheet"/>
 <style>
     :root {
@@ -19,6 +19,7 @@
         --sidebar-width: 260px;
         --desktop-menu-height: clamp(80px, calc(8.333vw + 50px), 120px);
         --mobile-menu-height: 80px;
+        --mobile-navigation-extension: 120px;
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
         --home-updates-start: 320px;
@@ -909,10 +910,13 @@
             z-index: 0;
         }
 
-        /* ナビゲーション領域はSafe Areaまで拡張し、リンク位置は画面下端基準で維持 */
+        /* ナビゲーション領域だけを上方向へ固定量拡張し、リンク位置は維持 */
         nav[aria-label="Main Navigation"] {
             position: absolute;
-            inset: 0;
+            top: calc(-1 * var(--mobile-navigation-extension));
+            right: 0;
+            bottom: 0;
+            left: 0;
             z-index: 2;
             touch-action: manipulation;
             overscroll-behavior: contain;
@@ -1096,7 +1100,7 @@
 </style>
 </head>
 <body class="is-home">
-<div aria-label="Version 0.1.5" id="site-version">v0.1.5</div>
+<div aria-label="Version 0.1.6" id="site-version">v0.1.6</div>
 
 <header id="site-header">
 <button aria-label="Go to Home" id="logo" type="button">
