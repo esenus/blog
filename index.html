@@ -4,7 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>blog.esenus</title>
-<!-- BLOG_VERSION: 0.1.6 -->
+<!-- BLOG_VERSION: 0.1.3 -->
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap" rel="stylesheet"/>
 <style>
     :root {
@@ -18,7 +18,9 @@
         --sticky-speed: 0.7s;
         --sidebar-width: 260px;
         --desktop-menu-height: clamp(80px, calc(8.333vw + 50px), 120px);
-        --mobile-menu-height: 80px;
+        --mobile-menu-base-height: 80px;
+        /* セーフエリア対応のメニュー高さ変数を定義 */
+        --mobile-menu-height: calc(var(--mobile-menu-base-height) + env(safe-area-inset-bottom, 0px));
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
         --home-updates-start: 320px;
@@ -864,8 +866,10 @@
 
         #site-footer {
             top: auto;
+            /* モバイルフッターもセーフエリアとメニューの高さを考慮して上に避難 */
             bottom: calc(var(--mobile-menu-height) + 4px);
-            left: 12px;
+            /* 横向き時の左側セーフエリア対応 (env(safe-area-inset-left)) */
+            left: max(12px, calc(12px + env(safe-area-inset-left, 0px)));
             width: max-content;
             max-width: none;
             letter-spacing: clamp(0em, calc((100vh - 220px) / 140), 0.4em);
@@ -877,15 +881,18 @@
         #site-header {
             top: auto !important;
             bottom: 0 !important;
+            /* 左右のセーフエリア（横持ち時のノッチ/Dynamic Islandなど）に対応するため left/right にパディングを追加 */
             left: 0 !important;
-            z-index: 1000;
             width: 100% !important;
-            height: calc(var(--mobile-menu-height) + env(safe-area-inset-bottom, 0px)) !important;
+            height: var(--mobile-menu-height) !important;
             border-top: 1px solid var(--line-color);
             border-right: none !important;
+            /* 下部のセーフエリア（ホームバー領域）をパディングとして確保 */
             padding-bottom: env(safe-area-inset-bottom, 0px);
+            /* 左右の横持ちセーフエリア対応 */
+            padding-left: env(safe-area-inset-left, 0px);
+            padding-right: env(safe-area-inset-right, 0px);
             box-sizing: border-box;
-            background: var(--bg-color);
         }
 
         #site-header::after {
@@ -906,12 +913,10 @@
             z-index: 0;
         }
 
+        /* ホームバー/タブバー領域(safe-area)をタップ領域から除外 */
         nav[aria-label="Main Navigation"] {
             position: absolute;
-            top: 0;
-            right: 0;
-            left: 0;
-            height: var(--mobile-menu-height);
+            inset: 0 0 env(safe-area-inset-bottom, 0px) 0;
             z-index: 2;
             touch-action: manipulation;
             overscroll-behavior: contain;
@@ -924,7 +929,7 @@
             bottom: auto;
             left: 0;
             width: calc(100% - 20px);
-            height: var(--mobile-menu-height);
+            height: 100%;
             margin: 0 10px;
             box-sizing: border-box;
             flex-direction: row !important;
@@ -1017,7 +1022,7 @@
         }
 
         .note-pagination {
-            right: 10px;
+            right: max(10px, env(safe-area-inset-right, 10px));
             bottom: calc(var(--mobile-menu-height) + 12px);
             max-width: calc(100vw - 20px);
             box-sizing: border-box;
@@ -1045,7 +1050,7 @@
 
         .sub-section {
             margin-left: 0;
-            padding: 100px 25px 120px;
+            padding: 100px calc(25px + env(safe-area-inset-right, 0px)) 120px calc(25px + env(safe-area-inset-left, 0px));
         }
 
         .page-intro-grid {
@@ -1063,6 +1068,9 @@
             bottom: var(--mobile-menu-height);
             width: calc(100vw - 20px);
             box-shadow: -10px 0 25px rgba(0, 0, 0, 0.08);
+            /* パネル内も横持ち時のセーフエリアに対応 */
+            padding-left: env(safe-area-inset-left, 0px);
+            padding-right: env(safe-area-inset-right, 0px);
         }
 
         .content-panel-inner {
@@ -1093,7 +1101,7 @@
 </style>
 </head>
 <body class="is-home">
-<div aria-label="Version 0.1.6" id="site-version">v0.1.6</div>
+<div aria-label="Version 0.1.3" id="site-version">v0.1.3</div>
 
 <header id="site-header">
 <button aria-label="Go to Home" id="logo" type="button">
