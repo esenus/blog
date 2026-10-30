@@ -1159,9 +1159,11 @@
             justify-content: center !important;
             align-items: stretch !important;
             padding: 0 !important;
-            /* Keep the desktop rhythm as the reference; tighten only as space runs out. */
-            gap: clamp(4px, calc(1.2vw + 3.3px), var(--nav-gap));
-            touch-action: manipulation;
+            /* Preserve the desktop type scale; reclaim horizontal space first. */
+            gap: clamp(0px, calc(0.9vw + 1px), var(--nav-gap));
+            touch-action: pan-y;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .nav-list li {
@@ -1176,14 +1178,14 @@
             align-items: center;
             justify-content: center;
             min-width: 0;
-            min-height: 56px;
-            padding: 0 clamp(2px, calc(1.15vw + 0.5px), var(--nav-link-horizontal-padding));
+            min-height: 64px;
+            padding: 0 clamp(0px, calc(0.55vw + 0.5px), var(--nav-link-horizontal-padding));
             box-sizing: border-box;
-            font-size: clamp(8px, calc(1.18vw + 6.4px), var(--nav-link-font-size));
+            font-size: var(--nav-link-font-size);
             line-height: 1;
             text-align: center;
             white-space: nowrap;
-            touch-action: manipulation;
+            touch-action: pan-y;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -1847,15 +1849,28 @@ const go = id => {
     scrollToSection(target);
 };
 
+let lastTouchNavigation = 0;
+
+// Handle touch navigation at pointer-up so mobile browsers do not invoke
+// their native link-preview / selection interaction for these in-page controls.
+nav.addEventListener('pointerup', event => {
+    if (event.pointerType !== 'touch') return;
+    const link = event.target.closest('a');
+    if (!link) return;
+    event.preventDefault();
+    lastTouchNavigation = performance.now();
+    go(link.hash.slice(9));
+});
+
 nav.addEventListener('click', event => {
     const link = event.target.closest('a');
     if (!link) return;
     event.preventDefault();
+    // Touch pointer-up already performed the navigation; ignore its follow-up click.
+    if (performance.now() - lastTouchNavigation < 800) return;
     go(link.hash.slice(9));
 });
 
-// Use the standard click event for both mouse and touch input.
-// Avoid competing touchend handling, which can trigger duplicate or native actions.
 nav.addEventListener('contextmenu', event => event.preventDefault());
 
 logo.addEventListener('click', () => go('01'));
