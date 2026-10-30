@@ -1154,14 +1154,18 @@
             position: relative;
             z-index: 1;
             top: 0 !important;
-            width: calc(100% - 16px);
-            margin-inline: auto;
+            width: calc(100% - 20px);
+            margin: 0 10px;
+            box-sizing: border-box;
             flex-direction: row !important;
             justify-content: center !important;
             align-items: stretch !important;
             padding: 0 !important;
-            /* Keep the desktop spacing and type scale; reduce only outer margins. */
-            gap: var(--nav-gap);
+            /* Keep visual spacing inside each link so the whole interval is tappable. */
+            gap: 0;
+            --nav-item-padding: 10px;
+            --nav-letter-spacing: 0.02em;
+            --nav-font-size: 14px;
             touch-action: manipulation;
             -webkit-user-select: none;
             user-select: none;
@@ -1169,20 +1173,21 @@
 
         .nav-list li {
             display: flex;
-            flex: 0 1 auto;
-            min-width: 0;
+            flex: 0 0 auto;
+            min-width: max-content;
         }
 
         .nav-list a {
             display: flex;
-            flex: 0 1 auto;
+            flex: 0 0 auto;
             align-items: center;
             justify-content: center;
-            min-width: 0;
+            min-width: max-content;
             min-height: 64px;
-            padding: 0 clamp(0px, calc(0.55vw + 0.5px), var(--nav-link-horizontal-padding));
+            padding: 0 var(--nav-item-padding);
             box-sizing: border-box;
-            font-size: var(--nav-link-font-size);
+            font-size: var(--nav-font-size);
+            letter-spacing: var(--nav-letter-spacing);
             line-height: 1;
             text-align: center;
             white-space: nowrap;
@@ -1620,6 +1625,48 @@ const body = document.body;
 const logo = $('#logo');
 const nav = $('#main-nav-list');
 const sections = $$('main .page-section');
+
+// Fit the mobile navigation only when its real content exceeds the available width.
+// Priority: horizontal padding -> letter spacing -> font size.
+function fitMobileNavigation() {
+    if (!nav) return;
+
+    if (window.innerWidth > 850) {
+        nav.style.removeProperty('--nav-item-padding');
+        nav.style.removeProperty('--nav-letter-spacing');
+        nav.style.removeProperty('--nav-font-size');
+        return;
+    }
+
+    const setFit = (padding, spacing, fontSize) => {
+        nav.style.setProperty('--nav-item-padding', `${padding}px`);
+        nav.style.setProperty('--nav-letter-spacing', `${spacing}em`);
+        nav.style.setProperty('--nav-font-size', `${fontSize}px`);
+    };
+    const overflows = () => nav.scrollWidth > nav.clientWidth + 1;
+
+    let padding = 10;
+    let spacing = 0.02;
+    let fontSize = 14;
+    setFit(padding, spacing, fontSize);
+
+    while (overflows() && padding > 0) {
+        padding = Math.max(0, padding - 0.5);
+        setFit(padding, spacing, fontSize);
+    }
+    while (overflows() && spacing > -0.04) {
+        spacing = Math.max(-0.04, spacing - 0.005);
+        setFit(padding, spacing, fontSize);
+    }
+    while (overflows() && fontSize > 11) {
+        fontSize = Math.max(11, fontSize - 0.25);
+        setFit(padding, spacing, fontSize);
+    }
+}
+
+const navResizeObserver = new ResizeObserver(fitMobileNavigation);
+navResizeObserver.observe(nav);
+window.addEventListener('load', fitMobileNavigation, { once: true });
 const stickies = $$('#side-sticky .sticky-tape');
 const panel = $('#content-panel');
 const panelPages = $$('.panel-page');
@@ -1914,12 +1961,14 @@ stickies.forEach(item =>
 /* SCROLL / RESIZE */
 window.addEventListener('scroll', requestSync, { passive: true });
 window.addEventListener('resize', () => {
+    fitMobileNavigation();
     body.classList.add('is-resizing');
     clearTimeout(state.resizeTimer);
     state.resizeTimer = setTimeout(() => body.classList.remove('is-resizing'), 180);
     requestSync();
 }, { passive: true });
 
+fitMobileNavigation();
 sync();
 </script>
 </body>
