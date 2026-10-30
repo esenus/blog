@@ -1,17 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-    <title>esenus - Personal Playground</title>
-    <link
-        href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap"
-        rel="stylesheet"
-    >
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>blog.esenus</title>
+<link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&amp;display=swap" rel="stylesheet"/>
+<style>
     /* =====================================================
        VARIABLES
     ===================================================== */
@@ -27,16 +22,16 @@
         --sidebar-width: 260px;
         --desktop-menu-height:
             clamp(80px, calc(8.333vw + 50px), 120px);
-        --mobile-menu-height: 64px;
+        --mobile-menu-height: 80px;
         --panel-width: min(640px, 70vw);
         --sticky-peek: 45px;
-        --home-updates-start: 420px;
+        --home-updates-start: 320px;
         --nav-gap:
-            clamp(10px, calc(1.887vw + 3.96px), 20px);
+            clamp(8px, calc(1.6vw + 2px), 16px);
         --nav-link-horizontal-padding:
             clamp(5px, calc(0.943vw + 1.98px), 10px);
         --nav-link-font-size:
-            clamp(10px, calc(0.566vw + 8.19px), 13px);
+            clamp(11px, calc(0.566vw + 9.19px), 14px);
         --mobile-top-shield-height: 110px;
     }
 
@@ -70,7 +65,7 @@
         background: var(--text-dark);
         color: #fff;
         font-family: 'Syncopate';
-        font-size: 9px;
+        font-size: 11px;
         font-weight: 800;
         line-height: 1.2;
         cursor: pointer;
@@ -86,14 +81,7 @@
         font-weight: 700;
         white-space: nowrap;
         pointer-events: none;
-        will-change:
-            top,
-            left,
-            right,
-            bottom,
-            width,
-            transform,
-            opacity;
+        will-change: transform, opacity;
     }
 
     /* =====================================================
@@ -151,11 +139,14 @@
         padding: 0 15px;
         background: var(--bg-color);
         letter-spacing: 0.3em;
+        transition:
+            transform 0.7s var(--ease),
+            opacity 0.7s ease;
         will-change:
-            top,
-            left,
             transform,
             opacity;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
     }
 
     .nav-bar-label::after {
@@ -163,8 +154,9 @@
         display: block;
         margin-left: 10px;
         background: var(--text-dark);
-        width: var(--nav-line-width, 60px);
+        width: 60px;
         height: 1px;
+        transition: width 0.7s var(--ease);
     }
 
     /* =====================================================
@@ -216,37 +208,66 @@
         margin: 0;
         white-space: nowrap;
         font-family: 'Syncopate';
-        will-change:
-            top,
-            left,
-            transform,
-            font-size,
-            opacity;
+        will-change: transform, opacity;
+    }
+
+    /* Suppress catchword travel while responsive layout is recalculated. */
+    body.is-resizing #catchword,
+    body.is-resizing #home-updates {
+        transition: none !important;
     }
 
     /* =====================================================
        HOME HERO
     ===================================================== */
+    #catchword {
+        top: 160px;
+        left: 25px;
+        transition:
+            transform 0.7s var(--ease),
+            opacity 0.7s ease;
+        will-change:
+            transform,
+            opacity;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
     body.is-home #catchword {
-        top: 280px;
-        left: 7vw;
-        transform: translate3d(0, -50%, 0);
+        transform: translate3d(
+            calc(7vw - 25px),
+            calc(60px - 50%),
+            0
+        );
         font-size: 7vw;
         font-weight: 700;
         line-height: 0.9;
         letter-spacing: 0.02em;
     }
 
+    body.catchword-sub #catchword,
+    body.is-sub #catchword {
+        transform: translate3d(0, 0, 0);
+        font-size: clamp(23px, 2.8vw, 24px);
+        line-height: 0.9;
+    }
+
     #subtitle {
+        /* Match the footer's state-based motion model.
+           Keep the text box stable so WebKit does not reflow
+           the text while the element is moving. */
         transition:
-            top var(--transition-speed) var(--ease),
-            left var(--transition-speed) var(--ease),
-            width var(--transition-speed) var(--ease),
-            max-width var(--transition-speed) var(--ease),
-            transform var(--transition-speed) var(--ease),
-            font-size var(--transition-speed) var(--ease),
-            letter-spacing var(--transition-speed) var(--ease),
-            opacity var(--transition-speed) ease;
+            top 0.7s var(--ease),
+            left 0.7s var(--ease),
+            transform 0.7s var(--ease),
+            opacity 0.7s ease;
+        will-change:
+            top,
+            left,
+            transform,
+            opacity;
+        box-sizing: border-box;
+        white-space: nowrap;
     }
 
     body.is-home #subtitle {
@@ -254,13 +275,11 @@
         left: 50%;
         transform: translate3d(-50%, -50%, 0);
         width: min(620px, calc(100vw - 140px));
-        max-width: calc(100vw - 140px);
-        box-sizing: border-box;
+        max-width: min(620px, calc(100vw - 140px));
         padding-right: calc(var(--sticky-peek) + 15px);
         font-size: 10px;
         line-height: 1.4;
         letter-spacing: 0.3em;
-        white-space: normal;
         text-align: center;
         opacity: 0.6;
     }
@@ -268,14 +287,6 @@
     /* =====================================================
        SUB HERO
     ===================================================== */
-    body.is-sub #catchword {
-        top: 160px;
-        left: 25px;
-        transform: translate3d(0, 0, 0);
-        font-size: 24px;
-        line-height: 0.9;
-    }
-
     body.is-sub #subtitle {
         top: 135px;
         left: 25px;
@@ -284,6 +295,7 @@
         max-width: none;
         padding-right: 0;
         font-size: 8px;
+        line-height: 1.4;
         letter-spacing: 0.1em;
         opacity: 0.5;
         text-align: left;
@@ -312,8 +324,6 @@
         box-sizing: border-box;
         background: var(--bg-color);
         overflow: visible;
-        transition:
-            margin-left var(--transition-speed) var(--ease);
     }
 
     .home-updates-label {
@@ -398,11 +408,14 @@
 
     .page-intro-grid {
         display: grid;
-        grid-template-columns: 1fr 200px;
-        gap: 60px;
+        grid-template-columns: minmax(0, 1fr);
+        /* Reserve only the visible sticky-note icon/peek width,
+           plus a small breathing gap, for the section description. */
+        padding-right: calc(var(--sticky-peek) + 15px);
         margin-bottom: 60px;
         padding-bottom: 40px;
         border-bottom: 1px solid var(--line-color);
+        box-sizing: border-box;
     }
 
     .page-main-text p {
@@ -477,11 +490,213 @@
     }
 
     /* =====================================================
+       CONTENT CARDS
+    ===================================================== */
+    .content-card {
+        min-width: 0;
+        padding-bottom: 22px;
+        border-bottom: 1px solid var(--line-color);
+    }
+
+    .content-card__meta {
+        margin-bottom: 12px;
+        color: var(--text-light);
+        font-family: 'Syncopate';
+        font-size: 8px;
+        line-height: 1.4;
+        letter-spacing: 0.08em;
+    }
+
+    .content-card__title {
+        margin: 0 0 8px;
+        font-family: 'Syncopate';
+        font-size: clamp(13px, 1vw, 16px);
+        line-height: 1.35;
+        font-weight: 700;
+    }
+
+    .content-card__text {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.55;
+    }
+
+    .content-card__type {
+        margin-top: 14px;
+        color: var(--text-light);
+        font-family: 'Syncopate';
+        font-size: 7px;
+        letter-spacing: 0.12em;
+    }
+
+    /* =====================================================
+       NOTE PAGINATION
+    ===================================================== */
+    .note-pagination {
+        position: fixed;
+        right: 25px;
+        bottom: 25px;
+        z-index: 1900;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        padding: 10px 12px;
+        border: 1px solid var(--line-color);
+        background: rgba(242, 242, 240, 0.96);
+        font-family: 'Syncopate';
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translate3d(0, 10px, 0);
+        transition:
+            opacity 0.3s ease,
+            transform 0.4s var(--ease),
+            visibility 0.3s ease;
+    }
+
+    body.is-note .note-pagination {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+        transform: translate3d(0, 0, 0);
+    }
+
+    .note-pagination__status {
+        flex: 0 0 auto;
+        color: var(--text-light);
+        font-size: 7px;
+        letter-spacing: 0.08em;
+        line-height: 1.6;
+        text-align: right;
+    }
+
+    .note-pagination__controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: clamp(2px, 0.35vw, 6px);
+        min-width: 0;
+    }
+
+    .note-pagination button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 42px;
+        min-height: 44px;
+        padding: 8px 10px;
+        border: 1px solid transparent;
+        border-radius: 0;
+        background: transparent;
+        color: var(--text-dark);
+        font: inherit;
+        font-size: 9px;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition:
+            background-color 0.25s ease,
+            color 0.25s ease,
+            border-color 0.25s ease,
+            opacity 0.25s ease;
+    }
+
+    .note-pagination button[aria-current="page"] {
+        border-color: var(--text-dark);
+        background: var(--text-dark);
+        color: var(--bg-color);
+    }
+
+    .note-pagination button:disabled {
+        opacity: 0.25;
+        cursor: default;
+    }
+
+    .note-pagination button:focus-visible {
+        outline: 2px solid var(--accent-red);
+        outline-offset: 3px;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+        .note-pagination button:not(:disabled):not([aria-current="page"]):hover {
+            border-color: var(--line-color);
+            color: var(--accent-red);
+        }
+    }
+
+    .archive-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 0 40px;
+    }
+
+    .archive-card {
+        position: relative;
+        padding: 24px 0 26px;
+    }
+
+    .archive-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: var(--line-color);
+    }
+
+    .archive-card__year {
+        margin-bottom: 18px;
+        color: var(--text-light);
+        font-family: 'Syncopate';
+        font-size: 9px;
+        letter-spacing: 0.12em;
+    }
+
+    .archive-card__title {
+        margin: 0 0 8px;
+        font-family: 'Syncopate';
+        font-size: 15px;
+        line-height: 1.35;
+    }
+
+    .archive-card__type {
+        margin-top: 16px;
+        font-family: 'Syncopate';
+        font-size: 7px;
+        letter-spacing: 0.12em;
+        opacity: 0.55;
+    }
+
+    .section-more {
+        display: inline-block;
+        margin-top: 35px;
+        color: var(--text-dark);
+        font-family: 'Syncopate';
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-decoration: none;
+        border-bottom: 1px solid currentColor;
+        padding-bottom: 4px;
+    }
+
+    .section-more::after {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin-left: 9px;
+        border-top: 1px solid currentColor;
+        border-right: 1px solid currentColor;
+        transform: rotate(45deg);
+    }
+
+    /* =====================================================
        STICKY ACTIONS
     ===================================================== */
     #side-sticky {
         position: fixed;
-        top: 60px;
+        top: 25px;
         right: 0;
         z-index: 1800;
         display: flex;
@@ -519,16 +734,15 @@
             rotate(var(--random-rotate, 0deg));
     }
 
-    /* HOME: at the top, show the complete sticky notes.
-       Once scrolling begins, retract them to the right and
-       leave only the icon visible. */
-    body.is-home:not(.has-scrolled) #side-sticky .sticky-tape {
+    /* HOME: keep the notes open until the next section approaches.
+       When a sticky is opened, keep the other one retracted. */
+    body.is-home #side-sticky .sticky-tape {
         transform:
             translate3d(0, 0, 0)
             rotate(var(--random-rotate, 0deg));
     }
 
-    body.is-home.has-scrolled #side-sticky .sticky-tape:not(.is-open) {
+    body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open) {
         transform:
             translate3d(
                 calc(100% - var(--sticky-peek)),
@@ -580,24 +794,6 @@
 
     .sticky-tape.is-open a::after {
         opacity: 1;
-    }
-
-    /*
-       NARROW SCREENS
-
-       The notes start in peek state even at scroll position 0.
-       Opening a note still brings it fully into view.
-    */
-    @media (max-width: 850px) {
-        body.is-home:not(.has-scrolled) #side-sticky .sticky-tape:not(.is-open) {
-            transform:
-                translate3d(
-                    calc(100% - var(--sticky-peek)),
-                    0,
-                    0
-                )
-                rotate(var(--random-rotate, 0deg));
-        }
     }
 
     .tape-icon {
@@ -670,21 +866,12 @@
 
     .panel-page .page-intro-grid {
         grid-template-columns: 1fr 150px;
+        border-bottom: 0;
+        padding-bottom: 0;
     }
 
     .panel-page .page-main-text p {
         font-size: 1.4rem;
-    }
-
-    .panel-close-label {
-        position: absolute;
-        top: 25px;
-        right: 30px;
-        font-family: 'Syncopate';
-        font-size: 7px;
-        letter-spacing: 0.15em;
-        opacity: 0.35;
-        pointer-events: none;
     }
 
     /* =====================================================
@@ -715,10 +902,14 @@
     }
 
     .panel-link::after {
-        content: '↗';
-        font-family: Arial, sans-serif;
-        font-size: 16px;
-        font-weight: 400;
+        content: '';
+        width: 9px;
+        height: 9px;
+        flex: 0 0 9px;
+        border-top: 1px solid currentColor;
+        border-right: 1px solid currentColor;
+        transform: rotate(45deg);
+        opacity: 0.7;
     }
 
     .panel-note {
@@ -732,16 +923,31 @@
 
     /* =====================================================
        FOOTER
-       Position / width / transform are controlled by JS.
     ===================================================== */
+    #site-footer a {
+        color: inherit;
+        text-decoration: none;
+        pointer-events: auto;
+        cursor: pointer;
+    }
+
+    #site-footer a:hover,
+    #site-footer a:focus-visible {
+        text-decoration: underline;
+        text-underline-offset: 2px;
+    }
+
     #site-footer {
-        z-index: 1200;
-        max-width: none;
+        position: fixed;
+        z-index: 2001;
+        pointer-events: auto;
         color: var(--text-dark);
         font-family: 'Syncopate';
         font-size: 8px;
         font-weight: 350;
         letter-spacing: 0.4em;
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
         text-transform: uppercase;
         opacity: 0.25 !important;
         box-sizing: border-box;
@@ -749,6 +955,44 @@
         text-align: center;
         overflow-wrap: break-word;
         word-break: normal;
+        transition:
+            top 0.7s var(--ease),
+            bottom 0.7s var(--ease),
+            left 0.7s var(--ease),
+            width 0.7s var(--ease),
+            max-width 0.7s var(--ease),
+            transform 0.7s var(--ease),
+            text-align 0.7s var(--ease);
+        will-change:
+            top,
+            bottom,
+            left,
+            width,
+            max-width,
+            transform;
+    }
+
+    /* HOME / SUB — desktop */
+    @media screen and (min-width: 851px) {
+        body.is-home #site-footer {
+            top: auto;
+            bottom: calc(var(--desktop-menu-height) + 18px);
+            left: 50%;
+            width: min(760px, 70vw);
+            max-width: min(760px, 70vw);
+            transform: translate3d(-50%, 0, 0);
+            text-align: center;
+        }
+
+        body.is-sub #site-footer {
+            top: auto;
+            bottom: clamp(24px, 6vh, 60px);
+            left: 130px;
+            width: 210px;
+            max-width: 210px;
+            transform: translate3d(-50%, 0, 0);
+            text-align: center;
+        }
     }
 
     /* =====================================================
@@ -772,6 +1016,31 @@
        DESKTOP
     ===================================================== */
     @media screen and (min-width: 851px) {
+
+        /* NAV LABEL — HOME / SUB */
+        body.is-home .nav-bar-label {
+            /* Anchor the label's center to the HOME header boundary. */
+            top: calc(100vh - var(--desktop-menu-height));
+            left: 50%;
+            transform: translate3d(-50%, -50%, 0) rotate(0deg);
+            opacity: 0.6;
+        }
+
+        body.is-home .nav-bar-label::after {
+            width: 60px;
+        }
+
+        body.is-sub .nav-bar-label {
+            /* Keep the rotated label centered on the sidebar boundary. */
+            top: 50%;
+            left: var(--sidebar-width);
+            transform: translate3d(-50%, -50%, 0) rotate(90deg);
+            opacity: 0.5;
+        }
+
+        body.is-sub .nav-bar-label::after {
+            width: 140px;
+        }
 
         /* HOME HEADER */
         body.is-home #site-header {
@@ -821,15 +1090,45 @@
     ===================================================== */
     @media screen and (max-width: 850px) {
 
+        /* Hide section introductions on compact layouts, but keep sticky-panel descriptions visible. */
+        .sub-section .page-intro-grid {
+            display: none;
+        }
+
+        .panel-page .page-intro-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            border-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        /* FOOTER */
+        #site-footer {
+            top: auto;
+            bottom: calc(var(--mobile-menu-height) + 4px);
+            left: 12px;
+            width: max-content;
+            max-width: none;
+            letter-spacing: clamp(0em, calc((100vh - 220px) / 140), 0.4em);
+            transform-origin: left bottom;
+            transform: rotate(-90deg);
+            text-align: left;
+        }
+
         /* HEADER */
         #site-header {
             top: auto !important;
             bottom: 0 !important;
             left: 0 !important;
+            /* Keep the fixed top shield behind the subtitle and sticky notes. */
+            z-index: 1000;
             width: 100% !important;
-            height: var(--mobile-menu-height) !important;
+            /* Keep the full menu height above the device's bottom safe area. */
+            height: calc(var(--mobile-menu-height) + env(safe-area-inset-bottom, 0px)) !important;
             border-top: 1px solid var(--line-color);
             border-right: none !important;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            box-sizing: border-box;
         }
 
         /* MOBILE TOP SHIELD */
@@ -852,13 +1151,67 @@
             z-index: 0;
         }
 
+        nav[aria-label="Main Navigation"] {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+        }
+
         .nav-list {
+            position: relative;
+            z-index: 1;
             top: 0 !important;
+            width: calc(100% - 20px);
+            margin: 0 10px;
+            box-sizing: border-box;
             flex-direction: row !important;
             justify-content: center !important;
-            align-items: center !important;
+            align-items: stretch !important;
             padding: 0 !important;
-            gap: var(--nav-gap) !important;
+            /* Keep visual spacing inside each link so the whole interval is tappable. */
+            gap: 0;
+            --nav-item-padding: 10px;
+            --nav-letter-spacing: 0.02em;
+            --nav-font-size: 14px;
+            touch-action: manipulation;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .nav-list li {
+            display: flex;
+            flex: 0 0 auto;
+            min-width: max-content;
+        }
+
+        .nav-list a {
+            display: flex;
+            flex: 0 0 auto;
+            align-items: center;
+            justify-content: center;
+            min-width: max-content;
+            min-height: 64px;
+            padding: 0 var(--nav-item-padding);
+            box-sizing: border-box;
+            font-size: var(--nav-font-size);
+            letter-spacing: var(--nav-letter-spacing);
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .nav-list,
+        .nav-list li {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .nav-bar-label {
@@ -866,30 +1219,28 @@
         }
 
         /* HOME */
-        #section-01 {
-            min-height: 100vh;
-            padding-top: var(--home-updates-start);
-        }
 
-        /* HERO */
-        .hero-section {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+        #catchword {
+            top: 40px;
+            left: 110px;
         }
 
         body.is-home #catchword {
-            top: 280px;
-            left: 7vw;
-            transform: translate3d(0, -50%, 0);
+            transform: translate3d(
+                calc(7vw - 110px),
+                calc(165px - 50%),
+                0
+            );
             font-size:
                 clamp(
                     50px,
                     calc(1.79vw + 44.27px),
                     59.5px
                 );
+        }
+
+        body.catchword-sub #catchword {
+            letter-spacing: 0.02em;
         }
 
         body.is-home #subtitle {
@@ -904,28 +1255,55 @@
             line-height: 1.5;
         }
 
-        /* SUB HERO */
-        body.is-sub #catchword {
-            top: 40px;
-            left: 110px;
-            transform: translate3d(0, 0, 0);
-            font-size: 23px;
-            line-height: 0.9;
-            letter-spacing: 0.02em;
+        /* Keep the subtitle clear of the fully visible stickies.
+           Wrapping only begins when the available width becomes tight. */
+        @media (max-width: 500px) {
+            body.is-home #subtitle {
+                padding-right: calc(var(--sticky-peek) + 100px);
+                white-space: normal;
+            }
         }
 
+        /* SUB HERO */
         body.is-sub #subtitle {
             top: 25px;
             left: 110px;
             transform: translate3d(0, 0, 0);
-            width: auto;
-            max-width: none;
-            padding-right: 0;
+            width: calc(100vw - 50px);
+            max-width: calc(100vw - 50px);
+            padding-right: calc(var(--sticky-peek) + 15px);
             font-size: 8px;
             line-height: 1.3;
             letter-spacing: 0.1em;
             white-space: nowrap;
             text-align: left;
+        }
+
+        .note-pagination {
+            right: 10px;
+            bottom: calc(var(--mobile-menu-height) + 12px);
+            max-width: calc(100vw - 20px);
+            box-sizing: border-box;
+            gap: 5px;
+            padding: 7px 8px;
+        }
+
+        .note-pagination__status {
+            font-size: 6px;
+        }
+
+        .note-pagination__controls {
+            width: auto;
+            justify-content: flex-end;
+            gap: 2px;
+        }
+
+        .note-pagination button {
+            min-width: 32px;
+            min-height: 38px;
+            padding-right: 5px;
+            padding-left: 5px;
+            font-size: 7px;
         }
 
         /* SUB CONTENT */
@@ -944,22 +1322,6 @@
 
         .page-main-text p {
             font-size: 1.25rem;
-        }
-
-        /* STICKY */
-        #side-sticky {
-            top: 60px;
-            bottom: auto;
-            transform:
-                translate3d(
-                    0,
-                    calc(
-                        100vh
-                        - 160px
-                        - 100%
-                    ),
-                    0
-                );
         }
 
         /* ACTION PANEL */
@@ -987,12 +1349,6 @@
             font-size: 1.25rem;
         }
 
-        .panel-close-label {
-            top: 25px;
-            right: 20px;
-            font-size: 6px;
-        }
-
         .panel-links {
             margin-top: 25px;
         }
@@ -1008,501 +1364,243 @@
     }
     </style>
 </head>
-
 <body class="is-home">
-
 <!-- =====================================================
      HEADER
 ===================================================== -->
 <header id="site-header">
-
-    <button
-        id="logo"
-        type="button"
-        aria-label="Go to Home"
-    >
-        ESENUS<br>logs
+<button aria-label="Go to Home" id="logo" type="button">
+    blog.<br/>ESENUS
     </button>
-
-    <div class="ui-label nav-bar-label">
+<div class="ui-label nav-bar-label">
         MENU / NAVIGATION
     </div>
+<nav aria-label="Main Navigation">
+<ul class="nav-list" id="main-nav-list">
 
-    <nav aria-label="Main Navigation">
-        <ul id="main-nav-list" class="nav-list">
-            <li>
-                <a href="#section-01">HOME</a>
-            </li>
-            <li>
-                <a href="#section-02">PLAY</a>
-            </li>
-            <li>
-                <a href="#section-03">MAKE</a>
-            </li>
-            <li>
-                <a href="#section-04">NOTE</a>
-            </li>
-            <li>
-                <a href="#section-05">ARCHIVE</a>
-            </li>
-        </ul>
-    </nav>
 
+
+
+
+<li>
+<a href="#section-01">HOME</a>
+</li><li>
+<a href="#section-04">NOTE</a>
+</li><li>
+<a href="#section-02">PLAY</a>
+</li><li>
+<a href="#section-03">MAKE</a>
+</li><li>
+<a href="#section-05">ARCHIVE</a>
+</li></ul>
+</nav>
 </header>
-
 <!-- =====================================================
      HERO
 ===================================================== -->
-<section
-    class="hero-section"
-    aria-hidden="true"
->
-    <p id="subtitle">
+<section aria-hidden="true" class="hero-section">
+<p id="subtitle">
         A PERSONAL PLACE TO MAKE THINGS
     </p>
-
-    <h2 id="catchword">
-        JUST<br>BECAUSE.
+<h2 id="catchword">
+        PLAY<br/>GROUND.
     </h2>
 </section>
-
 <!-- =====================================================
      MAIN CONTENT
 ===================================================== -->
 <main>
+<!-- HOME -->
 
-    <!-- HOME -->
-    <section
-        id="section-01"
-        class="page-section"
-        data-section="01"
-        aria-label="Home"
-    >
-        <section
-            id="home-updates"
-            aria-label="Recent Updates"
-        >
-            <div class="home-updates-label">
-                UPDATE
-            </div>
+<!-- PLAY -->
 
-            <ul class="home-updates-list">
+<!-- MAKE -->
 
-                <li class="home-update-item">
-                    <time
-                        class="home-update-date"
-                        datetime="2026-09-18"
-                    >
+<!-- NOTE -->
+
+<!-- ARCHIVE -->
+
+<section aria-label="Home" class="page-section" data-section="01" id="section-01">
+<section aria-label="Recent Updates" id="home-updates">
+<div class="home-updates-label">TOPIX</div>
+<ul class="home-updates-list">
+<li class="home-update-item">
+<time class="home-update-date" datetime="2026-09-18">
                         2026.09.18
                     </time>
-
-                    <span class="home-update-text">
-                        The Playground website started.
+<span class="home-update-text">
+                        blog.esenus.com started taking shape.
                     </span>
-                </li>
-
-                <li class="home-update-item">
-                    <time
-                        class="home-update-date"
-                        datetime="2026-09-16"
-                    >
+</li>
+<li class="home-update-item">
+<time class="home-update-date" datetime="2026-09-16">
                         2026.09.16
                     </time>
-
-                    <span class="home-update-text">
-                        Furby Rebuild project updated.
+<span class="home-update-text">
+                        Bruscoh: Furby reverse-engineering updated.
                     </span>
-                </li>
-
-                <li class="home-update-item">
-                    <time
-                        class="home-update-date"
-                        datetime="2026-09-12"
-                    >
+</li>
+<li class="home-update-item">
+<time class="home-update-date" datetime="2026-09-12">
                         2026.09.12
                     </time>
-
-                    <span class="home-update-text">
-                        Started building things again.
+<span class="home-update-text">
+                        Nest is taking shape.
                     </span>
-                </li>
+</li>
+</ul>
+</section>
+</section><section class="page-section sub-section" data-section="04" id="section-04">
+<article>
+<h1 class="page-title">
+                NOTE
+            </h1>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
+                        Things I've been thinking about.
+                        Notes from making,
+                        building,
+                        experimenting,
+                        and figuring things out.
+                    </p>
+</div>
 
-            </ul>
-        </section>
-    </section>
-
-    <!-- PLAY -->
-    <section
-        id="section-02"
-        class="page-section sub-section"
-        data-section="02"
-    >
-        <article>
-
-            <h1 class="page-title">
+</div>
+<div class="dynamic-grid content-grid" data-content="NOTE"></div>
+</article>
+</section><section class="page-section sub-section" data-section="02" id="section-02">
+<article>
+<h1 class="page-title">
                 PLAY
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
-                        Things I'm trying.
-                        Experiments,
-                        tests,
-                        prototypes,
-                        and unfinished ideas.
-                        This is where I keep
-                        whatever I'm working on
-                        right now.
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
+                        Things I'm playing with.
+                        Services, projects,
+                        experiments,
+                        and unfinished ideas
+                        that are moving right now.
                     </p>
-                </div>
+</div>
 
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>01</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>STATUS</h4>
-                        <div>
-                            IN PROGRESS
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div
-                class="dynamic-grid"
-                data-grid-count="3"
-                data-grid-prefix="PLAY"
-            ></div>
-
-        </article>
-    </section>
-
-    <!-- MAKE -->
-    <section
-        id="section-03"
-        class="page-section sub-section"
-        data-section="03"
-    >
-        <article>
-
-            <h1 class="page-title">
+</div>
+<div class="dynamic-grid content-grid" data-content="PLAY"></div>
+</article>
+</section><section class="page-section sub-section" data-section="03" id="section-03">
+<article>
+<h1 class="page-title">
                 MAKE
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
                         Things I've made.
-                        Websites,
+                        Electronics,
                         software,
-                        hardware,
-                        electronics,
+                        food,
+                        websites,
                         and small things
                         built for no particular reason.
                     </p>
-                </div>
+</div>
 
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>02</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>TYPE</h4>
-                        <div>
-                            BUILDS
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div
-                class="dynamic-grid"
-                data-grid-count="4"
-                data-grid-prefix="MAKE"
-            ></div>
-
-        </article>
-    </section>
-
-    <!-- NOTE -->
-    <section
-        id="section-04"
-        class="page-section sub-section"
-        data-section="04"
-    >
-        <article>
-
-            <h1 class="page-title">
-                NOTE
-            </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
-                        Things I've thought about.
-                        Things I've looked into,
-                        ideas from making,
-                        technical notes,
-                        discoveries,
-                        and things worth leaving behind.
-                    </p>
-                </div>
-
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>03</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>FORM</h4>
-                        <div>
-                            NOTES / LOG
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div
-                class="dynamic-grid"
-                data-grid-count="6"
-                data-grid-prefix="NOTE"
-            ></div>
-
-        </article>
-    </section>
-
-    <!-- ARCHIVE -->
-    <section
-        id="section-05"
-        class="page-section sub-section"
-        data-section="05"
-    >
-        <article>
-
-            <h1 class="page-title">
+</div>
+<div class="dynamic-grid content-grid" data-content="MAKE"></div>
+</article>
+</section><section class="page-section sub-section" data-section="05" id="section-05">
+<article>
+<h1 class="page-title">
                 ARCHIVE
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
                         Things from the past.
-                        Finished,
-                        abandoned,
-                        discontinued,
-                        old projects,
-                        and old ideas.
+                        Old projects,
+                        portfolios,
+                        photographs,
+                        travels,
+                        finished or abandoned ideas.
                         Not everything needs
                         to disappear just because
                         it is no longer active.
                     </p>
-                </div>
+</div>
 
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>04</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>STATUS</h4>
-                        <div>
-                            PAST
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div
-                class="dynamic-grid"
-                data-grid-count="8"
-                data-grid-prefix="ARC"
-            ></div>
-
-        </article>
-    </section>
-
-</main>
-
+</div>
+<div class="dynamic-grid content-grid archive-grid" data-content="ARCHIVE"></div>
+</article>
+</section></main>
 <!-- =====================================================
      STICKY ACTIONS
 ===================================================== -->
-<aside
-    id="side-sticky"
-    aria-label="More"
->
-    <ul>
-
-        <li
-            class="sticky-tape"
-            data-action="01"
-        >
-            <a
-                href="#"
-                aria-controls="content-panel"
-                aria-expanded="false"
-            >
-                <span
-                    class="tape-icon"
-                    aria-hidden="true"
-                >✦</span>
+<aside aria-label="More" id="side-sticky">
+<ul>
+<li class="sticky-tape" data-action="01">
+<a aria-controls="content-panel" aria-expanded="false" href="#">
+<span aria-hidden="true" class="tape-icon">✦</span>
                 KNOCK
             </a>
-        </li>
-
-        <li
-            class="sticky-tape sticky-tape--behind"
-            data-action="02"
-        >
-            <a
-                href="#"
-                aria-controls="content-panel"
-                aria-expanded="false"
-            >
-                <span
-                    class="tape-icon"
-                    aria-hidden="true"
-                >☞</span>
+</li>
+<li class="sticky-tape sticky-tape--behind" data-action="02">
+<a aria-controls="content-panel" aria-expanded="false" href="#">
+<span aria-hidden="true" class="tape-icon">☞</span>
                 BEHIND
             </a>
-        </li>
-
-    </ul>
+</li>
+</ul>
 </aside>
-
 <!-- =====================================================
      ACTION PANEL
 ===================================================== -->
-<aside
-    id="content-panel"
-    aria-hidden="true"
-    aria-label="More"
->
-    <div class="content-panel-inner">
+<aside aria-hidden="true" aria-label="More" id="content-panel">
+<div class="content-panel-inner">
 
-        <div class="panel-close-label">
-            CLOSE / SAME STICKY
-        </div>
-
-        <!-- KNOCK -->
-        <section
-            class="panel-page"
-            id="panel-action-01"
-            data-action-page="01"
-        >
-
-            <h1 class="page-title">
+<!-- KNOCK -->
+<section class="panel-page" data-action-page="01" id="panel-action-01">
+<h1 class="page-title">
                 KNOCK
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
                         Want to get in touch?
                         Knock on any door.
                     </p>
-                </div>
+</div>
 
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>--</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>TYPE</h4>
-                        <div>
-                            CONTACT
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div class="panel-links">
-
-                <a
-                    class="panel-link"
-                    href="https://x.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <span>
+</div>
+<div class="panel-links">
+<a class="panel-link" href="https://x.com/" rel="noopener noreferrer" target="_blank">
+<span>
                         X / DIRECT MESSAGE
                     </span>
-                </a>
-
-                <a
-                    class="panel-link"
-                    href="https://www.instagram.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <span>
+</a>
+<a class="panel-link" href="https://www.instagram.com/" rel="noopener noreferrer" target="_blank">
+<span>
                         INSTAGRAM / DIRECT MESSAGE
                     </span>
-                </a>
-
-                <a
-                    class="panel-link"
-                    href="https://bsky.app/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <span>
+</a>
+<a class="panel-link" href="https://bsky.app/" rel="noopener noreferrer" target="_blank">
+<span>
                         BLUESKY / DIRECT MESSAGE
                     </span>
-                </a>
-
-            </div>
-
-            <p class="panel-note">
+</a>
+</div>
+<p class="panel-note">
                 Choose whichever door feels right.
             </p>
-
-        </section>
-
-        <!-- BEHIND -->
-        <section
-            class="panel-page"
-            id="panel-action-02"
-            data-action-page="02"
-        >
-
-            <h1 class="page-title">
+</section>
+<!-- BEHIND -->
+<section class="panel-page" data-action-page="02" id="panel-action-02">
+<h1 class="page-title">
                 BEHIND
             </h1>
-
-            <div class="page-intro-grid">
-
-                <div class="page-main-text">
-                    <p>
+<div class="page-intro-grid">
+<div class="page-main-text">
+<p>
                         The back of the flyer.
                         Things that don't really matter,
                         but somehow ended up here.
@@ -1512,1049 +1610,391 @@
                         strange obsessions,
                         and unnecessarily long stories.
                     </p>
-                </div>
+</div>
 
-                <aside class="page-meta">
-
-                    <div class="page-meta-item">
-                        <h4>EDITION</h4>
-                        <div>--</div>
-                    </div>
-
-                    <div class="page-meta-item">
-                        <h4>TYPE</h4>
-                        <div>
-                            WHATEVER
-                        </div>
-                    </div>
-
-                </aside>
-
-            </div>
-
-            <div class="panel-links">
-
-                <a
-                    class="panel-link"
-                    href="https://discord.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <span>
+</div>
+<div class="panel-links">
+<a class="panel-link" href="https://discord.com/" rel="noopener noreferrer" target="_blank">
+<span>
                         ENTER THE BACKROOM / DISCORD
                     </span>
-                </a>
-
-            </div>
-
-            <p class="panel-note">
+</a>
+</div>
+<p class="panel-note">
                 Come hang out.
                 No particular reason required.
             </p>
-
-        </section>
-
-    </div>
+</section>
+</div>
 </aside>
-
 <!-- =====================================================
      FOOTER
 ===================================================== -->
-<footer
-    id="site-footer"
-    class="ui-label"
->
-    ©2026 ESENUS LOGS / THE PLAYGROUND - KUMI FELT LIKE MAKING
+<footer class="ui-label" id="site-footer">
+    ©2026 <a href="https://esenus.com">ESENUS</a> BLOG / THE PLAYGROUND - KUMI FELT LIKE MAKING
 </footer>
-
 <script>
-    /* =====================================================
-       DOM
-    ===================================================== */
-    const DOM = {
-        body: document.body,
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
-        logo:
-            document.getElementById('logo'),
+const body = document.body;
+const logo = $('#logo');
+const nav = $('#main-nav-list');
+const sections = $$('main .page-section');
 
-        mainNav:
-            document.querySelectorAll(
-                '#main-nav-list a'
-            ),
+// Fit the mobile navigation only when its real content exceeds the available width.
+// Priority: horizontal padding -> letter spacing -> font size.
+function fitMobileNavigation() {
+    if (!nav) return;
 
-        sections:
-            document.querySelectorAll(
-                'main .page-section'
-            ),
+    if (window.innerWidth > 850) {
+        nav.style.removeProperty('--nav-item-padding');
+        nav.style.removeProperty('--nav-letter-spacing');
+        nav.style.removeProperty('--nav-font-size');
+        return;
+    }
 
-        sticky:
-            document.getElementById(
-                'side-sticky'
-            ),
-
-        stickyItems:
-            document.querySelectorAll(
-                '#side-sticky .sticky-tape'
-            ),
-
-        panel:
-            document.getElementById(
-                'content-panel'
-            ),
-
-        panelPages:
-            document.querySelectorAll(
-                '.panel-page'
-            ),
-
-        grids:
-            document.querySelectorAll(
-                '.dynamic-grid'
-            ),
-
-        catchword:
-            document.getElementById(
-                'catchword'
-            ),
-
-        subtitle:
-            document.getElementById(
-                'subtitle'
-            ),
-
-        navBarLabel:
-            document.querySelector(
-                '.nav-bar-label'
-            ),
-
-        footer:
-            document.getElementById(
-                'site-footer'
-            )
+    const setFit = (padding, spacing, fontSize) => {
+        nav.style.setProperty('--nav-item-padding', `${padding}px`);
+        nav.style.setProperty('--nav-letter-spacing', `${spacing}em`);
+        nav.style.setProperty('--nav-font-size', `${fontSize}px`);
     };
+    const overflows = () => nav.scrollWidth > nav.clientWidth + 1;
 
-    /* =====================================================
-       STATE
-    ===================================================== */
-    const state = {
-        section: null,
-        action: null,
-        motionFrame: 0,
-        viewportWidth: window.innerWidth,
-        viewportHeight: window.innerHeight
-    };
+    let padding = 10;
+    let spacing = 0.02;
+    let fontSize = 14;
+    setFit(padding, spacing, fontSize);
 
-    /* =====================================================
-       GRID
-    ===================================================== */
-    function createGridItem(prefix, index) {
-        const number =
-            String(index + 1).padStart(2, '0');
-
-        return `
-            <div class="grid-item">
-                <div class="thumb">
-                    ${prefix} ${number}
-                </div>
-
-                <h3>
-                    ${prefix} ${index + 1}
-                </h3>
-
-                <p>
-                    Try something.
-                    See what happens.
-                </p>
-            </div>
-        `;
+    while (overflows() && padding > 0) {
+        padding = Math.max(0, padding - 0.5);
+        setFit(padding, spacing, fontSize);
     }
-
-    function initializeGrids() {
-        DOM.grids.forEach(grid => {
-            const count =
-                Number(
-                    grid.dataset.gridCount
-                );
-
-            const prefix =
-                grid.dataset.gridPrefix;
-
-            grid.innerHTML =
-                Array.from(
-                    { length: count },
-                    (_, index) =>
-                        createGridItem(
-                            prefix,
-                            index
-                        )
-                ).join('');
-        });
+    while (overflows() && spacing > -0.04) {
+        spacing = Math.max(-0.04, spacing - 0.005);
+        setFit(padding, spacing, fontSize);
     }
-
-    /* =====================================================
-       SECTION DETECTION
-    ===================================================== */
-    function getSectionAtViewportPoint(ratio) {
-        if (!DOM.sections.length) {
-            return null;
-        }
-
-        const position =
-            window.scrollY +
-            window.innerHeight * ratio;
-
-        let active =
-            DOM.sections[0];
-
-        for (const section of DOM.sections) {
-            if (
-                section.offsetTop <=
-                position
-            ) {
-                active = section;
-                continue;
-            }
-
-            break;
-        }
-
-        return active;
+    while (overflows() && fontSize > 11) {
+        fontSize = Math.max(11, fontSize - 0.25);
+        setFit(padding, spacing, fontSize);
     }
+}
 
-    function getVisualSection() {
-        return getSectionAtViewportPoint(0.9);
+const navResizeObserver = new ResizeObserver(fitMobileNavigation);
+navResizeObserver.observe(nav);
+window.addEventListener('load', fitMobileNavigation, { once: true });
+const stickies = $$('#side-sticky .sticky-tape');
+const panel = $('#content-panel');
+const panelPages = $$('.panel-page');
+const grids = $$('.content-grid');
+
+const state = {
+    action: '',
+    frame: 0,
+    resizeTimer: 0,
+    panelTimer: 0,
+};
+
+/* CONTENT */
+const content = {
+    "NOTE": [
+        ["2026.10.28", "Why I started building Nest", "A personal system should make everyday life easier, not add another layer of work."],
+        ["2026.10.21", "Making a place for unfinished ideas", "Thinking about where experiments, failures, and half-formed ideas should live."],
+        ["2026.10.16", "What Git could be for everyone", "Git is useful far beyond software development when the ceremony gets out of the way."],
+        ["2026.10.09", "Building a quieter web", "A small reflection on spaces that do not need to compete for attention."],
+        ["2026.10.02", "The things worth keeping", "Some records matter precisely because they were never intended to become finished work."],
+        ["2026.09.25", "Starting again", "A note about returning to making things after a long pause."],
+        ["2026.09.18", "A place for the work in progress", "Why ongoing work deserves a place alongside finished projects."],
+        ["2026.09.11", "Keeping the small discoveries", "Tiny observations can become useful when there is somewhere to keep them."],
+        ["2026.09.04", "Making tools that fit", "A tool should adapt to the person using it, rather than ask the person to adapt to it."],
+        ["2026.08.21", "The value of a rough prototype", "A rough version makes questions visible before they become expensive decisions."],
+        ["2026.08.07", "What belongs on a personal website", "A personal site can hold more than a polished portfolio or a stream of updates."],
+        ["2026.07.24", "Working in public, at my own pace", "Sharing the process does not mean every step needs to be finished or explained."],
+        ["2026.07.17", "A record is not a performance", "Keeping a record can be useful even when nobody else is watching."],
+        ["2026.07.10", "Finding a shape for information", "Structure helps ideas connect without forcing them into a fixed conclusion."],
+        ["2026.07.03", "Small systems, everyday life", "A collection of modest improvements can make daily routines easier to manage."],
+        ["2026.06.26", "Learning by taking things apart", "Understanding often begins with looking closely at how something was put together."],
+        ["2026.06.19", "Leaving room for detours", "Not every experiment needs to lead directly to a finished result."],
+        ["2026.06.12", "Keeping a trail", "A trail of attempts and decisions makes it easier to see how an idea changed." ]
+    ],
+    "PLAY": [
+        ["NEST", "Personal Systems", "A collection of small systems for making everyday information and activity work better.", "IN PROGRESS"],
+        ["LOOM", "Web Publishing Platform", "A way to shape information into websites and publish them without making Git the obstacle.", "BUILDING"],
+        ["BRUSCOH", "Furby Reverse Engineering", "Exploring a 1998 Furby through hardware, software, experiments, and records.", "EXPERIMENT"]
+    ],
+    "MAKE": [
+        ["FURBY CORE", "Electronics / 2026", "A Pico 2 W based core for exploring the original Furby.", "MAKE"],
+        ["SMALL WEB THINGS", "Web / 2026", "Small websites and interfaces made while figuring out how they should feel.", "MAKE"],
+        ["KITCHEN EXPERIMENTS", "Food / 2026", "Things cooked simply because I wanted to see what would happen.", "MAKE"],
+        ["OLD HARDWARE", "Electronics / Various", "Devices, repairs, modifications, and experiments collected over time.", "MAKE"]
+    ],
+    "ARCHIVE": [
+        ["1996", "India", "Photographs and records from a trip to India.", "TRAVEL"],
+        ["2006", "Portfolio", "An old portfolio and the work collected around it.", "WEB"],
+        ["2004", "Old Website", "A previous website, preserved as part of the trail.", "WEB"],
+        ["2001", "Electronics", "Early experiments with hardware and electronics.", "MAKE"],
+        ["2012", "Photographs", "A collection of photographs from a different period.", "TRAVEL"],
+        ["2014", "Works", "Older projects that no longer have an active home.", "WORK"],
+        ["2018", "Experiments", "Small things tried, tested, and eventually left behind.", "MAKE"],
+        ["2020", "Old Ideas", "Ideas that never became projects, but are still worth keeping.", "NOTE"]
+    ]
+};
+
+const card = ([meta, title, description, type], archive = false) => {
+    const typeLabel = type
+        ? `<div class="${archive ? 'archive-card__type' : 'content-card__type'}">${type}</div>`
+        : '';
+
+    return archive
+        ? `<article class="content-card archive-card">
+            <div class="archive-card__year">${meta}</div>
+            <h3 class="archive-card__title">${title}</h3>
+            <p class="content-card__text">${description}</p>
+            ${typeLabel}
+        </article>`
+        : `<article class="content-card">
+            <div class="content-card__meta">${meta}</div>
+            <h3 class="content-card__title">${title}</h3>
+            <p class="content-card__text">${description}</p>
+            ${typeLabel}
+        </article>`;
+};
+
+const notePageSize = 6;
+let notePage = 1;
+let noteGrid;
+let notePagination;
+
+const renderNotePage = (scrollToList = false) => {
+    if (!noteGrid || !notePagination) return;
+
+    const notes = content.NOTE;
+    const pageCount = Math.max(1, Math.ceil(notes.length / notePageSize));
+    notePage = Math.min(Math.max(1, notePage), pageCount);
+    const start = (notePage - 1) * notePageSize;
+    const visibleNotes = notes.slice(start, start + notePageSize);
+
+    noteGrid.innerHTML = visibleNotes.map(item => card(item)).join('');
+
+    const first = start + 1;
+    const last = Math.min(start + notePageSize, notes.length);
+    const pageButtons = Array.from({ length: pageCount }, (_, index) => {
+        const page = index + 1;
+        const current = page === notePage;
+        return `<button type="button" data-note-page="${page}"${current ? ' aria-current="page"' : ''} aria-label="Page ${page}">${String(page).padStart(2, '0')}</button>`;
+    }).join('');
+
+    notePagination.innerHTML = `
+        <div class="note-pagination__status" aria-live="polite">${String(first).padStart(2, '0')}–${String(last).padStart(2, '0')} / ${String(notes.length).padStart(2, '0')} NOTES</div>
+        <nav class="note-pagination__controls" aria-label="NOTE pages">
+            <button type="button" data-note-direction="prev" aria-label="Previous page"${notePage === 1 ? ' disabled' : ''}>← PREV</button>
+            ${pageButtons}
+            <button type="button" data-note-direction="next" aria-label="Next page"${notePage === pageCount ? ' disabled' : ''}>NEXT →</button>
+        </nav>`;
+
+    if (scrollToList) {
+        scrollToSection($('#section-04'));
     }
+};
 
-    function getNavigationSection() {
-        return getSectionAtViewportPoint(0.5);
-    }
+ ([meta, title, description, type], archive = false) =>
+    archive
+        ? `<article class="content-card archive-card">
+            <div class="archive-card__year">${meta}</div>
+            <h3 class="archive-card__title">${title}</h3>
+            <p class="content-card__text">${description}</p>
+            <div class="archive-card__type">${type}</div>
+        </article>`
+        : `<article class="content-card">
+            <div class="content-card__meta">${meta}</div>
+            <h3 class="content-card__title">${title}</h3>
+            <p class="content-card__text">${description}</p>
+            <div class="content-card__type">${type}</div>
+        </article>`;
 
-    /* =====================================================
-       HEADER / SECTION STATE
-    ===================================================== */
-    function updateSectionState() {
-        const section =
-            getVisualSection();
+grids.forEach(grid => {
+    const key = grid.dataset.content;
 
-        if (!section) {
-            return;
-        }
-
-        const sectionId =
-            section.dataset.section;
-
-        if (
-            state.section ===
-            sectionId
-        ) {
-            updateMainNav();
-            return;
-        }
-
-        state.section =
-            sectionId;
-
-        const isHome =
-            sectionId === '01';
-
-        DOM.body.classList.toggle(
-            'is-home',
-            isHome
+    if (key === 'NOTE') {
+        noteGrid = grid;
+        grid.insertAdjacentHTML(
+            'afterend',
+            '<div class="note-pagination" aria-label="NOTE pagination"></div>'
         );
-
-        DOM.body.classList.toggle(
-            'is-sub',
-            !isHome
-        );
-
-        updateMainNav();
+        notePagination = grid.nextElementSibling;
+        renderNotePage();
+        return;
     }
 
-    /* =====================================================
-       MAIN NAVIGATION
-    ===================================================== */
-    function updateMainNav() {
-        const section =
-            getNavigationSection();
+    grid.innerHTML = (content[key] || [])
+        .map(item => card(item, key === 'ARCHIVE'))
+        .join('');
+});
 
-        const sectionId =
-            section?.dataset.section;
+if (notePagination) {
+    notePagination.addEventListener('click', event => {
+        const button = event.target.closest('button');
+        if (!button || button.disabled) return;
 
-        DOM.mainNav.forEach(link => {
-            const target =
-                link.getAttribute('href');
-
-            const isActive =
-                !state.action &&
-                target ===
-                    `#section-${sectionId}`;
-
-            link.classList.toggle(
-                'is-active',
-                isActive
-            );
-        });
-    }
-
-    function goToSection(sectionId) {
-        const target =
-            document.getElementById(
-                `section-${sectionId}`
-            );
-
-        if (!target) {
-            return;
-        }
-
-        closePanel();
-
-        target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }
-
-    function initializeMainNavigation() {
-        DOM.mainNav.forEach(link => {
-            link.addEventListener(
-                'click',
-                event => {
-                    event.preventDefault();
-
-                    const href =
-                        link.getAttribute(
-                            'href'
-                        );
-
-                    const sectionId =
-                        href.replace(
-                            '#section-',
-                            ''
-                        );
-
-                    goToSection(
-                        sectionId
-                    );
-                }
-            );
-        });
-
-        DOM.logo.addEventListener(
-            'click',
-            () => goToSection('01')
-        );
-    }
-
-    /* =====================================================
-       MATH
-    ===================================================== */
-    function clamp(value, min, max) {
-        return Math.min(
-            Math.max(
-                value,
-                min
-            ),
-            max
-        );
-    }
-
-    function lerp(start, end, progress) {
-        return start +
-            (end - start) *
-            progress;
-    }
-
-    function getScrollProgress() {
-        const homeHeight =
-            Math.max(
-                DOM.sections[0]?.offsetHeight ||
-                    window.innerHeight,
-                window.innerHeight
-            );
-
-        return clamp(
-            window.scrollY /
-                homeHeight,
-            0,
-            1
-        );
-    }
-
-    /* =====================================================
-       HERO MOTION
-       
-       subtitle:
-       0.0 - 0.18
-           HOME positionを維持しながら縮小
-       
-       0.18 - 1.0
-           絶対位置を固定しながら
-           SUB positionへ移動
-    ===================================================== */
-    function updateHeroMotion() {
-        const progress =
-            getScrollProgress();
-
-        const isMobile =
-            window.innerWidth <= 850;
-
-        /* -------------------------------------------------
-           CATCHWORD
-        ------------------------------------------------- */
-        if (isMobile) {
-
-            /* Move the catchword earlier to clear HOME UPDATE content. */
-            const catchwordProgress =
-                clamp(progress / 0.42, 0, 1);
-
-            const homeTop = 280;
-            const subTop = 40;
-
-            const homeLeft =
-                window.innerWidth * 0.07;
-
-            const subLeft = 110;
-
-            const homeSize =
-                Math.min(
-                    59.5,
-                    Math.max(
-                        50,
-                        window.innerWidth *
-                            0.0179 +
-                            44.27
-                    )
-                );
-
-            const subSize = 23;
-
-            const top =
-                lerp(
-                    homeTop,
-                    subTop,
-                    catchwordProgress
-                );
-
-            const left =
-                lerp(
-                    homeLeft,
-                    subLeft,
-                    catchwordProgress
-                );
-
-            const size =
-                lerp(
-                    homeSize,
-                    subSize,
-                    catchwordProgress
-                );
-
-            const translateY =
-                lerp(
-                    -50,
-                    0,
-                    catchwordProgress
-                );
-
-            DOM.catchword.style.top =
-                `${top}px`;
-
-            DOM.catchword.style.left =
-                `${left}px`;
-
-            DOM.catchword.style.fontSize =
-                `${size}px`;
-
-            DOM.catchword.style.transform =
-                `translate3d(0, ${translateY}%, 0)`;
-
+        if (button.dataset.notePage) {
+            notePage = Number(button.dataset.notePage);
+        } else if (button.dataset.noteDirection === 'prev') {
+            notePage -= 1;
+        } else if (button.dataset.noteDirection === 'next') {
+            notePage += 1;
         } else {
-
-            /* Move the catchword earlier to clear HOME UPDATE content. */
-            const catchwordProgress =
-                clamp(progress / 0.42, 0, 1);
-
-            const homeTop = 280;
-            const subTop = 160;
-
-            const homeLeft =
-                window.innerWidth * 0.07;
-
-            const subLeft = 25;
-
-            const homeSize =
-                window.innerWidth * 0.07;
-
-            const subSize = 24;
-
-            const top =
-                lerp(
-                    homeTop,
-                    subTop,
-                    catchwordProgress
-                );
-
-            const left =
-                lerp(
-                    homeLeft,
-                    subLeft,
-                    catchwordProgress
-                );
-
-            const size =
-                lerp(
-                    homeSize,
-                    subSize,
-                    catchwordProgress
-                );
-
-            const translateY =
-                lerp(
-                    -50,
-                    0,
-                    catchwordProgress
-                );
-
-            DOM.catchword.style.top =
-                `${top}px`;
-
-            DOM.catchword.style.left =
-                `${left}px`;
-
-            DOM.catchword.style.fontSize =
-                `${size}px`;
-
-            DOM.catchword.style.transform =
-                `translate3d(0, ${translateY}%, 0)`;
-        }
-
-        /* -------------------------------------------------
-           NAV BAR LABEL
-        ------------------------------------------------- */
-        if (isMobile) {
             return;
         }
 
-        const menuHeight =
-            Math.min(
-                120,
-                Math.max(
-                    80,
-                    window.innerWidth *
-                        0.08333 +
-                        50
-                )
-            );
+        renderNotePage(true);
+    });
+}
 
-        const homeTop =
-            window.innerHeight -
-            menuHeight;
-
-        const subTop =
-            window.innerHeight / 2;
-
-        const homeLeft =
-            window.innerWidth / 2;
-
-        const subLeft = 260;
-
-        const top =
-            lerp(
-                homeTop,
-                subTop,
-                progress
-            );
-
-        const left =
-            lerp(
-                homeLeft,
-                subLeft,
-                progress
-            );
-
-        const rotation =
-            lerp(
-                0,
-                90,
-                progress
-            );
-
-        const lineWidth =
-            lerp(
-                60,
-                140,
-                progress
-            );
-
-        const opacity =
-            lerp(
-                0.6,
-                0.5,
-                progress
-            );
-
-        DOM.navBarLabel.style.top =
-            `${top}px`;
-
-        DOM.navBarLabel.style.left =
-            `${left}px`;
-
-        DOM.navBarLabel.style.transform =
-            `translate3d(-50%, -50%, 0) rotate(${rotation}deg)`;
-
-        DOM.navBarLabel.style.opacity =
-            opacity;
-
-        DOM.navBarLabel.style.setProperty(
-            '--nav-line-width',
-            `${lineWidth}px`
-        );
+/* STATE */
+const sectionAt = ratio => {
+    const position = scrollY + innerHeight * ratio;
+    let active = sections[0];
+    for (const section of sections) {
+        if (section.offsetTop > position) break;
+        active = section;
     }
-
-    /* =====================================================
-       FOOTER MOTION
-       
-       HOME:
-       ナビゲーションバー直上に固定。
-
-       SUB:
-       sidebar中央へ移動。
-       同時にwidthを狭めていくことで、
-       文字が自然に折り返される。
-    ===================================================== */
-    function updateFooterMotion() {
-        const progress =
-            getScrollProgress();
-
-        const isMobile =
-            window.innerWidth <= 850;
-
-        if (isMobile) {
-
-            /*
-             * Mobileでは既存の縦配置を
-             * JSだけで再現する。
-             */
-            const top =
-                clamp(
-                    window.innerHeight * 0.5,
-                    90,
-                    window.innerHeight - 90
-                );
-
-            const left =
-                clamp(
-                    window.innerWidth * 0.01,
-                    12,
-                    20
-                );
-
-            DOM.footer.style.top =
-                `${top}px`;
-
-            DOM.footer.style.bottom =
-                'auto';
-
-            DOM.footer.style.left =
-                `${left}px`;
-
-            DOM.footer.style.width =
-                'max-content';
-
-            DOM.footer.style.maxWidth =
-                'none';
-
-            DOM.footer.style.transform =
-                'translate(-50%, -50%) rotate(-90deg)';
-
-            DOM.footer.style.textAlign =
-                'left';
-
-            return;
-        }
-
-        const menuHeight =
-            Math.min(
-                120,
-                Math.max(
-                    80,
-                    window.innerWidth *
-                        0.08333 +
-                        50
-                )
-            );
-
-        /*
-         * HOME:
-         * footerの中心を画面中央に置き、
-         * navigation barのすぐ上に配置。
-         */
-        const homeLeft =
-            window.innerWidth / 2;
-
-        const homeBottom =
-            menuHeight + 18;
-
-        /*
-         * SUB:
-         * sidebarの中央。
-         */
-        const subLeft =
-            260 / 2;
-
-        const subBottom =
-            clamp(
-                window.innerHeight * 0.06,
-                24,
-                60
-            );
-
-        /*
-         * HOMEでは一行を基本とする。
-         * SUBではnavigation areaに収まる幅へ。
-         */
-        const homeWidth =
-            Math.min(
-                760,
-                window.innerWidth * 0.7
-            );
-
-        const subWidth = 210;
-
-        /*
-         * 位置・幅をすべて連続補間。
-         * CSSのstate transitionには頼らない。
-         */
-        const left =
-            lerp(
-                homeLeft,
-                subLeft,
-                progress
-            );
-
-        const bottom =
-            lerp(
-                homeBottom,
-                subBottom,
-                progress
-            );
-
-        const width =
-            lerp(
-                homeWidth,
-                subWidth,
-                progress
-            );
-
-        DOM.footer.style.top =
-            'auto';
-
-        DOM.footer.style.bottom =
-            `${bottom}px`;
-
-        DOM.footer.style.left =
-            `${left}px`;
-
-        DOM.footer.style.width =
-            `${width}px`;
-
-        DOM.footer.style.maxWidth =
-            `${width}px`;
-
-        DOM.footer.style.transform =
-            'translateX(-50%)';
-
-        DOM.footer.style.textAlign =
-            'center';
-    }
-
-    /* =====================================================
-       STICKY POSITION
-       
-       HOME:
-       画面下のnavigation bar直上。
-
-       SUB:
-       画面上部60px。
-    ===================================================== */
-    function updateStickyMotion() {
-        const progress =
-            getScrollProgress();
-
-        const isMobile =
-            window.innerWidth <= 850;
-
-        if (isMobile) {
-            /*
-             * Narrow screens use the same 25px top anchor.
-             * The notes themselves remain in peek state until opened.
-             */
-            DOM.sticky.style.top =
-                '25px';
-
-            DOM.sticky.style.bottom =
-                'auto';
-
-            DOM.sticky.style.transform =
-                'none';
-
-            return;
-        }
-
-        /*
-         * All sticky notes share the same top anchor.
-         * HOME / SUB no longer use different vertical positions.
-         */
-        const homeTop = 25;
-        const subTop = 25;
-
-        const top =
-            lerp(
-                homeTop,
-                subTop,
-                progress
-            );
-
-        DOM.sticky.style.top =
-            `${top}px`;
-
-        DOM.sticky.style.bottom =
-            'auto';
-
-        DOM.sticky.style.transform =
-            'none';
-    }
-
-    /* =====================================================
-       ACTION PANEL
-    ===================================================== */
-    function updatePanelPages() {
-        DOM.panelPages.forEach(page => {
-            const isActive =
-                page.dataset.actionPage ===
-                state.action;
-
-            page.classList.toggle(
-                'is-active',
-                isActive
-            );
-        });
-    }
-
-    function updateStickyItems() {
-        DOM.stickyItems.forEach(item => {
-            const isActive =
-                item.dataset.action ===
-                state.action;
-
-            item.classList.toggle(
-                'is-open',
-                isActive
-            );
-
-            item.querySelector('a')
-                ?.setAttribute(
-                    'aria-expanded',
-                    String(isActive)
-                );
-        });
-    }
-
-    function updatePanelVisibility() {
-        const isOpen =
-            Boolean(state.action);
-
-        DOM.panel.classList.toggle(
-            'is-open',
-            isOpen
-        );
-
-        DOM.panel.setAttribute(
-            'aria-hidden',
-            String(!isOpen)
-        );
-    }
-
-    function renderPanel() {
-        updatePanelPages();
-        updateStickyItems();
-        updateMainNav();
-        updatePanelVisibility();
-    }
-
-    function openPanel(actionId) {
-        if (
-            state.action ===
-            actionId
-        ) {
-            closePanel();
-            return;
-        }
-
-        if (state.action) {
-            state.action = null;
-            renderPanel();
-
-            setTimeout(() => {
-                state.action = actionId;
-                renderPanel();
-            }, 100);
-
-            return;
-        }
-
-        state.action = actionId;
-        renderPanel();
-    }
-
-    function closePanel() {
-        if (!state.action) {
-            return;
-        }
-
-        state.action = null;
-        renderPanel();
-    }
-
-    /* =====================================================
-       STICKY NAVIGATION
-    ===================================================== */
-    function initializeStickyNavigation() {
-        DOM.stickyItems.forEach(item => {
-            const link =
-                item.querySelector('a');
-
-            link?.addEventListener(
-                'click',
-                event => {
-                    event.preventDefault();
-
-                    openPanel(
-                        item.dataset.action
-                    );
-                }
-            );
-        });
-    }
-
-    /* =====================================================
-       KEYBOARD
-    ===================================================== */
-    function initializeKeyboard() {
-        document.addEventListener(
-            'keydown',
-            event => {
-                if (
-                    event.key === 'Escape' &&
-                    state.action
-                ) {
-                    closePanel();
-                }
-            }
-        );
-    }
-
-    /* =====================================================
-       STICKY ROTATION
-    ===================================================== */
-    function applyRandomRotation() {
-        DOM.stickyItems.forEach(item => {
-            const rotation =
-                (Math.random() - 0.5) * 6;
-
-            item.style.setProperty(
-                '--random-rotate',
-                `${rotation}deg`
-            );
-        });
-    }
-
-    /* =====================================================
-       HOME STICKY STATE
-
-       At scroll position 0 the two sticky notes are fully
-       visible. As soon as scrolling begins they retract to
-       the right, leaving only the icon visible.
-    ===================================================== */
-    function updateHomeStickyState() {
-        const isHome =
-            DOM.body.classList.contains('is-home');
-
-        const hasScrolled =
-            window.scrollY > 1;
-
-        DOM.body.classList.toggle(
-            'has-scrolled',
-            isHome && hasScrolled
-        );
-    }
-
-    /* =====================================================
-       SCROLL
-    ===================================================== */
-    function requestScrollUpdate() {
-        if (state.motionFrame) {
-            return;
-        }
-
-        state.motionFrame =
-            requestAnimationFrame(() => {
-                state.motionFrame = 0;
-
-                updateHeroMotion();
-                updateSectionState();
-                updateHomeStickyState();
-                updateStickyMotion();
-                updateFooterMotion();
-            });
-    }
-
-    function handleScroll() {
-        requestScrollUpdate();
-    }
-
-    window.addEventListener(
-        'scroll',
-        handleScroll,
-        { passive: true }
+    return active;
+};
+
+const sync = () => {
+    const section = sectionAt(0.9);
+    if (!section) return;
+
+    const isHome = section.dataset.section === '01';
+    body.classList.toggle('is-home', isHome);
+    body.classList.toggle('is-sub', !isHome);
+    body.classList.toggle('is-note', sectionAt(0.5)?.dataset.section === '04');
+    body.classList.toggle(
+        'catchword-sub',
+        isHome && scrollY / Math.max(sections[0].offsetHeight, innerHeight) >= 0.42
     );
 
-    window.addEventListener(
-        'resize',
-        () => {
-            state.viewportWidth =
-                window.innerWidth;
-
-            state.viewportHeight =
-                window.innerHeight;
-
-            requestScrollUpdate();
-        }
+    const navId = sectionAt(0.5)?.dataset.section;
+    nav.querySelectorAll('a').forEach(link =>
+        link.classList.toggle(
+            'is-active',
+            link.hash === `#section-${navId}`
+        )
     );
+};
 
-    /* =====================================================
-       INITIALIZE
-    ===================================================== */
-    function initialize() {
-        initializeGrids();
-        applyRandomRotation();
-        initializeMainNavigation();
-        initializeStickyNavigation();
-        initializeKeyboard();
+const requestSync = () => {
+    if (state.frame) return;
+    state.frame = requestAnimationFrame(() => {
+        state.frame = 0;
+        sync();
+    });
+};
 
-        updateSectionState();
-        updateHomeStickyState();
-        updateHeroMotion();
-        updateStickyMotion();
-        updateFooterMotion();
-        renderPanel();
+/* NAVIGATION */
+const scrollToSection = section => {
+    if (!section) return;
+
+    // On wide screens, align the section title with the logo's top edge.
+    // On mobile, retain the existing section-start position.
+    const title = section.querySelector('.page-title');
+    if (innerWidth > 850 && title) {
+        const top = window.scrollY + title.getBoundingClientRect().top - 25;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    } else {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+};
+
+const go = id => {
+    const target = $(`#section-${id}`);
+    if (!target) return;
+    setPanel('');
+    scrollToSection(target);
+};
+
+// Use the native click activation path for both touch and pointer input.
+// Prevent the anchor's fragment jump and route through the site's section navigation.
+nav.addEventListener('click', event => {
+    const link = event.target.closest('a');
+    if (!link || !nav.contains(link)) return;
+
+    // On mobile, let the real in-page anchor perform the navigation.
+    // This avoids intercepting the browser's native touch/click activation.
+    if (window.innerWidth <= 850) {
+        setPanel('');
+        return;
     }
 
-    window.addEventListener(
-        'DOMContentLoaded',
-        initialize
-    );
+    // Desktop keeps the custom title-aligned section navigation.
+    event.preventDefault();
+    const sectionId = link.hash.slice(9);
+    if (sectionId) go(sectionId);
+});
+
+// Prevent long-press link previews on the in-page navigation controls.
+nav.addEventListener('contextmenu', event => {
+    if (event.target.closest('a')) event.preventDefault();
+});
+
+logo.addEventListener('click', () => go('01'));
+
+/* PANEL */
+function setPanel(id) {
+    clearTimeout(state.panelTimer);
+
+    const render = () => {
+        state.action = id;
+        panelPages.forEach(page =>
+            page.classList.toggle('is-active', page.dataset.actionPage === id)
+        );
+        stickies.forEach(item => {
+            const active = item.dataset.action === id;
+            item.classList.toggle('is-open', active);
+            $('a', item)?.setAttribute('aria-expanded', String(active));
+        });
+        panel.classList.toggle('is-open', Boolean(id));
+        panel.setAttribute('aria-hidden', String(!id));
+        sync();
+    };
+
+    if (state.action && id && state.action !== id) {
+        state.action = '';
+        render();
+        state.panelTimer = setTimeout(render, 100);
+        return;
+    }
+    render();
+}
+
+$('#side-sticky').addEventListener('click', event => {
+    const item = event.target.closest('.sticky-tape');
+    if (!item) return;
+    event.preventDefault();
+    setPanel(state.action === item.dataset.action ? '' : item.dataset.action);
+});
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') setPanel('');
+});
+
+/* STICKY */
+stickies.forEach(item =>
+    item.style.setProperty('--random-rotate', `${(Math.random() - 0.5) * 6}deg`)
+);
+
+/* SCROLL / RESIZE */
+window.addEventListener('scroll', requestSync, { passive: true });
+window.addEventListener('resize', () => {
+    fitMobileNavigation();
+    body.classList.add('is-resizing');
+    clearTimeout(state.resizeTimer);
+    state.resizeTimer = setTimeout(() => body.classList.remove('is-resizing'), 180);
+    requestSync();
+}, { passive: true });
+
+fitMobileNavigation();
+sync();
 </script>
-
 </body>
 </html>
