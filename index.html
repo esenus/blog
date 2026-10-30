@@ -31,7 +31,7 @@
         --nav-link-horizontal-padding:
             clamp(5px, calc(0.943vw + 1.98px), 10px);
         --nav-link-font-size:
-            clamp(10px, calc(0.566vw + 8.19px), 13px);
+            clamp(11px, calc(0.566vw + 9.19px), 14px);
         --mobile-top-shield-height: 110px;
     }
 
@@ -1154,14 +1154,15 @@
             position: relative;
             z-index: 1;
             top: 0 !important;
-            width: 100%;
+            width: calc(100% - 16px);
+            margin-inline: auto;
             flex-direction: row !important;
             justify-content: center !important;
             align-items: stretch !important;
             padding: 0 !important;
-            /* Preserve the desktop type scale; reclaim horizontal space first. */
-            gap: clamp(0px, calc(0.9vw + 1px), var(--nav-gap));
-            touch-action: pan-y;
+            /* Keep the desktop spacing and type scale; reduce only outer margins. */
+            gap: var(--nav-gap);
+            touch-action: manipulation;
             -webkit-user-select: none;
             user-select: none;
         }
@@ -1185,7 +1186,7 @@
             line-height: 1;
             text-align: center;
             white-space: nowrap;
-            touch-action: pan-y;
+            touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -1849,29 +1850,20 @@ const go = id => {
     scrollToSection(target);
 };
 
-let lastTouchNavigation = 0;
-
-// Handle touch navigation at pointer-up so mobile browsers do not invoke
-// their native link-preview / selection interaction for these in-page controls.
-nav.addEventListener('pointerup', event => {
-    if (event.pointerType !== 'touch') return;
-    const link = event.target.closest('a');
-    if (!link) return;
-    event.preventDefault();
-    lastTouchNavigation = performance.now();
-    go(link.hash.slice(9));
-});
-
+// Use the native click activation path for both touch and pointer input.
+// Prevent the anchor's fragment jump and route through the site's section navigation.
 nav.addEventListener('click', event => {
     const link = event.target.closest('a');
-    if (!link) return;
+    if (!link || !nav.contains(link)) return;
     event.preventDefault();
-    // Touch pointer-up already performed the navigation; ignore its follow-up click.
-    if (performance.now() - lastTouchNavigation < 800) return;
-    go(link.hash.slice(9));
+    const sectionId = link.hash.slice(9);
+    if (sectionId) go(sectionId);
 });
 
-nav.addEventListener('contextmenu', event => event.preventDefault());
+// Prevent long-press link previews on the in-page navigation controls.
+nav.addEventListener('contextmenu', event => {
+    if (event.target.closest('a')) event.preventDefault();
+});
 
 logo.addEventListener('click', () => go('01'));
 
