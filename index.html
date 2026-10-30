@@ -880,15 +880,12 @@
             left: 0 !important;
             z-index: 1000;
             width: 100% !important;
-            height: calc(
-                var(--mobile-menu-height) +
-                env(safe-area-inset-bottom, 0px) +
-                1px
-            ) !important;
+            height: calc(var(--mobile-menu-height) + env(safe-area-inset-bottom, 0px)) !important;
             border-top: 1px solid var(--line-color);
             border-right: none !important;
-            padding-bottom: 0;
+            padding-bottom: env(safe-area-inset-bottom, 0px);
             box-sizing: border-box;
+            background: var(--bg-color);
         }
 
         #site-header::after {
@@ -909,16 +906,12 @@
             z-index: 0;
         }
 
-        /* safe-area-inset-bottom分だけナビゲーション領域を拡張し、リンク位置は維持 */
         nav[aria-label="Main Navigation"] {
             position: absolute;
             top: 0;
             right: 0;
             left: 0;
-            height: calc(
-                var(--mobile-menu-height) +
-                env(safe-area-inset-bottom, 0px)
-            );
+            height: var(--mobile-menu-height);
             z-index: 2;
             touch-action: manipulation;
             overscroll-behavior: contain;
@@ -1022,8 +1015,6 @@
             white-space: nowrap;
             text-align: left;
         }
-
-        /* FIX: iOS用の touch-action: none ブロックを削除 */
 
         .note-pagination {
             right: 10px;
@@ -1450,7 +1441,6 @@ const go = id => {
     scrollToSection(target);
 };
 
-/* FIX: touchstart/touchend の独自処理をやめ、標準の click に一本化 */
 nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
     link.addEventListener('click', event => {
         event.preventDefault();
