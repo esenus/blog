@@ -1695,8 +1695,6 @@ const state = {
     frame: 0,
     resizeTimer: 0,
     panelTimer: 0,
-    navPointer: null,
-    suppressNavClick: null,
 };
 
 /* CONTENT */
@@ -1917,80 +1915,77 @@ const go = id => {
     scrollToSection(target);
 };
 
-// Separate a deliberate tap from a swipe/scroll gesture.
-// Touch and pen use the refined Pointer Events path; mouse and keyboard retain click.
-nav.addEventListener('pointerdown', event => {
-    if (!event.isPrimary || event.button !== 0) return;
-    const link = event.target.closest('a');
-    if (!link || !nav.contains(link)) return;
+// Touch devices use the original touch-event path restored from the Muse build.
+// A deliberate tap is handled on touchend; movement remains a scroll/swipe.
+nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
+    let touchStart = null;
+    let touchMoved = false;
+    let handledTouchAt = 0;
 
-    state.navPointer = {
-        pointerId: event.pointerId,
-        pointerType: event.pointerType,
-        link,
-        x: event.clientX,
-        y: event.clientY,
-        moved: false
-    };
-});
-
-nav.addEventListener('pointermove', event => {
-    const gesture = state.navPointer;
-    if (!gesture || gesture.pointerId !== event.pointerId) return;
-
-    if (Math.hypot(event.clientX - gesture.x, event.clientY - gesture.y) > 10) {
-        gesture.moved = true;
-    }
-});
-
-nav.addEventListener('pointerup', event => {
-    const gesture = state.navPointer;
-    if (!gesture || gesture.pointerId !== event.pointerId) return;
-    state.navPointer = null;
-
-    // A moved pointer belongs to scrolling/swiping, not menu activation.
-    if (gesture.moved) return;
-    const releasedLink = event.target.closest('a');
-    if (!releasedLink || releasedLink !== gesture.link) return;
-
-    // Touch/pen activation is handled here so the browser-generated click
-    // cannot trigger the same section transition a second time.
-    if (gesture.pointerType === 'touch' || gesture.pointerType === 'pen') {
-        event.preventDefault();
-        state.suppressNavClick = {
-            link: gesture.link,
-            until: performance.now() + 700
-        };
-        const sectionId = gesture.link.hash.slice(9);
+    const navigate = () => {
+        const sectionId = link.hash.slice(9);
         if (sectionId) go(sectionId);
-    }
-});
+    };
 
-nav.addEventListener('pointercancel', event => {
-    if (state.navPointer?.pointerId === event.pointerId) {
-        state.navPointer = null;
-    }
-});
+    link.addEventListener('touchstart', event => {
+        if (event.changedTouches.length !== 1) {
+            touchStart = null;
+            touchMoved = true;
+            return;
+        }
 
-// Mouse, keyboard and assistive-technology activation remain on the click path.
-nav.addEventListener('click', event => {
-    const link = event.target.closest('a');
-    if (!link || !nav.contains(link)) return;
+        const { clientX, clientY } = event.changedTouches[0];
+        touchStart = { x: clientX, y: clientY };
+        touchMoved = false;
+    }, { passive: true });
 
-    const suppressed = state.suppressNavClick;
-    if (suppressed && performance.now() <= suppressed.until && suppressed.link === link) {
-        state.suppressNavClick = null;
+    link.addEventListener('touchmove', event => {
+        if (!touchStart || !event.changedTouches.length) return;
+
+        const { clientX, clientY } = event.changedTouches[0];
+        if (Math.hypot(clientX - touchStart.x, clientY - touchStart.y) > 10) {
+            touchMoved = true;
+        }
+    }, { passive: true });
+
+    link.addEventListener('touchend', event => {
+        if (!touchStart || touchMoved) {
+            touchStart = null;
+            touchMoved = false;
+            return;
+        }
+
+        const touch = event.changedTouches[0];
+        const distance = Math.hypot(
+            touch.clientX - touchStart.x,
+            touch.clientY - touchStart.y
+        );
+        touchStart = null;
+        touchMoved = false;
+
+        if (distance > 10) return;
+
+        // Prevent Safari's synthetic click from activating the same link twice.
+        handledTouchAt = Date.now();
         event.preventDefault();
-        return;
-    }
-    state.suppressNavClick = null;
+        event.stopPropagation();
+        navigate();
+    }, { passive: false });
 
-    event.preventDefault();
-    const sectionId = link.hash.slice(9);
-    if (sectionId) go(sectionId);
+    link.addEventListener('touchcancel', () => {
+        touchStart = null;
+        touchMoved = false;
+    }, { passive: true });
+
+    // Keep mouse, keyboard and assistive-technology activation available.
+    link.addEventListener('click', event => {
+        event.preventDefault();
+        if (event.detail !== 0 && Date.now() - handledTouchAt < 700) return;
+        navigate();
+    });
 });
 
-// Prevent long-press link previews on the in-page navigation controls.
+// Avoid the iOS long-press link preview on the in-page navigation controls.
 nav.addEventListener('contextmenu', event => {
     if (event.target.closest('a')) event.preventDefault();
 });
