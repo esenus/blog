@@ -905,12 +905,11 @@
             z-index: 0;
         }
 
+        /* FIX: ホームバー/タブバー領域(safe-area)をタップ領域から除外 */
         nav[aria-label="Main Navigation"] {
             position: absolute;
-            inset: 0;
+            inset: 0 0 env(safe-area-inset-bottom, 0px) 0;
             z-index: 2;
-            width: 100%;
-            height: 100%;
             touch-action: manipulation;
             overscroll-behavior: contain;
         }
@@ -1014,13 +1013,7 @@
             text-align: left;
         }
 
-        @supports (-webkit-touch-callout: none) {
-            nav[aria-label="Main Navigation"],
-            .nav-list,
-            .nav-list a {
-                touch-action: none;
-            }
-        }
+        /* FIX: iOS用の touch-action: none ブロックを削除 */
 
         .note-pagination {
             right: 10px;
@@ -1447,55 +1440,12 @@ const go = id => {
     scrollToSection(target);
 };
 
+/* FIX: touchstart/touchend の独自処理をやめ、標準の click に一本化 */
 nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
-    let touchStart = null, touchMoved = false, handledTouchAt = 0;
-
-    const navigate = () => {
-        const sectionId = link.hash.slice(9);
-        if (sectionId) go(sectionId);
-    };
-
-    link.addEventListener('touchstart', event => {
-        if (event.changedTouches.length !== 1) {
-            touchStart = null;
-            touchMoved = true;
-            return;
-        }
-        const { clientX, clientY } = event.changedTouches[0];
-        touchStart = { x: clientX, y: clientY };
-        touchMoved = false;
-        if (event.cancelable) event.preventDefault();
-    }, { passive: false });
-
-    link.addEventListener('touchmove', event => {
-        if (!touchStart || !event.changedTouches.length) return;
-        const { clientX, clientY } = event.changedTouches[0];
-        if (Math.hypot(clientX - touchStart.x, clientY - touchStart.y) > 10) touchMoved = true;
-    }, { passive: true });
-
-    link.addEventListener('touchend', event => {
-        if (!touchStart || touchMoved) {
-            touchStart = null;
-            touchMoved = false;
-            return;
-        }
-        const touch = event.changedTouches[0];
-        const dist = Math.hypot(touch.clientX - touchStart.x, touch.clientY - touchStart.y);
-        touchStart = null;
-        touchMoved = false;
-        if (dist > 10) return;
-        handledTouchAt = Date.now();
-        event.preventDefault();
-        event.stopPropagation();
-        navigate();
-    }, { passive: false });
-
-    link.addEventListener('touchcancel', () => { touchStart = null; touchMoved = false; }, { passive: true });
-
     link.addEventListener('click', event => {
         event.preventDefault();
-        if (event.detail !== 0 && Date.now() - handledTouchAt < 700) return;
-        navigate();
+        const sectionId = link.hash.slice(9);
+        if (sectionId) go(sectionId);
     });
 });
 
