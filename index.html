@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
 <title>blog.esenus</title>
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&amp;display=swap" rel="stylesheet"/>
 <style>
@@ -117,7 +117,7 @@
             transform 0.4s var(--ease);
     }
 
-    .nav-list a {
+    .nav-list button {
         display: inline-block;
         padding:
             5px
@@ -163,7 +163,7 @@
        POINTER HOVER
     ===================================================== */
     @media (hover: hover) and (pointer: fine) {
-        .nav-list a:hover {
+        .nav-list button:hover {
             opacity: 1;
             color: var(--accent-red);
         }
@@ -183,7 +183,7 @@
     /* =====================================================
        ACTIVE NAVIGATION
     ===================================================== */
-    .nav-list a.is-active {
+    .nav-list button.is-active {
         opacity: 1;
         background: var(--text-dark);
         color: #fff !important;
@@ -1123,7 +1123,7 @@
             /* Keep the fixed top shield behind the subtitle and sticky notes. */
             z-index: 1000;
             width: 100% !important;
-            height: var(--mobile-menu-height) !important;
+            height: calc(var(--mobile-menu-height) + env(safe-area-inset-bottom, 0px)) !important;
             border-top: 1px solid var(--line-color);
             border-right: none !important;
             padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -1151,9 +1151,11 @@
         }
 
         .nav-list {
-            position: relative;
+            position: absolute;
             z-index: 1;
             top: 0 !important;
+            left: 0;
+            height: var(--mobile-menu-height);
             width: calc(100% - 20px);
             margin: 0 10px;
             box-sizing: border-box;
@@ -1177,7 +1179,16 @@
             min-width: max-content;
         }
 
-        .nav-list a {
+        .nav-list button {
+            appearance: none;
+            -webkit-appearance: none;
+            border: 0;
+            border-radius: 0;
+            margin: 0;
+            background: transparent;
+            color: var(--text-dark);
+            font-family: 'Syncopate';
+            font-weight: 400;
             display: flex;
             flex: 0 0 auto;
             align-items: center;
@@ -1367,15 +1378,15 @@
 
 
 <li>
-<a href="#section-01">HOME</a>
+<button type="button" data-section="01">HOME</button>
 </li><li>
-<a href="#section-04">NOTE</a>
+<button type="button" data-section="04">NOTE</button>
 </li><li>
-<a href="#section-02">PLAY</a>
+<button type="button" data-section="02">PLAY</button>
 </li><li>
-<a href="#section-03">MAKE</a>
+<button type="button" data-section="03">MAKE</button>
 </li><li>
-<a href="#section-05">ARCHIVE</a>
+<button type="button" data-section="05">ARCHIVE</button>
 </li></ul>
 </nav>
 </header>
@@ -1859,10 +1870,10 @@ const sync = () => {
     );
 
     const navId = sectionAt(0.5)?.dataset.section;
-    nav.querySelectorAll('a').forEach(link =>
-        link.classList.toggle(
+    nav.querySelectorAll('button[data-section]').forEach(button =>
+        button.classList.toggle(
             'is-active',
-            link.hash === `#section-${navId}`
+            button.dataset.section === navId
         )
     );
 };
@@ -1897,19 +1908,12 @@ const go = id => {
     scrollToSection(target);
 };
 
-// Use the native click activation path for both touch and pointer input.
-// Prevent the anchor's fragment jump and route through the site's section navigation.
+// Use native button activation for touch, mouse, and keyboard input.
+// Buttons avoid browser link-preview / link-context UI for in-page navigation.
 nav.addEventListener('click', event => {
-    const link = event.target.closest('a');
-    if (!link || !nav.contains(link)) return;
-    event.preventDefault();
-    const sectionId = link.hash.slice(9);
-    if (sectionId) go(sectionId);
-});
-
-// Prevent long-press link previews on the in-page navigation controls.
-nav.addEventListener('contextmenu', event => {
-    if (event.target.closest('a')) event.preventDefault();
+    const button = event.target.closest('button[data-section]');
+    if (!button || !nav.contains(button)) return;
+    go(button.dataset.section);
 });
 
 logo.addEventListener('click', () => go('01'));
