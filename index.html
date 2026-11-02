@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>blog.esenus</title>
-<!-- BLOG_VERSION: 0.3.14 -->
+<title>Blog — esenus</title>
+<meta name="description" content="A personal place to make things. Projects, experiments, thoughts, and records from esenus."/>
+<meta name="theme-color" content="#f2f2f0"/>
+<!-- BLOG_VERSION: 0.3.26 -->
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap" rel="stylesheet"/>
 <style>
 :root {
@@ -32,11 +34,9 @@
 }
 html {
   scroll-behavior: smooth;
-  overscroll-behavior: none;
 }
 body {
   min-height: 100vh;
-  overscroll-behavior: none;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
@@ -85,7 +85,6 @@ body {
   line-height: 1;
   opacity: 0.72;
   pointer-events: none;
-  user-select: none;
 }
 #site-header {
   position: fixed;
@@ -126,8 +125,6 @@ body {
   letter-spacing: 0.3em;
   transition: transform 0.7s var(--ease), opacity 0.7s ease;
   will-change: transform, opacity;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 .nav-bar-label::after {
   content: '';
@@ -187,8 +184,6 @@ body.is-resizing #catchword,body.is-resizing #home-updates {
   left: 25px;
   transition: transform 0.7s var(--ease), opacity 0.7s ease;
   will-change: transform, opacity;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 body.is-home #catchword {
   transform: translate3d(calc(7vw - 25px), calc(60px - 50%), 0);
@@ -588,7 +583,8 @@ body.is-note .note-pagination {
   transform: translate3d(calc(100% - var(--sticky-peek)), 0, 0) rotate(var(--random-rotate, 0deg));
   transition: transform var(--sticky-speed) var(--ease);
 }
-.sticky-tape.is-open,body.is-home #side-sticky .sticky-tape {
+.sticky-tape.is-open,
+body.is-home #side-sticky .sticky-tape {
   transform: translate3d(0, 0, 0) rotate(var(--random-rotate, 0deg));
 }
 body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open) {
@@ -607,6 +603,16 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   text-decoration: none;
   font-family: 'Vast Shadow';
   font-size: 13px;
+}
+.sticky-tape a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -24px;
+  width: 24px;
+  height: 100%;
+  background: inherit;
+  pointer-events: none;
 }
 .sticky-tape--behind a {
   background: var(--text-dark);
@@ -744,8 +750,6 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   font-size: 8px;
   font-weight: 350;
   letter-spacing: 0.4em;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
   text-transform: uppercase;
   opacity: 0.25 !important;
   box-sizing: border-box;
@@ -917,8 +921,6 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     width: 100%;
     height: 80px;
     z-index: 1001;
-    touch-action: manipulation;
-    overscroll-behavior: contain;
     pointer-events: auto;
   }
   body.is-sub .primary-nav {
@@ -942,10 +944,6 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     align-items: center !important;
     padding: 0 10px 0 7vw !important;
     gap: 0;
-    touch-action: pan-y;
-    overscroll-behavior: contain;
-    -webkit-user-select: none;
-    user-select: none;
     pointer-events: auto;
   }
   body.is-sub .nav-list {
@@ -958,7 +956,6 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     gap: 0;
     background: linear-gradient(180deg, rgba(242, 242, 240, 0.78) 0%, rgba(242, 242, 240, 0.58) 100%);
     backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
     border-radius: 3px;
   }
   body.is-sub .nav-list li {
@@ -999,27 +996,12 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     opacity: 0.42;
     pointer-events: auto;
   }
-  body.is-sub .nav-list a::before {
-    content: '';
-    position: absolute;
-    top: -7px;
-    right: -4px;
-    bottom: -7px;
-    left: -4px;
-    pointer-events: auto;
-  }
-  body.is-sub .nav-list li:last-child a::before {
-    right: -10px;
-  }
   /* モバイル共通: 現在セクションを赤文字 */
   .nav-list a.is-active {
     background: transparent !important;
     color: var(--accent-red) !important;
     opacity: 1 !important;
     font-weight: 700;
-  }
-  .nav-list a.is-active::before {
-    display: none !important;
   }
   /* モバイルでは HOME リンクを非表示（HOME時はメニュー自体がHOME位置、SUB時は現在位置表示のため） */
   body.is-home .nav-list li:has(a[href="#section-01"]) {
@@ -1044,11 +1026,6 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     line-height: 1;
     text-align: center;
     white-space: nowrap;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
   }
   body.is-home .nav-list a {
     font-size: 12px;
@@ -1125,9 +1102,6 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   }
   .content-panel-inner {
     padding: 60px 30px 70px;
-  }
-  .panel-page .page-intro-grid {
-    grid-template-columns: 1fr;
   }
   .panel-page .page-main-text p {
     font-size: 1.25rem;
@@ -1226,7 +1200,7 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
 </style>
 </head>
 <body class="is-home">
-<div aria-label="Version 0.3.13" id="site-version">v0.3.13</div>
+<div aria-label="Version 0.3.26" id="site-version">v0.3.26</div>
 
 <header id="site-header">
 <button aria-label="Go to Home" id="logo" type="button">
@@ -1343,7 +1317,7 @@ blog.<br/>ESENUS
 </ul>
 </aside>
 
-<aside aria-hidden="true" aria-label="More" id="content-panel">
+<aside aria-hidden="true" aria-label="Additional information" id="content-panel">
 <div class="content-panel-inner">
 <section class="panel-page" data-action-page="01" id="panel-action-01">
 <h1 class="page-title">KNOCK</h1>
@@ -1381,72 +1355,46 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const body = document.body;
 const logo = $('#logo');
 const nav = $('#main-nav-list');
-const primaryNavigation = $('#primary-navigation');
+const navLinks = $$('a[href^="#section-"]', nav);
 const sections = $$('main .page-section');
 const stickies = $$('#side-sticky .sticky-tape');
 const panel = $('#content-panel');
 const panelPages = $$('.panel-page');
 const grids = $$('.content-grid');
 const MOBILE_BREAKPOINT = 850;
-function fitMobileNavigation() {
-if (!nav || !primaryNavigation) return;
-if (window.innerWidth > MOBILE_BREAKPOINT) {
-['--nav-item-padding', '--nav-letter-spacing', '--nav-font-size'].forEach(prop => nav.style.removeProperty(prop));
-return;
-}
-const setFit = (padding, spacing, fontSize) => {
-nav.style.setProperty('--nav-item-padding', `${padding}px`);
-nav.style.setProperty('--nav-letter-spacing', `${spacing}em`);
-nav.style.setProperty('--nav-font-size', `${fontSize}px`);
-};
-const overflows = () => nav.scrollWidth > nav.clientWidth + 1;
-let padding = 10, spacing = 0.02, fontSize = 14;
-setFit(padding, spacing, fontSize);
-while (overflows() && padding > 0) {
-padding = Math.max(0, padding - 0.5);
-setFit(padding, spacing, fontSize);
-}
-while (overflows() && spacing > -0.04) {
-spacing = Math.max(-0.04, spacing - 0.005);
-setFit(padding, spacing, fontSize);
-}
-while (overflows() && fontSize > 11) {
-fontSize = Math.max(11, fontSize - 0.25);
-setFit(padding, spacing, fontSize);
-}
-}
-const navResizeObserver = new ResizeObserver(fitMobileNavigation);
-navResizeObserver.observe(primaryNavigation);
-window.addEventListener('load', fitMobileNavigation, { once: true });
 const state = { action: '', frame: 0, resizeTimer: 0, panelTimer: 0 };
 // Content model: Section defines the primary context; Collection is optional within each Section.
 // NOTE is a chronological View of all published articles. Tags connect content across Sections.
 const collections = {
     PLAY: [
-        { id: 'projects', name: 'Projects' },
-        { id: 'web', name: 'Web', description: 'Websites, interfaces, and explorations of the web.' },
-        { id: 'electronics', name: 'Electronics', description: 'Electronics projects, repairs, and modifications.' }
+        { id: 'projects', name: 'Projects', mark: '✦' },
+        { id: 'web', name: 'Web', mark: '◎', description: 'Websites, interfaces, and explorations of the web.' },
+        { id: 'electronics', name: 'Electronics', mark: '⌬', description: 'Electronics projects, repairs, and modifications.' }
     ],
     MAKE: [
-        { id: 'development', name: 'Development', description: 'Development, design, and the systems behind things.' },
-        { id: 'experiments', name: 'Experiments', description: 'Prototypes, tests, trials, and learning through experimentation.' },
-        { id: 'tools', name: 'Tools', description: 'Tools, utilities, and small things made to support everyday work.' },
-        { id: 'web', name: 'Web', description: 'Websites, interfaces, and explorations of the web.' },
-        { id: 'food', name: 'Food', description: 'Cooking, recipes, and experiments with food.' },
-        { id: 'electronics', name: 'Electronics', description: 'Electronics projects, repairs, and modifications.' }
+        { id: 'development', name: 'Development', mark: '⌘', description: 'Development, design, and the systems behind things.' },
+        { id: 'experiments', name: 'Experiments', mark: '✳', description: 'Prototypes, tests, trials, and learning through experimentation.' },
+        { id: 'tools', name: 'Tools', mark: '⌁', description: 'Tools, utilities, and small things made to support everyday work.' },
+        { id: 'web', name: 'Web', mark: '◎', description: 'Websites, interfaces, and explorations of the web.' },
+        { id: 'food', name: 'Food', mark: '＋', description: 'Cooking, recipes, and experiments with food.' },
+        { id: 'electronics', name: 'Electronics', mark: '⌬', description: 'Electronics projects, repairs, and modifications.' }
     ],
     THEN: [
-        { id: 'unsorted', name: 'Unsorted', description: 'Everyday notes, short thoughts, memos, and unfinished ideas that do not need a separate category.' },
-        { id: 'works', name: 'Works', description: 'Past creations and activities that do not belong to a more specific collection.' },
-        { id: 'portfolio', name: 'Portfolio', description: 'Past portfolios and collections of work presented as a body of work.' },
-        { id: 'electronics', name: 'Electronics', description: 'Past electronics projects, repairs, and modifications.' },
-        { id: 'photographs', name: 'Photographs', description: 'Photographs and visual records from different times and places.' },
-        { id: 'experiments', name: 'Experiments', description: 'Past prototypes, tests, and experiments, including what was learned along the way.' },
+        { id: 'unsorted', name: 'Unsorted', mark: '…', description: 'Everyday notes, short thoughts, memos, and unfinished ideas that do not need a separate category.' },
+        { id: 'works', name: 'Works', mark: '✦', description: 'Past creations and activities that do not belong to a more specific collection.' },
+        { id: 'portfolio', name: 'Portfolio', mark: '▤', description: 'Past portfolios and collections of work presented as a body of work.' },
+        { id: 'electronics', name: 'Electronics', mark: '⌬', description: 'Past electronics projects, repairs, and modifications.' },
+        { id: 'photographs', name: 'Photographs', mark: '▧', description: 'Photographs and visual records from different times and places.' },
+        { id: 'experiments', name: 'Experiments', mark: '✳', description: 'Past prototypes, tests, and experiments, including what was learned along the way.' },
     ]
 };
 
-const getCollectionName = (section, collectionId) =>
-    collections[section]?.find(collection => collection.id === collectionId)?.name || '';
+const getCollection = (section, collectionId) =>
+    collections[section]?.find(item => item.id === collectionId);
+const getCollectionName = (section, collectionId) => getCollection(section, collectionId)?.name || '';
+const getItemCollectionName = item => item.collection
+    ? getCollectionName(item.section, item.collection)
+    : '';
 
 const articles = [
     { id: 'article-030', status: 'published', featured: false, date: '2026.11.01', title: 'A place for things in motion', description: 'A personal site can hold ongoing work without turning every unfinished thought into an announcement.', section: 'MAKE', collection: 'development', tags: ['personal-site', 'records'] },
@@ -1482,55 +1430,41 @@ const articles = [
 ];
 
 const works = [
-    { id: 'work-loom', status: 'published', meta: 'LOOM', title: 'Web Publishing Platform', subtitle: 'Web Publishing Platform', description: 'A way to shape information into websites and publish them without making Git the obstacle.', section: 'PLAY', collection: 'web', tags: ['web', 'publishing'], label: 'BUILDING', url: 'https://loom.esenus.com/', thumbnail: 'loom' },
-    { id: 'work-livingbase', status: 'published', meta: 'NEST', title: 'Livingbase', subtitle: 'Personal Systems', description: 'A personal system for bringing everyday information, activities, and routines together.', section: 'PLAY', collection: 'projects', tags: ['systems', 'everyday-life'], label: 'IN PROGRESS', url: 'https://nest.esenus.com/', thumbnail: 'livingbase' },
-    { id: 'work-days', status: 'published', meta: 'NEST', title: 'Days', description: 'A small space for keeping track of days and the things that fill them.', section: 'PLAY', collection: 'projects', tags: ['everyday-life', 'records'], url: 'https://days.esenus.com/', thumbnail: 'days' },
-    { id: 'work-body', status: 'published', meta: 'NEST', title: 'Body', description: 'A personal space for understanding and keeping records of the body.', section: 'PLAY', collection: 'projects', tags: ['personal-systems', 'records'], url: 'https://body.esenus.com/', thumbnail: 'body' },
-    { id: 'work-meal', status: 'published', meta: 'NEST', title: 'Meal', description: 'A space for food, meals, and the everyday decisions around them.', section: 'PLAY', collection: 'projects', tags: ['food', 'everyday-life'], url: 'https://meal.esenus.com/', thumbnail: 'meal' },
-    { id: 'work-baby', status: 'published', meta: 'NEST', title: 'Baby', description: 'A dedicated space for keeping and organizing records around early life.', section: 'PLAY', collection: 'projects', tags: ['records', 'personal-systems'], url: 'https://baby.esenus.com/', thumbnail: 'baby' },
-    { id: 'work-perk', status: 'published', meta: 'NEST', title: 'Perk', description: 'A small rewards system for making everyday actions a little more engaging.', section: 'PLAY', collection: 'projects', tags: ['systems', 'everyday-life'], url: 'https://perk.esenus.com/', thumbnail: 'perk' },
-    { id: 'work-bruscoh', status: 'published', meta: 'BRUSCOH', title: 'Furby Reverse Engineering', subtitle: 'Furby Reverse Engineering', description: 'Exploring a 1998 Furby through hardware, software, experiments, and records.', section: 'PLAY', collection: 'electronics', tags: ['furby', 'reverse-engineering'], label: 'EXPERIMENT', url: 'https://bruscoh.esenus.com/', thumbnail: 'bruscoh' },
+    { id: 'work-loom', status: 'published', cardTitle: 'LOOM', cardSubtitle: 'Web Publishing Platform', order: 1, mark: '▱', description: 'A way to shape information into websites and publish them without making Git the obstacle.', section: 'PLAY', collection: 'web', tags: ['web', 'publishing'], label: 'BUILDING', url: 'https://loom.esenus.com/' },
+    { id: 'work-livingbase', status: 'published', cardTitle: 'NEST', cardSubtitle: 'Livingbase', order: 2, mark: '⌂', description: 'A personal system for bringing everyday information, activities, and routines together.', section: 'PLAY', collection: 'projects', tags: ['systems', 'everyday-life'], label: 'IN PROGRESS', url: 'https://nest.esenus.com/' },
+    { id: 'work-days', status: 'published', cardTitle: 'NEST::DAYS', order: 3, mark: '◷', description: 'A small space for keeping track of days and the things that fill them.', section: 'PLAY', collection: 'projects', tags: ['everyday-life', 'records'], url: 'https://days.esenus.com/' },
+    { id: 'work-body', status: 'published', cardTitle: 'NEST::BODY', order: 4, mark: '◒', description: 'A personal space for understanding and keeping records of the body.', section: 'PLAY', collection: 'projects', tags: ['personal-systems', 'records'], url: 'https://body.esenus.com/' },
+    { id: 'work-meal', status: 'published', cardTitle: 'NEST::MEAL', order: 5, mark: '◓', description: 'A space for food, meals, and the everyday decisions around them.', section: 'PLAY', collection: 'projects', tags: ['food', 'everyday-life'], url: 'https://meal.esenus.com/' },
+    { id: 'work-baby', status: 'published', cardTitle: 'NEST::BABY', order: 6, mark: '◌', description: 'A dedicated space for keeping and organizing records around early life.', section: 'PLAY', collection: 'projects', tags: ['records', 'personal-systems'], url: 'https://baby.esenus.com/' },
+    { id: 'work-perk', status: 'published', cardTitle: 'NEST::PERK', order: 7, mark: '✣', description: 'A small rewards system for making everyday actions a little more engaging.', section: 'PLAY', collection: 'projects', tags: ['systems', 'everyday-life'], url: 'https://perk.esenus.com/' },
+    { id: 'work-bruscoh', status: 'published', cardTitle: 'BRUSCOH', cardSubtitle: 'Furby Reverse Engineering', order: 8, mark: '✳', description: 'Exploring a 1998 Furby through hardware, software, experiments, and records.', section: 'PLAY', collection: 'electronics', tags: ['furby', 'reverse-engineering'], label: 'EXPERIMENT', url: 'https://bruscoh.esenus.com/' },
     { id: 'work-furby-core', status: 'published', meta: 'FURBY CORE', title: 'Electronics / 2026', description: 'A Pico 2 W based core for exploring the original Furby.', section: 'MAKE', collection: 'electronics', tags: ['electronics', 'prototype'], label: 'PLAY' },
     { id: 'work-small-web', status: 'published', meta: 'SMALL WEB THINGS', title: 'Web / 2026', description: 'Small websites and interfaces made while figuring out how they should feel.', section: 'MAKE', collection: 'web', tags: ['web', 'interface'], label: 'PLAY' },
     { id: 'work-kitchen', status: 'published', meta: 'KITCHEN EXPERIMENTS', title: 'Food / 2026', description: 'Things cooked simply because I wanted to see what would happen.', section: 'MAKE', collection: 'food', tags: ['food', 'experiments'], label: 'PLAY' },
     { id: 'work-old-hardware', status: 'published', meta: 'OLD HARDWARE', title: 'Electronics / Various', description: 'Devices, repairs, modifications, and experiments collected over time.', section: 'MAKE', collection: 'electronics', tags: ['electronics', 'repair'], label: 'PLAY' }
  ];
-const published = items => items.filter(item => item.status === 'published');
-const playOrder = ['work-loom', 'work-livingbase', 'work-days', 'work-body', 'work-meal', 'work-baby', 'work-perk', 'work-bruscoh'];
+const publishedArticles = articles.filter(item => item.status === 'published');
+const publishedWorks = works.filter(item => item.status === 'published');
+const contentBySection = Object.fromEntries(['PLAY', 'MAKE', 'THEN'].map(section => {
+    const items = [
+        ...publishedArticles.filter(item => item.section === section),
+        ...publishedWorks.filter(item => item.section === section)
+    ];
+    if (section === 'PLAY') items.sort((a, b) => a.order - b.order);
+    return [section, items];
+}));
 const getContent = section => section === 'NOTE'
-    ? published(articles)
-    : (() => {
-        const items = [
-            ...published(articles).filter(item => item.section === section),
-            ...published(works).filter(item => item.section === section)
-        ];
-        return section === 'PLAY'
-            ? items.sort((a, b) => playOrder.indexOf(a.id) - playOrder.indexOf(b.id))
-            : items;
-    })();
-
-const playMarks = { loom: '▱', bruscoh: '✳', livingbase: '⌂', days: '◷', body: '◒', meal: '◓', baby: '◌', perk: '✣' };
-
-const playIdentity = {
-    'work-loom': { title: 'LOOM', subtitle: 'Web Publishing Platform' },
-    'work-livingbase': { title: 'NEST', subtitle: 'Livingbase' },
-    'work-days': { title: 'NEST::DAYS' },
-    'work-body': { title: 'NEST::BODY' },
-    'work-meal': { title: 'NEST::MEAL' },
-    'work-baby': { title: 'NEST::BABY' },
-    'work-perk': { title: 'NEST::PERK' },
-    'work-bruscoh': { title: 'BRUSCOH', subtitle: 'Furby Reverse Engineering' }
-};
+    ? publishedArticles
+    : contentBySection[section] || [];
 
 
 const card = item => {
     const meta = item.date || item.meta;
-    const collection = item.collection ? getCollectionName(item.section, item.collection) : '';
+    const collection = getItemCollectionName(item);
     const openTag = item.url ? `<a class="content-card__link" href="${item.url}" target="_blank" rel="noopener noreferrer">` : '';
     const closeTag = item.url ? '</a>' : '';
-    const identity = playIdentity[item.id] || { title: item.title };
     const playHead = item.section === 'PLAY'
-        ? `<div class="play-card__head"><span class="collection-card__thumb play-card__thumb" aria-hidden="true">${playMarks[item.thumbnail] || '·'}</span><div class="play-card__identity"><h3 class="content-card__title">${identity.title}</h3>${identity.subtitle ? `<div class="play-card__subtitle">${identity.subtitle}</div>` : ''}</div></div>`
+        ? `<div class="play-card__head"><span class="collection-card__thumb play-card__thumb" aria-hidden="true">${item.mark || '·'}</span><div class="play-card__identity"><h3 class="content-card__title">${item.cardTitle}</h3>${item.cardSubtitle ? `<div class="play-card__subtitle">${item.cardSubtitle}</div>` : ''}</div></div>`
         : `<div class="content-card__meta">${meta}</div>`;
     return `
 <article class="content-card${item.section === 'PLAY' ? ' play-card' : ''}" data-section="${item.section}"${item.collection ? ` data-collection="${item.collection}"` : ''}>
@@ -1547,47 +1481,55 @@ const mobileNoteCard = item => {
     const date = item.date || '';
     const datetime = date.replace(/\./g, '-');
     const shortDate = date.replace(/^(\d{2})\d{2}(\.\d{2}\.\d{2})$/, '$1$2');
-    const collection = item.collection ? getCollectionName(item.section, item.collection) : '';
+    const collection = getItemCollectionName(item);
     return `<article class="content-card note-mobile-card" data-section="NOTE"${item.collection ? ` data-collection="${item.collection}"` : ''}><div class="note-mobile-meta"><time class="note-mobile-date" datetime="${datetime}">${shortDate}</time>${collection ? `<span class="note-mobile-collection">${collection}</span>` : ''}</div><h3 class="note-mobile-title">${item.title}</h3></article>`;
 };
 let notePage = 1, noteGrid, notePagination, noteMoreLink;
 const renderNotePage = (scrollToList = false) => {
-if (!noteGrid || !notePagination) return;
-const notes = getContent('NOTE');
-const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
-const pageCount = Math.max(1, Math.ceil(notes.length / notePageSize));
-if (noteMoreLink) noteMoreLink.hidden = pageCount < 3;
-notePage = Math.min(Math.max(1, notePage), pageCount);
-const start = (notePage - 1) * notePageSize;
-noteGrid.innerHTML = isMobile ? notes.slice(0, mobileNoteLimit).map(item => mobileNoteCard(item)).join('') : notes.slice(start, start + notePageSize).map(item => card(item)).join('');
-notePagination.hidden = isMobile;
-if (isMobile) {
-if (scrollToList) scrollToSection($('#section-04'));
-return;
-}
-const pageButtons = Array.from({ length: pageCount }, (_, i) => {
-const page = i + 1;
-return `<button type="button" data-note-page="${page}"${page === notePage ? ' aria-current="page"' : ''} aria-label="Page ${page}">${String(page).padStart(2, '0')}</button>`;
-}).join('');
-notePagination.innerHTML = `
+    if (!noteGrid || !notePagination) return;
+
+    const notes = getContent('NOTE');
+    const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
+    const pageCount = Math.max(1, Math.ceil(notes.length / notePageSize));
+
+    if (noteMoreLink) noteMoreLink.hidden = pageCount < 3;
+
+    notePage = Math.min(Math.max(1, notePage), pageCount);
+    const start = (notePage - 1) * notePageSize;
+    const visibleNotes = isMobile
+        ? notes.slice(0, mobileNoteLimit)
+        : notes.slice(start, start + notePageSize);
+
+    noteGrid.innerHTML = visibleNotes
+        .map(item => isMobile ? mobileNoteCard(item) : card(item))
+        .join('');
+    notePagination.hidden = isMobile;
+
+    if (isMobile) {
+        if (scrollToList) scrollToSection($('#section-04'));
+        return;
+    }
+
+    const pageButtons = Array.from({ length: pageCount }, (_, index) => {
+        const page = index + 1;
+        const current = page === notePage ? ' aria-current="page"' : '';
+        return `<button type="button" data-note-page="${page}"${current} aria-label="Page ${page}">${String(page).padStart(2, '0')}</button>`;
+    }).join('');
+
+    notePagination.innerHTML = `
 <nav class="note-pagination__controls" aria-label="NOTE pages">
 <button type="button" data-note-direction="prev" aria-label="Previous page"${notePage === 1 ? ' disabled' : ''}>← PREV</button>
 ${pageButtons}
 <button type="button" data-note-direction="next" aria-label="Next page"${notePage === pageCount ? ' disabled' : ''}>NEXT →</button>
 </nav>
 <div class="note-pagination__status" aria-live="polite">${String(start + 1).padStart(2, '0')}–${String(Math.min(start + notePageSize, notes.length)).padStart(2, '0')} / ${String(notes.length).padStart(2, '0')} NOTES</div>`;
-if (scrollToList) scrollToSection($('#section-04'));
-};
-const collectionMarks = {
-    development: '⌘', experiments: '✳', tools: '⌁', web: '◎',
-    food: '＋', electronics: '⌬', unsorted: '…', works: '✦',
-    portfolio: '▤', photographs: '▧'
-};
 
+    if (scrollToList) scrollToSection($('#section-04'));
+};
 function renderCollectionGrid(grid, section) {
     grid.innerHTML = (collections[section] || []).map(collection => `
 <article class="content-card collection-card" data-section="${section}" data-collection="${collection.id}">
-<div class="collection-card__head"><span class="collection-card__thumb" aria-hidden="true">${collectionMarks[collection.id] || '·'}</span><h3 class="content-card__title">${collection.name}</h3></div>
+<div class="collection-card__head"><span class="collection-card__thumb" aria-hidden="true">${collection.mark || '·'}</span><h3 class="content-card__title">${collection.name}</h3></div>
 <p class="content-card__text">${collection.description || ''}</p>
 </article>`).join('');
 }
@@ -1600,7 +1542,7 @@ function initializeContentGrids() {
             noteMoreLink = grid.parentElement?.querySelector('.more-notes-link');
             const title = grid.closest('article')?.querySelector('.page-title');
             if (title) {
-                title.insertAdjacentHTML('afterend', '<div class="note-pagination" aria-label="NOTE pagination"></div>');
+                title.insertAdjacentHTML('afterend', '<div class="note-pagination" role="group" aria-label="NOTE pagination"></div>');
                 notePagination = title.nextElementSibling;
             }
             renderNotePage();
@@ -1626,11 +1568,6 @@ function handleNotePagination(event) {
 }
 
 if (notePagination) notePagination.addEventListener('click', handleNotePagination);
-let noteLayoutTimer;
-window.addEventListener('resize', () => {
-clearTimeout(noteLayoutTimer);
-noteLayoutTimer = setTimeout(() => renderNotePage(false), 120);
-}, { passive: true });
 const sectionAt = ratio => {
 const pos = scrollY + innerHeight * ratio;
 let active = sections[0];
@@ -1649,7 +1586,7 @@ body.classList.toggle('is-sub', !isHome);
 body.classList.toggle('is-note', sectionAt(0.5)?.dataset.section === '04');
 body.classList.toggle('catchword-sub', isHome && scrollY / Math.max(sections[0].offsetHeight, innerHeight) >= 0.42);
 const navId = sectionAt(0.5)?.dataset.section;
-nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
+navLinks.forEach(link => {
 const isActive = link.hash === `#section-${navId}`;
 link.classList.toggle('is-active', isActive);
 if (isActive) link.setAttribute('aria-current', 'page');
@@ -1679,88 +1616,42 @@ if (!target) return;
 setPanel('');
 scrollToSection(target);
 };
-// Keep the visual navigation unchanged while making mobile taps more forgiving.
-// A short, deliberate touch is handled on touchend; vertical movement remains scroll.
-nav.querySelectorAll('a[href^="#section-"]').forEach(link => {
-    let touchStart = null;
-    let touchMoved = false;
-    let handledTouchAt = 0;
-
-    const navigate = () => {
-        const sectionId = link.hash.slice(9);
-        if (sectionId) go(sectionId);
-    };
-
-    link.addEventListener('touchstart', event => {
-        if (event.changedTouches.length !== 1) {
-            touchStart = null;
-            touchMoved = true;
-            return;
-        }
-        const { clientX, clientY } = event.changedTouches[0];
-        touchStart = { x: clientX, y: clientY };
-        touchMoved = false;
-    }, { passive: true });
-
-    link.addEventListener('touchmove', event => {
-        if (!touchStart || !event.changedTouches.length) return;
-        const { clientX, clientY } = event.changedTouches[0];
-        if (Math.hypot(clientX - touchStart.x, clientY - touchStart.y) > 10) touchMoved = true;
-    }, { passive: true });
-
-    link.addEventListener('touchend', event => {
-        if (!touchStart || touchMoved) {
-            touchStart = null;
-            touchMoved = false;
-            return;
-        }
-        const touch = event.changedTouches[0];
-        const distance = Math.hypot(touch.clientX - touchStart.x, touch.clientY - touchStart.y);
-        touchStart = null;
-        touchMoved = false;
-        if (distance > 10) return;
-        handledTouchAt = Date.now();
-        event.preventDefault();
-        event.stopPropagation();
-        navigate();
-    }, { passive: false });
-
-    link.addEventListener('touchcancel', () => {
-        touchStart = null;
-        touchMoved = false;
-    }, { passive: true });
-
-    link.addEventListener('click', event => {
-        event.preventDefault();
-        if (event.detail !== 0 && Date.now() - handledTouchAt < 700) return;
-        navigate();
-    });
-});
-nav.addEventListener('contextmenu', event => {
-if (event.target.closest('a')) event.preventDefault();
+nav.addEventListener('click', event => {
+    const link = event.target.closest('a[href^="#section-"]');
+    if (!link) return;
+    event.preventDefault();
+    const sectionId = link.hash.slice(9);
+    if (sectionId) go(sectionId);
 });
 logo.addEventListener('click', () => go('01'));
 function setPanel(id) {
-clearTimeout(state.panelTimer);
-const render = () => {
-state.action = id;
-panelPages.forEach(page => page.classList.toggle('is-active', page.dataset.actionPage === id));
-stickies.forEach(item => {
-const active = item.dataset.action === id;
-item.classList.toggle('is-open', active);
-$('a', item)?.setAttribute('aria-expanded', String(active));
-});
-panel.classList.toggle('is-open', Boolean(id));
-panel.setAttribute('aria-hidden', String(!id));
-sync();
-};
-if (state.action && id && state.action !== id) {
-state.action = '';
-render();
-state.panelTimer = setTimeout(render, 100);
-return;
-}
-render();
+    clearTimeout(state.panelTimer);
+
+    const applyPanelState = () => {
+        state.action = id;
+        panelPages.forEach(page => {
+            page.classList.toggle('is-active', page.dataset.actionPage === id);
+        });
+
+        stickies.forEach(item => {
+            const isActive = item.dataset.action === id;
+            item.classList.toggle('is-open', isActive);
+            $('a', item)?.setAttribute('aria-expanded', String(isActive));
+        });
+
+        panel.classList.toggle('is-open', Boolean(id));
+        panel.setAttribute('aria-hidden', String(!id));
+        sync();
+    };
+
+    if (state.action && id && state.action !== id) {
+        state.action = '';
+        applyPanelState();
+        state.panelTimer = setTimeout(applyPanelState, 100);
+        return;
+    }
+
+    applyPanelState();
 }
 $('#side-sticky').addEventListener('click', event => {
 const item = event.target.closest('.sticky-tape');
@@ -1773,14 +1664,16 @@ if (event.key === 'Escape') setPanel('');
 });
 stickies.forEach(item => item.style.setProperty('--random-rotate', `${(Math.random() - 0.5) * 6}deg`));
 window.addEventListener('scroll', requestSync, { passive: true });
-window.addEventListener('resize', () => {
-fitMobileNavigation();
-body.classList.add('is-resizing');
-clearTimeout(state.resizeTimer);
-state.resizeTimer = setTimeout(() => body.classList.remove('is-resizing'), 180);
-requestSync();
-}, { passive: true });
-fitMobileNavigation();
+let noteLayoutTimer;
+const handleResize = () => {
+    clearTimeout(noteLayoutTimer);
+    noteLayoutTimer = setTimeout(() => renderNotePage(false), 120);
+    body.classList.add('is-resizing');
+    clearTimeout(state.resizeTimer);
+    state.resizeTimer = setTimeout(() => body.classList.remove('is-resizing'), 180);
+    requestSync();
+};
+window.addEventListener('resize', handleResize, { passive: true });
 // TOPICS uses quiet relative dates; the semantic datetime remains unchanged.
 function formatRelativeDate(dateValue, now = new Date()) {
     const date = new Date(`${dateValue}T00:00:00`);
