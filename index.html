@@ -6,7 +6,7 @@
 <title>Blog — esenus</title>
 <meta name="description" content="A personal place to make things. Projects, experiments, thoughts, and records from esenus."/>
 <meta name="theme-color" content="#f2f2f0"/>
-<!-- BLOG_VERSION: 0.3.26 -->
+<!-- BLOG_VERSION: 0.3.28 -->
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap" rel="stylesheet"/>
 <style>
 :root {
@@ -70,7 +70,6 @@ body {
   font-weight: 700;
   white-space: nowrap;
   pointer-events: none;
-  will-change: transform, opacity;
 }
 #site-version {
   position: fixed;
@@ -124,7 +123,6 @@ body {
   background: var(--bg-color);
   letter-spacing: 0.3em;
   transition: transform 0.7s var(--ease), opacity 0.7s ease;
-  will-change: transform, opacity;
 }
 .nav-bar-label::after {
   content: '';
@@ -158,7 +156,7 @@ body {
 .nav-list a.is-active {
   opacity: 1;
   background: var(--text-dark);
-  color: #fff !important;
+  color: #fff;
 }
 .hero-section {
   position: fixed;
@@ -174,16 +172,14 @@ body {
   margin: 0;
   white-space: nowrap;
   font-family: 'Syncopate';
-  will-change: transform, opacity;
 }
 body.is-resizing #catchword,body.is-resizing #home-updates {
-  transition: none !important;
+  transition: none;
 }
 #catchword {
   top: 160px;
   left: 25px;
   transition: transform 0.7s var(--ease), opacity 0.7s ease;
-  will-change: transform, opacity;
 }
 body.is-home #catchword {
   transform: translate3d(calc(7vw - 25px), calc(60px - 50%), 0);
@@ -199,7 +195,6 @@ body.catchword-sub #catchword,body.is-sub #catchword {
 }
 #subtitle {
   transition: top 0.7s var(--ease),left 0.7s var(--ease),transform 0.7s var(--ease),opacity 0.7s ease;
-  will-change: top, left, transform, opacity;
   box-sizing: border-box;
   white-space: nowrap;
 }
@@ -567,7 +562,6 @@ body.is-note .note-pagination {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  will-change: transform;
 }
 #side-sticky > ul {
   display: flex;
@@ -751,14 +745,13 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   font-weight: 350;
   letter-spacing: 0.4em;
   text-transform: uppercase;
-  opacity: 0.25 !important;
+  opacity: 0.25;
   box-sizing: border-box;
   white-space: normal;
   text-align: center;
   overflow-wrap: break-word;
   word-break: normal;
   transition: top 0.7s var(--ease),bottom 0.7s var(--ease),left 0.7s var(--ease),width 0.7s var(--ease),max-width 0.7s var(--ease),transform 0.7s var(--ease),text-align 0.7s var(--ease);
-  will-change: top, bottom, left, width, max-width, transform;
 }
 @media screen and (min-width: 1500px) {
   .dynamic-grid {
@@ -875,27 +868,27 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   }
   body.is-home #site-header {
     top: var(--mobile-home-nav-top);
-    bottom: auto !important;
-    left: 0 !important;
+    bottom: auto;
+    left: 0;
     z-index: 1000;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    border: none !important;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    border: none;
     padding: 0;
     box-sizing: border-box;
     background: transparent;
     pointer-events: auto;
   }
   body.is-sub #site-header {
-    top: 0 !important;
-    bottom: auto !important;
-    left: 0 !important;
+    top: 0;
+    bottom: auto;
+    left: 0;
     z-index: 1000;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    border: none !important;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    border: none;
     padding-top: env(safe-area-inset-top, 0px);
     padding-left: env(safe-area-inset-left, 0px);
     padding-right: env(safe-area-inset-right, 0px);
@@ -933,26 +926,26 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   .nav-list {
     position: relative;
     z-index: 1001;
-    top: 0 !important;
+    top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     margin: 0;
     box-sizing: border-box;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    padding: 0 10px 0 7vw !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 10px 0 7vw;
     gap: 0;
     pointer-events: auto;
   }
   body.is-sub .nav-list {
-    justify-content: flex-start !important;
-    align-items: center !important;
-    width: max-content !important;
+    justify-content: flex-start;
+    align-items: center;
+    width: max-content;
     max-width: calc(100vw - 38px);
     height: 28px;
-    padding: 0 6px !important;
+    padding: 0 6px;
     gap: 0;
     background: linear-gradient(180deg, rgba(242, 242, 240, 0.78) 0%, rgba(242, 242, 240, 0.58) 100%);
     backdrop-filter: blur(7px);
@@ -998,14 +991,14 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   }
   /* モバイル共通: 現在セクションを赤文字 */
   .nav-list a.is-active {
-    background: transparent !important;
-    color: var(--accent-red) !important;
-    opacity: 1 !important;
+    background: transparent;
+    color: var(--accent-red);
+    opacity: 1;
     font-weight: 700;
   }
   /* モバイルでは HOME リンクを非表示（HOME時はメニュー自体がHOME位置、SUB時は現在位置表示のため） */
   body.is-home .nav-list li:has(a[href="#section-01"]) {
-    display: none !important;
+    display: none;
   }
   .nav-list li {
     display: flex;
@@ -1032,8 +1025,9 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     letter-spacing: 0.06em;
     opacity: 0.5;
   }
-  .nav-bar-label {
-    display: none !important;
+  body.is-home .nav-bar-label,
+  body.is-sub .nav-bar-label {
+    display: none;
   }
   #catchword {
     top: 40px;
@@ -1077,8 +1071,8 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     text-align: left;
   }
   /* Mobile displays all NOTE entries; pagination is desktop-only. */
-  .note-pagination {
-    display: none !important;
+  body.is-note .note-pagination {
+    display: none;
   }
   .sub-section {
     margin-left: 0;
@@ -1117,7 +1111,6 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     font-size: 6px;
   }
 
-
   .content-grid[data-content="PLAY"] .play-card__head {
     display: flex;
     align-items: center;
@@ -1135,7 +1128,6 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   .content-grid[data-content="PLAY"] .play-card {
     padding-bottom: 18px;
   }
-
 
 /* Mobile NOTE: single-line rows, sized in harmony with TOPICS. */
 
@@ -1362,7 +1354,7 @@ const panel = $('#content-panel');
 const panelPages = $$('.panel-page');
 const grids = $$('.content-grid');
 const MOBILE_BREAKPOINT = 850;
-const state = { action: '', frame: 0, resizeTimer: 0, panelTimer: 0 };
+const state = { action: '', frame: 0, resizeTimer: 0, panelTimer: 0, noteLayoutTimer: 0 };
 // Content model: Section defines the primary context; Collection is optional within each Section.
 // NOTE is a chronological View of all published articles. Tags connect content across Sections.
 const collections = {
@@ -1569,29 +1561,40 @@ function handleNotePagination(event) {
 
 if (notePagination) notePagination.addEventListener('click', handleNotePagination);
 const sectionAt = ratio => {
-const pos = scrollY + innerHeight * ratio;
-let active = sections[0];
-for (const s of sections) {
-if (s.offsetTop > pos) break;
-active = s;
-}
-return active;
+    const position = window.scrollY + window.innerHeight * ratio;
+    let activeSection = sections[0];
+
+    for (const section of sections) {
+        if (section.offsetTop > position) break;
+        activeSection = section;
+    }
+
+    return activeSection;
 };
+
 const sync = () => {
-const section = sectionAt(0.9);
-if (!section) return;
-const isHome = section.dataset.section === '01';
-body.classList.toggle('is-home', isHome);
-body.classList.toggle('is-sub', !isHome);
-body.classList.toggle('is-note', sectionAt(0.5)?.dataset.section === '04');
-body.classList.toggle('catchword-sub', isHome && scrollY / Math.max(sections[0].offsetHeight, innerHeight) >= 0.42);
-const navId = sectionAt(0.5)?.dataset.section;
-navLinks.forEach(link => {
-const isActive = link.hash === `#section-${navId}`;
-link.classList.toggle('is-active', isActive);
-if (isActive) link.setAttribute('aria-current', 'page');
-else link.removeAttribute('aria-current');
-});
+    const activeSection = sectionAt(0.9);
+    if (!activeSection) return;
+
+    const contextSection = sectionAt(0.5);
+    const isHome = activeSection.dataset.section === '01';
+    const contextId = contextSection?.dataset.section;
+
+    body.classList.toggle('is-home', isHome);
+    body.classList.toggle('is-sub', !isHome);
+    body.classList.toggle('is-note', contextId === '04');
+    body.classList.toggle(
+        'catchword-sub',
+        isHome && window.scrollY / Math.max(sections[0].offsetHeight, window.innerHeight) >= 0.42
+    );
+
+    navLinks.forEach(link => {
+        const isActive = link.hash === `#section-${contextId}`;
+        link.classList.toggle('is-active', isActive);
+
+        if (isActive) link.setAttribute('aria-current', 'page');
+        else link.removeAttribute('aria-current');
+    });
 };
 const requestSync = () => {
 if (state.frame) return;
@@ -1619,8 +1622,10 @@ scrollToSection(target);
 nav.addEventListener('click', event => {
     const link = event.target.closest('a[href^="#section-"]');
     if (!link) return;
+
     event.preventDefault();
-    const sectionId = link.hash.slice(9);
+
+    const sectionId = link.getAttribute('href').slice('#section-'.length);
     if (sectionId) go(sectionId);
 });
 logo.addEventListener('click', () => go('01'));
@@ -1664,10 +1669,9 @@ if (event.key === 'Escape') setPanel('');
 });
 stickies.forEach(item => item.style.setProperty('--random-rotate', `${(Math.random() - 0.5) * 6}deg`));
 window.addEventListener('scroll', requestSync, { passive: true });
-let noteLayoutTimer;
 const handleResize = () => {
-    clearTimeout(noteLayoutTimer);
-    noteLayoutTimer = setTimeout(() => renderNotePage(false), 120);
+    clearTimeout(state.noteLayoutTimer);
+    state.noteLayoutTimer = setTimeout(() => renderNotePage(false), 120);
     body.classList.add('is-resizing');
     clearTimeout(state.resizeTimer);
     state.resizeTimer = setTimeout(() => body.classList.remove('is-resizing'), 180);
