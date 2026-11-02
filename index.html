@@ -6,7 +6,7 @@
 <title>Blog — esenus</title>
 <meta name="description" content="A personal place to make things. Projects, experiments, thoughts, and records from esenus."/>
 <meta name="theme-color" content="#f2f2f0"/>
-<!-- BLOG_VERSION: 0.3.28 -->
+<!-- BLOG_VERSION: 0.3.33 -->
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap" rel="stylesheet"/>
 <style>
 :root {
@@ -21,9 +21,11 @@
   --sidebar-width: 260px;
   --desktop-menu-height: clamp(80px, calc(8.333vw + 50px), 120px);
   --panel-width: min(640px, 70vw);
-  --sticky-peek: 45px;
+  /* peek enough to show the tape icon (~24px) + padding */
+  --sticky-peek: 48px;
   --sticky-closed-width: 148px;
-  --sticky-open-width: 180px;
+  --sticky-open-width: 168px;
+  --sticky-hide: calc(var(--sticky-closed-width) - var(--sticky-peek));
   --home-updates-start: 320px;
   --nav-gap: clamp(8px, calc(1.6vw + 2px), 16px);
   --nav-link-horizontal-padding: clamp(5px, calc(0.943vw + 1.98px), 10px);
@@ -144,12 +146,11 @@ body {
     padding-left: 10px;
     color: var(--accent-red);
   }
-  /* HOMEではすでにフル。SUBでは固定幅基準でpeekを打ち消して引き出す */
   body.is-home .sticky-tape:hover {
     transform: rotate(var(--random-rotate, 0deg));
   }
   body.is-sub .sticky-tape:hover {
-    transform: translate3d(calc(-1 * (var(--sticky-closed-width) - var(--sticky-peek))), 0, 0) rotate(var(--random-rotate, 0deg));
+    transform: translate3d(calc(-1 * var(--sticky-hide)), 0, 0) rotate(var(--random-rotate, 0deg));
   }
   #logo:hover {
     color: var(--accent-red);
@@ -560,6 +561,7 @@ body.is-note .note-pagination {
   outline: 2px solid var(--accent-red);
   outline-offset: 3px;
 }
+/* Side sticky: UL = peek (fixed closed width), LI = rotation (+ SUB pull-out) */
 #side-sticky {
   position: fixed;
   top: 25px;
@@ -568,53 +570,44 @@ body.is-note .note-pagination {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  /* コンテナのヒット領域は透過（モバイルSUBでTHENが被る問題の対策） */
   pointer-events: none;
 }
 #side-sticky > ul {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  width: var(--sticky-closed-width);
   margin: 0;
   padding: 0;
   list-style: none;
-  /* 閉じ幅で固定し、開いたときの幅変化でpeek量が変わらないようにする */
-  width: var(--sticky-closed-width);
-  /* 初期peekをULに移し、ヒット領域ごと右へ逃がす（固定pxで安定） */
-  transform: translate3d(calc(var(--sticky-closed-width) - var(--sticky-peek)), 0, 0);
+  transform: translate3d(var(--sticky-hide), 0, 0);
   transition: transform var(--sticky-speed) var(--ease);
   pointer-events: none;
+}
+body.is-home #side-sticky > ul {
+  transform: translate3d(0, 0, 0);
 }
 .sticky-tape {
   position: relative;
   margin-bottom: 10px;
-  /* 個別の回転のみ。位置のpeekはUL側 */
   transform: rotate(var(--random-rotate, 0deg));
   transition: transform var(--sticky-speed) var(--ease);
   pointer-events: auto;
 }
-/* HOMEのみULをフル表示。SUBではパネル開閉してもULはpeekのまま（もう片方が動かない・引っ込みすぎない） */
-body.is-home #side-sticky > ul {
-  transform: translate3d(0, 0, 0);
-}
-/* 開いた付箋 / HOME時の各付箋は回転のみ（位置はUL側） */
 .sticky-tape.is-open,
 body.is-home #side-sticky .sticky-tape {
   transform: rotate(var(--random-rotate, 0deg));
 }
-/* SUBでは開いた付箋だけ固定幅基準でpeekを打ち消して引き出す。閉じてる方はアイコンpeekのまま */
 body.is-sub .sticky-tape.is-open {
-  transform: translate3d(calc(-1 * (var(--sticky-closed-width) - var(--sticky-peek))), 0, 0) rotate(var(--random-rotate, 0deg));
+  transform: translate3d(calc(-1 * var(--sticky-hide)), 0, 0) rotate(var(--random-rotate, 0deg));
 }
-/* HOME + パネル開時のみ、開いていない付箋をpeekさせる（閉じ幅基準） */
 body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open) {
-  transform: translate3d(calc(var(--sticky-closed-width) - var(--sticky-peek)), 0, 0) rotate(var(--random-rotate, 0deg));
+  transform: translate3d(var(--sticky-hide), 0, 0) rotate(var(--random-rotate, 0deg));
 }
 .sticky-tape a {
   position: relative;
   display: flex;
   align-items: center;
-  /* 赤・黒とも閉じた状態の幅を揃えてpeek量を同一にする */
   width: var(--sticky-closed-width);
   min-width: var(--sticky-closed-width);
   padding: 10px;
@@ -644,20 +637,19 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   content: '×';
   position: absolute;
   top: 50%;
-  right: 13px;
+  right: 10px;
   transform: translate3d(0, -50%, 0);
   font-family: Arial, sans-serif;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 1;
   opacity: 0;
   transition: opacity 0.2s ease;
 }
-/* 開いたとき×分だけ幅を伸ばす（UL幅は閉じ幅のままなのでもう片方のpeekは不変） */
 .sticky-tape.is-open a {
   width: var(--sticky-open-width);
   min-width: var(--sticky-open-width);
-  padding-right: 42px;
+  padding-right: 28px;
 }
 .sticky-tape.is-open a::after {
   opacity: 1;
@@ -878,10 +870,9 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   }
 }
 @media screen and (max-width: 850px) {
-  /* モバイル時。peekはULの固定幅transformでヒット領域ごと移動。
-     UL化で約15px引っ込む分を right で補正し、見た目の位置を維持 */
+  /* Mobile: keep icons visible; don't push off-screen */
   #side-sticky {
-    right: 5px;
+    right: -4px;
   }
 
   .sub-section .page-intro-grid {
@@ -1230,7 +1221,7 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
 </style>
 </head>
 <body class="is-home">
-<div aria-label="Version 0.3.26" id="site-version">v0.3.26</div>
+<div aria-label="Version 0.3.33" id="site-version">v0.3.33</div>
 
 <header id="site-header">
 <button aria-label="Go to Home" id="logo" type="button">
