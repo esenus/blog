@@ -22,6 +22,8 @@
   --desktop-menu-height: clamp(80px, calc(8.333vw + 50px), 120px);
   --panel-width: min(640px, 70vw);
   --sticky-peek: 45px;
+  --sticky-closed-width: 148px;
+  --sticky-open-width: 180px;
   --home-updates-start: 320px;
   --nav-gap: clamp(8px, calc(1.6vw + 2px), 16px);
   --nav-link-horizontal-padding: clamp(5px, calc(0.943vw + 1.98px), 10px);
@@ -142,8 +144,12 @@ body {
     padding-left: 10px;
     color: var(--accent-red);
   }
-  .sticky-tape:hover {
-    transform: translate3d(0, 0, 0) rotate(var(--random-rotate, 0deg));
+  /* HOMEではすでにフル。SUBでは固定幅基準でpeekを打ち消して引き出す */
+  body.is-home .sticky-tape:hover {
+    transform: rotate(var(--random-rotate, 0deg));
+  }
+  body.is-sub .sticky-tape:hover {
+    transform: translate3d(calc(-1 * (var(--sticky-closed-width) - var(--sticky-peek))), 0, 0) rotate(var(--random-rotate, 0deg));
   }
   #logo:hover {
     color: var(--accent-red);
@@ -562,6 +568,8 @@ body.is-note .note-pagination {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  /* コンテナのヒット領域は透過（モバイルSUBでTHENが被る問題の対策） */
+  pointer-events: none;
 }
 #side-sticky > ul {
   display: flex;
@@ -570,25 +578,45 @@ body.is-note .note-pagination {
   margin: 0;
   padding: 0;
   list-style: none;
+  /* 閉じ幅で固定し、開いたときの幅変化でpeek量が変わらないようにする */
+  width: var(--sticky-closed-width);
+  /* 初期peekをULに移し、ヒット領域ごと右へ逃がす（固定pxで安定） */
+  transform: translate3d(calc(var(--sticky-closed-width) - var(--sticky-peek)), 0, 0);
+  transition: transform var(--sticky-speed) var(--ease);
+  pointer-events: none;
 }
 .sticky-tape {
   position: relative;
   margin-bottom: 10px;
-  transform: translate3d(calc(100% - var(--sticky-peek)), 0, 0) rotate(var(--random-rotate, 0deg));
+  /* 個別の回転のみ。位置のpeekはUL側 */
+  transform: rotate(var(--random-rotate, 0deg));
   transition: transform var(--sticky-speed) var(--ease);
+  pointer-events: auto;
 }
+/* HOMEのみULをフル表示。SUBではパネル開閉してもULはpeekのまま（もう片方が動かない・引っ込みすぎない） */
+body.is-home #side-sticky > ul {
+  transform: translate3d(0, 0, 0);
+}
+/* 開いた付箋 / HOME時の各付箋は回転のみ（位置はUL側） */
 .sticky-tape.is-open,
 body.is-home #side-sticky .sticky-tape {
-  transform: translate3d(0, 0, 0) rotate(var(--random-rotate, 0deg));
+  transform: rotate(var(--random-rotate, 0deg));
 }
+/* SUBでは開いた付箋だけ固定幅基準でpeekを打ち消して引き出す。閉じてる方はアイコンpeekのまま */
+body.is-sub .sticky-tape.is-open {
+  transform: translate3d(calc(-1 * (var(--sticky-closed-width) - var(--sticky-peek))), 0, 0) rotate(var(--random-rotate, 0deg));
+}
+/* HOME + パネル開時のみ、開いていない付箋をpeekさせる（閉じ幅基準） */
 body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open) {
-  transform: translate3d(calc(100% - var(--sticky-peek)), 0, 0) rotate(var(--random-rotate, 0deg));
+  transform: translate3d(calc(var(--sticky-closed-width) - var(--sticky-peek)), 0, 0) rotate(var(--random-rotate, 0deg));
 }
 .sticky-tape a {
   position: relative;
   display: flex;
   align-items: center;
-  min-width: 130px;
+  /* 赤・黒とも閉じた状態の幅を揃えてpeek量を同一にする */
+  width: var(--sticky-closed-width);
+  min-width: var(--sticky-closed-width);
   padding: 10px;
   box-sizing: border-box;
   background: var(--accent-red);
@@ -597,6 +625,7 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   text-decoration: none;
   font-family: 'Vast Shadow';
   font-size: 13px;
+  transition: width 0.25s ease, padding-right 0.25s ease;
 }
 .sticky-tape a::before {
   content: '';
@@ -624,7 +653,10 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   opacity: 0;
   transition: opacity 0.2s ease;
 }
+/* 開いたとき×分だけ幅を伸ばす（UL幅は閉じ幅のままなのでもう片方のpeekは不変） */
 .sticky-tape.is-open a {
+  width: var(--sticky-open-width);
+  min-width: var(--sticky-open-width);
   padding-right: 42px;
 }
 .sticky-tape.is-open a::after {
@@ -846,6 +878,12 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   }
 }
 @media screen and (max-width: 850px) {
+  /* モバイル時。peekはULの固定幅transformでヒット領域ごと移動。
+     UL化で約15px引っ込む分を right で補正し、見た目の位置を維持 */
+  #side-sticky {
+    right: 5px;
+  }
+
   .sub-section .page-intro-grid {
     display: none;
   }
@@ -1423,7 +1461,7 @@ const articles = [
 
 const works = [
     { id: 'work-loom', status: 'published', cardTitle: 'LOOM', cardSubtitle: 'Web Publishing Platform', order: 1, mark: '▱', description: 'A way to shape information into websites and publish them without making Git the obstacle.', section: 'PLAY', collection: 'web', tags: ['web', 'publishing'], label: 'BUILDING', url: 'https://loom.esenus.com/' },
-    { id: 'work-livingbase', status: 'published', cardTitle: 'NEST', cardSubtitle: 'Livingbase', order: 2, mark: '⌂', description: 'A personal system for bringing everyday information, activities, and routines together.', section: 'PLAY', collection: 'projects', tags: ['systems', 'everyday-life'], label: 'IN PROGRESS', url: 'https://nest.esenus.com/' },
+    { id: 'work-livingbase', status: 'published', cardTitle: 'NEST', cardSubtitle: 'Livingbase', order: 2, mark: '⌂', description: 'A personal system for bringing everyday information, activities, and routines together.', section: 'PLAY', collection: 'projects', tags: ['systems', 'everyday-life'], url: 'https://nest.esenus.com/' },
     { id: 'work-days', status: 'published', cardTitle: 'NEST::DAYS', order: 3, mark: '◷', description: 'A small space for keeping track of days and the things that fill them.', section: 'PLAY', collection: 'projects', tags: ['everyday-life', 'records'], url: 'https://days.esenus.com/' },
     { id: 'work-body', status: 'published', cardTitle: 'NEST::BODY', order: 4, mark: '◒', description: 'A personal space for understanding and keeping records of the body.', section: 'PLAY', collection: 'projects', tags: ['personal-systems', 'records'], url: 'https://body.esenus.com/' },
     { id: 'work-meal', status: 'published', cardTitle: 'NEST::MEAL', order: 5, mark: '◓', description: 'A space for food, meals, and the everyday decisions around them.', section: 'PLAY', collection: 'projects', tags: ['food', 'everyday-life'], url: 'https://meal.esenus.com/' },
