@@ -6,39 +6,44 @@
 <title>Blog — esenus</title>
 <meta name="description" content="A personal place to make things. Projects, experiments, thoughts, and records from esenus."/>
 <meta name="theme-color" content="#f2f2f0"/>
-<!-- BLOG_VERSION: 0.3.33 -->
+<!-- BLOG_VERSION: 0.3.34 -->
 <link href="https://fonts.googleapis.com/css?family=Syncopate:400,700|Average|Vast+Shadow&display=swap" rel="stylesheet"/>
 <style>
+/* ==========================================================================
+   1. VARIABLES & RESET
+   ========================================================================== */
 :root {
   --bg-color: #f2f2f0;
   --line-color: rgba(43, 42, 41, 0.15);
   --accent-red: #cc3300;
   --text-dark: #2b2a29;
   --text-light: #7a7977;
+
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --transition-speed: 0.9s;
   --sticky-speed: 0.7s;
+
   --sidebar-width: 260px;
   --desktop-menu-height: clamp(80px, calc(8.333vw + 50px), 120px);
   --panel-width: min(640px, 70vw);
-  /* peek enough to show the tape icon (~24px) + padding */
+
   --sticky-peek: 48px;
   --sticky-closed-width: 148px;
   --sticky-open-width: 168px;
   --sticky-hide: calc(var(--sticky-closed-width) - var(--sticky-peek));
+
   --home-updates-start: 320px;
   --nav-gap: clamp(8px, calc(1.6vw + 2px), 16px);
   --nav-link-horizontal-padding: clamp(5px, calc(0.943vw + 1.98px), 10px);
   --nav-link-font-size: clamp(11px, calc(0.566vw + 9.19px), 14px);
   --mobile-top-shield-height: 168px;
-  --nav-item-padding: 10px;
-  --nav-letter-spacing: 0.02em;
-  --nav-font-size: 14px;
   --mobile-home-nav-top: 215px;
 }
+
 html {
   scroll-behavior: smooth;
 }
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -48,6 +53,15 @@ body {
   color: var(--text-dark);
   font-family: 'Average', serif;
 }
+
+body.is-resizing #catchword,
+body.is-resizing #home-updates {
+  transition: none !important;
+}
+
+/* ==========================================================================
+   2. UI & HEADER COMPONENTS
+   ========================================================================== */
 #logo {
   position: fixed;
   top: 25px;
@@ -57,7 +71,7 @@ body {
   border: 0;
   background: var(--text-dark);
   color: #fff;
-  font-family: 'Syncopate';
+  font-family: 'Syncopate', sans-serif;
   font-size: 11px;
   font-weight: 800;
   line-height: 1.2;
@@ -66,15 +80,17 @@ body {
   transition: color 0.3s ease;
   pointer-events: auto;
 }
+
 .ui-label {
   position: fixed;
   z-index: 1005;
-  font-family: 'Syncopate';
+  font-family: 'Syncopate', sans-serif;
   font-size: 8px;
   font-weight: 700;
   white-space: nowrap;
   pointer-events: none;
 }
+
 #site-version {
   position: fixed;
   top: 12px;
@@ -89,17 +105,20 @@ body {
   opacity: 0.72;
   pointer-events: none;
 }
+
 #site-header {
   position: fixed;
-  bottom: 0;
   left: 0;
   z-index: 1000;
-  width: 100%;
-  height: var(--desktop-menu-height);
   box-sizing: border-box;
   background: var(--bg-color);
-  transition: top var(--transition-speed) var(--ease),bottom var(--transition-speed) var(--ease),left var(--transition-speed) var(--ease),width var(--transition-speed) var(--ease),height var(--transition-speed) var(--ease);
+  transition: top var(--transition-speed) var(--ease),
+              bottom var(--transition-speed) var(--ease),
+              left var(--transition-speed) var(--ease),
+              width var(--transition-speed) var(--ease),
+              height var(--transition-speed) var(--ease);
 }
+
 .nav-list {
   position: absolute;
   display: flex;
@@ -110,16 +129,24 @@ body {
   list-style: none;
   transition: opacity 0.4s ease, transform 0.4s var(--ease);
 }
+
 .nav-list a {
   display: inline-block;
   padding: 5px var(--nav-link-horizontal-padding);
   color: var(--text-dark);
   text-decoration: none;
-  font-family: 'Syncopate';
+  font-family: 'Syncopate', sans-serif;
   font-size: var(--nav-link-font-size);
   opacity: 0.4;
   transition: opacity 0.3s ease, color 0.3s ease, background-color 0.3s ease;
 }
+
+.nav-list a.is-active {
+  opacity: 1;
+  background: var(--text-dark);
+  color: #fff;
+}
+
 .nav-bar-label {
   display: flex;
   align-items: center;
@@ -128,6 +155,7 @@ body {
   letter-spacing: 0.3em;
   transition: transform 0.7s var(--ease), opacity 0.7s ease;
 }
+
 .nav-bar-label::after {
   content: '';
   display: block;
@@ -137,6 +165,688 @@ body {
   height: 1px;
   transition: width 0.7s var(--ease);
 }
+
+/* ==========================================================================
+   3. HERO & LAYOUT SECTIONS
+   ========================================================================== */
+.hero-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1100;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.hero-section h2,
+.hero-section p {
+  position: absolute;
+  margin: 0;
+  white-space: nowrap;
+  font-family: 'Syncopate', sans-serif;
+}
+
+#catchword {
+  top: 160px;
+  left: 25px;
+  transition: transform 0.7s var(--ease), opacity 0.7s ease;
+}
+
+body.is-home #catchword {
+  transform: translate3d(calc(7vw - 25px), calc(60px - 50%), 0);
+  font-size: clamp(32px, 5.2vw, 68px);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+}
+
+body.catchword-sub #catchword,
+body.is-sub #catchword {
+  transform: translate3d(0, 0, 0);
+  font-size: clamp(23px, 2.8vw, 24px);
+  line-height: 0.9;
+}
+
+#subtitle {
+  transition: top 0.7s var(--ease), left 0.7s var(--ease), transform 0.7s var(--ease), opacity 0.7s ease;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+body.is-home #subtitle {
+  top: 45px;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: min(620px, calc(100vw - 140px));
+  padding-right: calc(var(--sticky-peek) + 15px);
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: 0.3em;
+  text-align: center;
+  opacity: 0.6;
+}
+
+body.is-sub #subtitle {
+  top: 135px;
+  left: 25px;
+  transform: translate3d(0, 0, 0);
+  width: auto;
+  max-width: none;
+  padding-right: 0;
+  font-size: 8px;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+  text-align: left;
+}
+
+.page-section {
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+#section-01 {
+  padding-top: var(--home-updates-start);
+}
+
+#home-updates {
+  position: relative;
+  width: min(620px, 86vw);
+  margin-left: 7vw;
+  min-height: calc(100vh - var(--home-updates-start));
+  padding-bottom: 4px;
+  box-sizing: border-box;
+  background: var(--bg-color);
+  overflow: visible;
+}
+
+.home-updates-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+  font-family: 'Syncopate', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+}
+
+.home-updates-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line-color);
+}
+
+.home-updates-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-update-item {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 5px 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.home-update-item::before {
+  content: '•';
+  flex: 0 0 auto;
+  color: var(--accent-red);
+  font-size: 11px;
+  opacity: 0.65;
+}
+
+.home-update-date {
+  order: 2;
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: var(--text-light);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.025em;
+  opacity: 0.48;
+  white-space: nowrap;
+}
+
+.home-update-text {
+  order: 1;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.sub-section {
+  margin-left: var(--sidebar-width);
+  padding: 135px 60px 180px;
+}
+
+.sub-section article {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-title {
+  margin: 0 0 30px;
+  padding-left: 15px;
+  border-left: 6px solid var(--accent-red);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 1.5rem;
+}
+
+.page-intro-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding-right: calc(var(--sticky-peek) + 15px);
+  margin-bottom: 40px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid var(--line-color);
+  box-sizing: border-box;
+}
+
+.page-main-text p {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   4. CONTENT CARDS & GRIDS
+   ========================================================================== */
+.dynamic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  column-gap: clamp(24px, 3vw, 44px);
+  row-gap: 34px;
+  width: 100%;
+}
+
+.content-card {
+  min-width: 0;
+  width: 100%;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line-color);
+}
+
+.content-card__link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.content-card__link:focus-visible {
+  outline: 2px solid var(--accent-red);
+  outline-offset: 4px;
+}
+
+.content-card__meta {
+  margin-bottom: 12px;
+  color: var(--text-light);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 8px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+}
+
+.content-card__title {
+  margin: 0 0 8px;
+  font-family: 'Syncopate', sans-serif;
+  font-size: clamp(13px, 1vw, 16px);
+  line-height: 1.35;
+  font-weight: 700;
+}
+
+.content-card__text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.content-card__type,
+.content-card__status {
+  margin-top: 14px;
+  color: var(--text-light);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 7px;
+  letter-spacing: 0.12em;
+}
+
+.content-card__status {
+  margin-top: 6px;
+  color: var(--accent-red);
+}
+
+/* Specific Card Variants */
+.play-card__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.play-card__head .content-card__meta {
+  margin: 0;
+}
+
+.play-card__thumb {
+  flex-basis: 34px;
+}
+
+.play-card .content-card__title {
+  margin: 0;
+  font-size: clamp(12px, 1vw, 15px);
+  line-height: 1.3;
+}
+
+.play-card__identity {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.play-card__subtitle {
+  color: var(--text-light);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 7px;
+  line-height: 1.35;
+  letter-spacing: .06em;
+}
+
+.play-card .content-card__type,
+.play-card .content-card__status {
+  display: inline-flex;
+  align-items: center;
+  margin: 14px 8px 0 0;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(43,42,41,.06);
+  font-size: 9px;
+  line-height: 1.3;
+  letter-spacing: .02em;
+}
+
+.play-card .content-card__status {
+  color: #30365f;
+  background: rgba(48,54,95,.08);
+}
+
+.collection-card__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+
+.collection-card__thumb {
+  display: grid;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--line-color);
+  background: rgba(43, 42, 41, 0.035);
+  color: var(--text-dark);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.collection-card .content-card__title {
+  margin: 0;
+}
+
+.more-notes-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 34px;
+  padding: 8px 0;
+  color: var(--text-dark);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: color 0.25s ease, gap 0.25s ease;
+}
+
+.more-notes-link[hidden] {
+  display: none;
+}
+
+/* Pagination */
+.note-pagination {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+  z-index: 1900;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--line-color);
+  background: rgba(242, 242, 240, 0.96);
+  font-family: 'Syncopate', sans-serif;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate3d(0, 10px, 0);
+  transition: opacity 0.3s ease, transform 0.4s var(--ease), visibility 0.3s ease;
+}
+
+body.is-note .note-pagination {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0);
+}
+
+.note-pagination__status {
+  flex: 0 0 auto;
+  color: var(--text-light);
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-align: right;
+}
+
+.note-pagination__controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: clamp(2px, 0.35vw, 6px);
+  min-width: 0;
+}
+
+.note-pagination button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-dark);
+  font: inherit;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+}
+
+.note-pagination button[aria-current="page"] {
+  border-color: var(--text-dark);
+  background: var(--text-dark);
+  color: var(--bg-color);
+}
+
+.note-pagination button:disabled {
+  opacity: 0.25;
+  cursor: default;
+}
+
+.note-pagination button:focus-visible {
+  outline: 2px solid var(--accent-red);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   5. STICKY NAV & PANEL
+   ========================================================================== */
+#side-sticky {
+  position: fixed;
+  top: 25px;
+  right: 0;
+  z-index: 1800;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+#side-sticky > ul {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: var(--sticky-closed-width);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translate3d(var(--sticky-hide), 0, 0);
+  transition: transform var(--sticky-speed) var(--ease);
+  pointer-events: none;
+}
+
+body.is-home #side-sticky > ul {
+  transform: translate3d(0, 0, 0);
+}
+
+.sticky-tape {
+  position: relative;
+  margin-bottom: 10px;
+  transform: rotate(var(--random-rotate, 0deg));
+  transition: transform var(--sticky-speed) var(--ease);
+  pointer-events: auto;
+}
+
+body.is-sub .sticky-tape.is-open {
+  transform: translate3d(calc(-1 * var(--sticky-hide)), 0, 0) rotate(var(--random-rotate, 0deg));
+}
+
+/* State management class instead of CSS :has() browser hack */
+body.is-home.is-panel-open #side-sticky .sticky-tape:not(.is-open) {
+  transform: translate3d(var(--sticky-hide), 0, 0) rotate(var(--random-rotate, 0deg));
+}
+
+.sticky-tape a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: var(--sticky-closed-width);
+  min-width: var(--sticky-closed-width);
+  padding: 10px;
+  box-sizing: border-box;
+  background: var(--accent-red);
+  color: #fff;
+  box-shadow: -4px 4px 10px rgba(0, 0, 0, 0.15);
+  text-decoration: none;
+  font-family: 'Vast Shadow', serif;
+  font-size: 13px;
+  transition: width 0.25s ease, padding-right 0.25s ease;
+}
+
+.sticky-tape a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -24px;
+  width: 24px;
+  height: 100%;
+  background: inherit;
+  pointer-events: none;
+}
+
+.sticky-tape--behind a {
+  background: var(--text-dark);
+}
+
+.sticky-tape a::after {
+  content: '×';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translate3d(0, -50%, 0);
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.sticky-tape.is-open a {
+  width: var(--sticky-open-width);
+  min-width: var(--sticky-open-width);
+  padding-right: 28px;
+}
+
+.sticky-tape.is-open a::after {
+  opacity: 1;
+}
+
+.tape-icon {
+  display: inline-block;
+  width: 24px;
+  margin-right: 20px;
+  text-align: center;
+  font-size: 20px;
+}
+
+#content-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: var(--desktop-menu-height);
+  z-index: 1700;
+  width: var(--panel-width);
+  box-sizing: border-box;
+  background: var(--bg-color);
+  border-left: 1px solid var(--line-color);
+  box-shadow: -12px 0 35px rgba(0, 0, 0, 0.08);
+  transform: translate3d(100%, 0, 0);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: transform 0.7s var(--ease), opacity 0.35s ease, visibility 0s linear 0.7s;
+}
+
+#content-panel.is-open {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: transform 0.7s var(--ease), opacity 0.35s ease, visibility 0s;
+}
+
+.content-panel-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  padding: 60px 50px 80px;
+}
+
+.panel-page {
+  display: none;
+}
+
+.panel-page.is-active {
+  display: block;
+}
+
+.panel-page .page-title {
+  margin-top: 0;
+}
+
+.panel-page .page-intro-grid {
+  grid-template-columns: 1fr 150px;
+  border-bottom: 0;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+}
+
+.panel-page .page-main-text p {
+  font-size: 1.4rem;
+}
+
+.panel-links {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  border-top: 1px solid var(--line-color);
+}
+
+.panel-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line-color);
+  color: var(--text-dark);
+  text-decoration: none;
+  font-family: 'Syncopate', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: color 0.3s ease, padding-left 0.4s var(--ease);
+}
+
+.panel-link::after {
+  content: '';
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: rotate(45deg);
+  opacity: 0.7;
+}
+
+.panel-note {
+  margin-top: 15px;
+  color: var(--text-light);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 7px;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+}
+
+/* ==========================================================================
+   6. FOOTER & HOVER STATES
+   ========================================================================== */
+#site-footer {
+  position: fixed;
+  z-index: 2001;
+  pointer-events: auto;
+  color: var(--text-dark);
+  font-family: 'Syncopate', sans-serif;
+  font-size: 8px;
+  font-weight: 350;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  opacity: 0.25;
+  box-sizing: border-box;
+  white-space: normal;
+  text-align: center;
+  overflow-wrap: break-word;
+  word-break: normal;
+  transition: top 0.7s var(--ease), bottom 0.7s var(--ease), left 0.7s var(--ease),
+              width 0.7s var(--ease), max-width 0.7s var(--ease), transform 0.7s var(--ease), text-align 0.7s var(--ease);
+}
+
+#site-footer a {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+#site-footer a:hover,
+#site-footer a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .nav-list a:hover {
     opacity: 1;
@@ -160,653 +870,22 @@ body {
     color: var(--accent-red);
   }
 }
-.nav-list a.is-active {
-  opacity: 1;
-  background: var(--text-dark);
-  color: #fff;
-}
-.hero-section {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1100;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-}
-.hero-section h2,.hero-section p {
-  position: absolute;
-  margin: 0;
-  white-space: nowrap;
-  font-family: 'Syncopate';
-}
-body.is-resizing #catchword,body.is-resizing #home-updates {
-  transition: none;
-}
-#catchword {
-  top: 160px;
-  left: 25px;
-  transition: transform 0.7s var(--ease), opacity 0.7s ease;
-}
-body.is-home #catchword {
-  transform: translate3d(calc(7vw - 25px), calc(60px - 50%), 0);
-  font-size: clamp(32px, 5.2vw, 68px);
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: 0.02em;
-}
-body.catchword-sub #catchword,body.is-sub #catchword {
-  transform: translate3d(0, 0, 0);
-  font-size: clamp(23px, 2.8vw, 24px);
-  line-height: 0.9;
-}
-#subtitle {
-  transition: top 0.7s var(--ease),left 0.7s var(--ease),transform 0.7s var(--ease),opacity 0.7s ease;
-  box-sizing: border-box;
-  white-space: nowrap;
-}
-body.is-home #subtitle {
-  top: 45px;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  width: min(620px, calc(100vw - 140px));
-  max-width: min(620px, calc(100vw - 140px));
-  padding-right: calc(var(--sticky-peek) + 15px);
-  font-size: 10px;
-  line-height: 1.4;
-  letter-spacing: 0.3em;
-  text-align: center;
-  opacity: 0.6;
-}
-body.is-sub #subtitle {
-  top: 135px;
-  left: 25px;
-  transform: translate3d(0, 0, 0);
-  width: auto;
-  max-width: none;
-  padding-right: 0;
-  font-size: 8px;
-  line-height: 1.4;
-  letter-spacing: 0.1em;
-  opacity: 0.5;
-  text-align: left;
-}
-#section-01 {
-  position: relative;
-  min-height: 100vh;
-  padding-top: var(--home-updates-start);
-  box-sizing: border-box;
-}
-#home-updates {
-  position: relative;
-  width: min(620px, 86vw);
-  margin-left: 7vw;
-  min-height: calc(100vh - var(--home-updates-start));
-  padding-bottom: 4px;
-  box-sizing: border-box;
-  background: var(--bg-color);
-  overflow: visible;
-}
-.home-updates-label {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 10px;
-  font-family: 'Syncopate';
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-}
-.home-updates-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--line-color);
-}
-.home-updates-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.home-update-item {
-  display: flex;
-  align-items: baseline;
-  gap: 9px;
-  padding: 5px 0;
-  font-size: 15px;
-  line-height: 1.4;
-}
-.home-update-item::before {
-  content: '•';
-  flex: 0 0 auto;
-  color: var(--accent-red);
-  font-size: 11px;
-  opacity: 0.65;
-}
-.home-update-date {
-  order: 2;
-  flex: 0 0 auto;
-  margin-left: auto;
-  color: var(--text-light);
-  font-family: 'Syncopate';
-  font-size: 8px;
-  letter-spacing: 0.025em;
-  opacity: 0.48;
-  white-space: nowrap;
-}
-.home-update-text {
-  order: 1;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-.page-section {
-  position: relative;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-.sub-section {
-  min-height: 100vh;
-  margin-left: var(--sidebar-width);
-  padding: 135px 60px 180px;
-  box-sizing: border-box;
-}
-.sub-section article {
-  max-width: 1400px;
-  margin: 0 auto;
-}
-.page-title {
-  margin: 0 0 30px;
-  padding-left: 15px;
-  border-left: 6px solid var(--accent-red);
-  font-family: 'Syncopate';
-  font-size: 1.5rem;
-}
-.page-intro-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  padding-right: calc(var(--sticky-peek) + 15px);
-  margin-bottom: 40px;
-  padding-bottom: 25px;
-  border-bottom: 1px solid var(--line-color);
-  box-sizing: border-box;
-}
-.page-main-text p {
-  margin: 0;
-  font-size: 1.6rem;
-  line-height: 1.5;
-}
-.dynamic-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  column-gap: clamp(24px, 3vw, 44px);
-  row-gap: 34px;
-  width: 100%;
-}
-.content-grid > .content-card {
-  width: 100%;
-  min-width: 0;
-}
-.content-card {
-  min-width: 0;
-  padding-bottom: 22px;
-  border-bottom: 1px solid var(--line-color);
-}
-.play-card .content-card__link {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
-.play-card__head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.play-card__head .content-card__meta {
-  margin: 0;
-}
-.play-card__thumb {
-  flex-basis: 34px;
-}
-.play-card .content-card__title {
-  margin: 0;
-  font-size: clamp(12px, 1vw, 15px);
-  line-height: 1.3;
-}
-.play-card__identity {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-.play-card__subtitle {
-  color: var(--text-light);
-  font-family: 'Syncopate',sans-serif;
-  font-size: 7px;
-  line-height: 1.35;
-  letter-spacing: .06em;
-}
-.play-card .content-card__type,.play-card .content-card__status {
-  display: inline-flex;
-  align-items: center;
-  margin: 14px 8px 0 0;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: rgba(43,42,41,.06);
-  font-family: 'Syncopate',sans-serif;
-  font-size: 9px;
-  line-height: 1.3;
-  letter-spacing: .02em;
-}
-.play-card .content-card__status {
-  color: #30365f;
-  background: rgba(48,54,95,.08);
-}
-.play-card .content-card__link:focus-visible {
-  outline: 2px solid var(--accent-red);
-  outline-offset: 4px;
-}
-.collection-card__head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 9px;
-}
-.collection-card__thumb {
-  display: grid;
-  flex: 0 0 34px;
-  width: 34px;
-  height: 34px;
-  place-items: center;
-  border: 1px solid var(--line-color);
-  background: rgba(43, 42, 41, 0.035);
-  color: var(--text-dark);
-  font-family: 'Syncopate', sans-serif;
-  font-size: 14px;
-  line-height: 1;
-}
-.collection-card .content-card__title {
-  margin: 0;
-}
-.content-card__link {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
-.content-card__link:focus-visible {
-  outline: 2px solid var(--accent-red);
-  outline-offset: 4px;
-}
-.content-card__meta {
-  margin-bottom: 12px;
-  color: var(--text-light);
-  font-family: 'Syncopate';
-  font-size: 8px;
-  line-height: 1.4;
-  letter-spacing: 0.08em;
-}
-.content-card__title {
-  margin: 0 0 8px;
-  font-family: 'Syncopate';
-  font-size: clamp(13px, 1vw, 16px);
-  line-height: 1.35;
-  font-weight: 700;
-}
-.content-card__text {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.55;
-}
-.content-card__type {
-  margin-top: 14px;
-  color: var(--text-light);
-  font-family: 'Syncopate';
-  font-size: 7px;
-  letter-spacing: 0.12em;
-}
-.content-card__status {
-  margin-top: 6px;
-  color: var(--accent-red);
-  font-family: 'Syncopate';
-  font-size: 7px;
-  letter-spacing: 0.12em;
-}
-.then-grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.more-notes-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 34px;
-  padding: 8px 0;
-  color: var(--text-dark);
-  font-family: 'Syncopate';
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-decoration: none;
-  transition: color 0.25s ease, gap 0.25s ease;
-}
-.more-notes-link[hidden] {
-  display: none;
-}
-.note-pagination {
-  position: fixed;
-  right: 25px;
-  bottom: 25px;
-  z-index: 1900;
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: flex-end;
-  gap: 8px;
-  padding: 10px 12px;
-  border: 1px solid var(--line-color);
-  background: rgba(242, 242, 240, 0.96);
-  font-family: 'Syncopate';
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translate3d(0, 10px, 0);
-  transition: opacity 0.3s ease, transform 0.4s var(--ease), visibility 0.3s ease;
-}
-body.is-note .note-pagination {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translate3d(0, 0, 0);
-}
-.note-pagination__status {
-  flex: 0 0 auto;
-  color: var(--text-light);
-  font-size: 7px;
-  letter-spacing: 0.08em;
-  line-height: 1.6;
-  text-align: right;
-}
-.note-pagination__controls {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: clamp(2px, 0.35vw, 6px);
-  min-width: 0;
-}
-.note-pagination button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 42px;
-  min-height: 44px;
-  padding: 8px 10px;
-  border: 1px solid transparent;
-  background: transparent;
-  color: var(--text-dark);
-  font: inherit;
-  font-size: 9px;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
-}
-.note-pagination button[aria-current="page"] {
-  border-color: var(--text-dark);
-  background: var(--text-dark);
-  color: var(--bg-color);
-}
-.note-pagination button:disabled {
-  opacity: 0.25;
-  cursor: default;
-}
-.note-pagination button:focus-visible {
-  outline: 2px solid var(--accent-red);
-  outline-offset: 3px;
-}
-/* Side sticky: UL = peek (fixed closed width), LI = rotation (+ SUB pull-out) */
-#side-sticky {
-  position: fixed;
-  top: 25px;
-  right: 0;
-  z-index: 1800;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  pointer-events: none;
-}
-#side-sticky > ul {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  width: var(--sticky-closed-width);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  transform: translate3d(var(--sticky-hide), 0, 0);
-  transition: transform var(--sticky-speed) var(--ease);
-  pointer-events: none;
-}
-body.is-home #side-sticky > ul {
-  transform: translate3d(0, 0, 0);
-}
-.sticky-tape {
-  position: relative;
-  margin-bottom: 10px;
-  transform: rotate(var(--random-rotate, 0deg));
-  transition: transform var(--sticky-speed) var(--ease);
-  pointer-events: auto;
-}
-.sticky-tape.is-open,
-body.is-home #side-sticky .sticky-tape {
-  transform: rotate(var(--random-rotate, 0deg));
-}
-body.is-sub .sticky-tape.is-open {
-  transform: translate3d(calc(-1 * var(--sticky-hide)), 0, 0) rotate(var(--random-rotate, 0deg));
-}
-body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open) {
-  transform: translate3d(var(--sticky-hide), 0, 0) rotate(var(--random-rotate, 0deg));
-}
-.sticky-tape a {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: var(--sticky-closed-width);
-  min-width: var(--sticky-closed-width);
-  padding: 10px;
-  box-sizing: border-box;
-  background: var(--accent-red);
-  color: #fff;
-  box-shadow: -4px 4px 10px rgba(0, 0, 0, 0.15);
-  text-decoration: none;
-  font-family: 'Vast Shadow';
-  font-size: 13px;
-  transition: width 0.25s ease, padding-right 0.25s ease;
-}
-.sticky-tape a::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -24px;
-  width: 24px;
-  height: 100%;
-  background: inherit;
-  pointer-events: none;
-}
-.sticky-tape--behind a {
-  background: var(--text-dark);
-}
-.sticky-tape a::after {
-  content: '×';
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translate3d(0, -50%, 0);
-  font-family: Arial, sans-serif;
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-.sticky-tape.is-open a {
-  width: var(--sticky-open-width);
-  min-width: var(--sticky-open-width);
-  padding-right: 28px;
-}
-.sticky-tape.is-open a::after {
-  opacity: 1;
-}
-.tape-icon {
-  display: inline-block;
-  width: 24px;
-  margin-right: 20px;
-  text-align: center;
-  font-size: 20px;
-}
-#content-panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: var(--desktop-menu-height);
-  z-index: 1700;
-  width: var(--panel-width);
-  box-sizing: border-box;
-  background: var(--bg-color);
-  border-left: 1px solid var(--line-color);
-  box-shadow: -12px 0 35px rgba(0, 0, 0, 0.08);
-  transform: translate3d(100%, 0, 0);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition: transform 0.7s var(--ease),opacity 0.35s ease,visibility 0s linear 0.7s;
-}
-#content-panel.is-open {
-  transform: translate3d(0, 0, 0);
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transition: transform 0.7s var(--ease), opacity 0.35s ease, visibility 0s;
-}
-.content-panel-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  overflow-y: auto;
-  padding: 60px 50px 80px;
-}
-.panel-page {
-  display: none;
-}
-.panel-page.is-active {
-  display: block;
-}
-.panel-page .page-title {
-  margin-top: 0;
-}
-.panel-page .page-intro-grid {
-  grid-template-columns: 1fr 150px;
-  border-bottom: 0;
-  padding-bottom: 0;
-  margin-bottom: 20px;
-}
-.panel-page .page-main-text p {
-  font-size: 1.4rem;
-}
-.panel-links {
-  display: flex;
-  flex-direction: column;
-  margin-top: 15px;
-  border-top: 1px solid var(--line-color);
-}
-.panel-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line-color);
-  color: var(--text-dark);
-  text-decoration: none;
-  font-family: 'Syncopate';
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  transition: color 0.3s ease, padding-left 0.4s var(--ease);
-}
-.panel-link::after {
-  content: '';
-  width: 9px;
-  height: 9px;
-  flex: 0 0 9px;
-  border-top: 1px solid currentColor;
-  border-right: 1px solid currentColor;
-  transform: rotate(45deg);
-  opacity: 0.7;
-}
-.panel-note {
-  margin-top: 15px;
-  color: var(--text-light);
-  font-family: 'Syncopate';
-  font-size: 7px;
-  line-height: 1.6;
-  letter-spacing: 0.08em;
-}
-#site-footer a {
-  color: inherit;
-  text-decoration: none;
-  pointer-events: auto;
-  cursor: pointer;
-}
-#site-footer a:hover,#site-footer a:focus-visible {
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-#site-footer {
-  position: fixed;
-  z-index: 2001;
-  pointer-events: auto;
-  color: var(--text-dark);
-  font-family: 'Syncopate';
-  font-size: 8px;
-  font-weight: 350;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  opacity: 0.25;
-  box-sizing: border-box;
-  white-space: normal;
-  text-align: center;
-  overflow-wrap: break-word;
-  word-break: normal;
-  transition: top 0.7s var(--ease),bottom 0.7s var(--ease),left 0.7s var(--ease),width 0.7s var(--ease),max-width 0.7s var(--ease),transform 0.7s var(--ease),text-align 0.7s var(--ease);
-}
+
+/* ==========================================================================
+   7. MEDIA QUERIES & RESPONSIVE DESIGN
+   ========================================================================== */
 @media screen and (min-width: 1500px) {
   .dynamic-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-@media screen and (max-width: 600px) {
-  .dynamic-grid,.then-grid {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 26px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *, *::before, *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
+
 @media screen and (min-width: 851px) {
   body.is-home .nav-bar-label {
     top: calc(100vh - var(--desktop-menu-height));
     left: 50%;
     transform: translate3d(-50%, -50%, 0) rotate(0deg);
     opacity: 0.6;
-  }
-  body.is-home .nav-bar-label::after {
-    width: 60px;
   }
   body.is-sub .nav-bar-label {
     top: 50%;
@@ -819,7 +898,7 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   }
   body.is-home #site-header {
     bottom: 0;
-    left: 0;
+    top: auto;
     width: 100%;
     height: var(--desktop-menu-height);
     border-top: 1px solid var(--line-color);
@@ -869,12 +948,11 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     text-align: center;
   }
 }
+
 @media screen and (max-width: 850px) {
-  /* Mobile: keep icons visible; don't push off-screen */
   #side-sticky {
     right: -4px;
   }
-
   .sub-section .page-intro-grid {
     display: none;
   }
@@ -895,8 +973,9 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     transform: rotate(-90deg);
     text-align: left;
   }
-  body.is-home #site-header {
-    top: var(--mobile-home-nav-top);
+
+  /* Header consolidations */
+  #site-header {
     bottom: auto;
     left: 0;
     z-index: 1000;
@@ -905,27 +984,20 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     min-height: 0;
     border: none;
     padding: 0;
-    box-sizing: border-box;
     background: transparent;
+  }
+  body.is-home #site-header {
+    top: var(--mobile-home-nav-top);
     pointer-events: auto;
   }
   body.is-sub #site-header {
     top: 0;
-    bottom: auto;
-    left: 0;
-    z-index: 1000;
-    width: 100%;
-    height: auto;
-    min-height: 0;
-    border: none;
     padding-top: env(safe-area-inset-top, 0px);
     padding-left: env(safe-area-inset-left, 0px);
     padding-right: env(safe-area-inset-right, 0px);
-    box-sizing: border-box;
-    background: transparent;
     pointer-events: none;
   }
-  /* 控えめで自然な上部グラデーション・シールド（不透明度と高さを調整） */
+
   #site-header::after {
     content: '';
     position: fixed;
@@ -933,11 +1005,11 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     left: 0;
     width: 100vw;
     height: var(--mobile-top-shield-height);
-    background: linear-gradient(to bottom,rgba(242, 242, 240, 0.92) 0%,rgba(242, 242, 240, 0.75) 50%,rgba(242, 242, 240, 0.3) 80%,rgba(242, 242, 240, 0) 100%);
+    background: linear-gradient(to bottom, rgba(242, 242, 240, 0.92) 0%, rgba(242, 242, 240, 0.75) 50%, rgba(242, 242, 240, 0.3) 80%, rgba(242, 242, 240, 0) 100%);
     pointer-events: none;
     z-index: 999;
-    /* コンテンツの上、ヘッダー情報の下に挟み込み */
   }
+
   .primary-nav {
     position: relative;
     width: 100%;
@@ -946,12 +1018,11 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     pointer-events: auto;
   }
   body.is-sub .primary-nav {
-    position: relative;
     height: 28px;
     width: calc(100% - 38px);
     margin: 88px 19px 0;
-    pointer-events: auto;
   }
+
   .nav-list {
     position: relative;
     z-index: 1001;
@@ -970,70 +1041,46 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   }
   body.is-sub .nav-list {
     justify-content: flex-start;
-    align-items: center;
     width: max-content;
     max-width: calc(100vw - 38px);
     height: 28px;
     padding: 0 6px;
-    gap: 0;
     background: linear-gradient(180deg, rgba(242, 242, 240, 0.78) 0%, rgba(242, 242, 240, 0.58) 100%);
     backdrop-filter: blur(7px);
     border-radius: 3px;
   }
-  body.is-sub .nav-list li {
-    align-items: center;
-  }
-  /* HOME: NOTE | PLAY | MAKE | THEN */
-  body.is-home .nav-list li:not(:last-child)::after {
-    content: '|';
-    display: block;
-    padding: 0 7px;
-    color: var(--text-dark);
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 300;
-    line-height: 1;
-    opacity: 0.35;
-    pointer-events: none;
-  }
-  /* SUB: › 区切り */
-  body.is-sub .nav-list li:not(:last-child)::after {
-    content: '›';
-    display: block;
-    padding: 0 4px;
-    color: var(--text-dark);
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 300;
-    line-height: 1;
-    opacity: 0.4;
-    pointer-events: none;
-  }
-  body.is-sub .nav-list a {
-    position: relative;
-    z-index: 1;
-    padding: 0 4px;
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    opacity: 0.42;
-    pointer-events: auto;
-  }
-  /* モバイル共通: 現在セクションを赤文字 */
-  .nav-list a.is-active {
-    background: transparent;
-    color: var(--accent-red);
-    opacity: 1;
-    font-weight: 700;
-  }
-  /* モバイルでは HOME リンクを非表示（HOME時はメニュー自体がHOME位置、SUB時は現在位置表示のため） */
-  body.is-home .nav-list li:has(a[href="#section-01"]) {
-    display: none;
-  }
+
   .nav-list li {
     display: flex;
     flex: 0 0 auto;
+    align-items: center;
     min-width: max-content;
   }
+  body.is-home .nav-list li:has(a[href="#section-01"]) {
+    display: none;
+  }
+
+  /* List Separators */
+  .nav-list li:not(:last-child)::after {
+    display: block;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--text-dark);
+    pointer-events: none;
+  }
+  body.is-home .nav-list li:not(:last-child)::after {
+    content: '|';
+    padding: 0 7px;
+    opacity: 0.35;
+  }
+  body.is-sub .nav-list li:not(:last-child)::after {
+    content: '›';
+    padding: 0 4px;
+    opacity: 0.4;
+  }
+
   .nav-list a {
     display: flex;
     flex: 0 0 auto;
@@ -1041,10 +1088,10 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     justify-content: center;
     min-width: max-content;
     height: 100%;
-    padding: 0 var(--nav-item-padding);
+    padding: 0 10px;
     box-sizing: border-box;
-    font-size: var(--nav-font-size);
-    letter-spacing: var(--nav-letter-spacing);
+    font-size: 14px;
+    letter-spacing: 0.02em;
     line-height: 1;
     text-align: center;
     white-space: nowrap;
@@ -1054,10 +1101,25 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     letter-spacing: 0.06em;
     opacity: 0.5;
   }
-  body.is-home .nav-bar-label,
-  body.is-sub .nav-bar-label {
-    display: none;
+  body.is-sub .nav-list a {
+    position: relative;
+    z-index: 1;
+    padding: 0 4px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    opacity: 1;
   }
+  .nav-list a.is-active {
+    background: transparent;
+    color: var(--accent-red);
+    opacity: 1;
+    font-weight: 700;
+  }
+
+  .nav-bar-label {
+    display: none !important;
+  }
+
   #catchword {
     top: 40px;
     left: calc(110px + env(safe-area-inset-left, 0px));
@@ -1069,22 +1131,16 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   body.catchword-sub #catchword {
     letter-spacing: 0.02em;
   }
+
   body.is-home #subtitle {
     top: 110px;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
     width: calc(100vw - 50px);
     max-width: 500px;
-    box-sizing: border-box;
     padding-right: calc(var(--sticky-peek) + 15px);
     text-align: center;
     line-height: 1.5;
-  }
-  @media (max-width: 500px) {
-    body.is-home #subtitle {
-      padding-right: calc(var(--sticky-peek) + 100px);
-      white-space: normal;
-    }
   }
   body.is-sub #subtitle {
     top: 25px;
@@ -1099,10 +1155,11 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     white-space: nowrap;
     text-align: left;
   }
-  /* Mobile displays all NOTE entries; pagination is desktop-only. */
+
   body.is-note .note-pagination {
     display: none;
   }
+
   .sub-section {
     margin-left: 0;
     padding: 120px calc(25px + env(safe-area-inset-right, 0px)) 60px calc(25px + env(safe-area-inset-left, 0px));
@@ -1114,6 +1171,7 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
   .page-main-text p {
     font-size: 1.25rem;
   }
+
   #content-panel {
     top: 0;
     right: 0;
@@ -1158,8 +1216,7 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     padding-bottom: 18px;
   }
 
-/* Mobile NOTE: single-line rows, sized in harmony with TOPICS. */
-
+  /* Mobile NOTE: Single-line layout */
   .content-grid[data-content="NOTE"] {
     grid-template-columns: minmax(0, 1fr);
     row-gap: 0;
@@ -1218,10 +1275,35 @@ body.is-home:has(#content-panel.is-open) #side-sticky .sticky-tape:not(.is-open)
     white-space: nowrap;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .dynamic-grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 26px;
+  }
+}
+
+@media (max-width: 500px) {
+  body.is-home #subtitle {
+    padding-right: calc(var(--sticky-peek) + 100px);
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
 </style>
 </head>
 <body class="is-home">
-<div aria-label="Version 0.3.33" id="site-version">v0.3.33</div>
+<div aria-label="Version 0.3.34" id="site-version">v0.3.34</div>
 
 <header id="site-header">
 <button aria-label="Go to Home" id="logo" type="button">
@@ -1318,7 +1400,7 @@ blog.<br/>ESENUS
 <p>Everyday notes, small thoughts, past activities, and records worth keeping. Not everything needs to be sorted before it has a place.</p>
 </div>
 </div>
-<div class="dynamic-grid content-grid then-grid" data-content="THEN"></div>
+<div class="dynamic-grid content-grid" data-content="THEN"></div>
 </article>
 </section>
 </main>
@@ -1371,53 +1453,50 @@ blog.<br/>ESENUS
 </footer>
 
 <script>
-const $ = (selector, root = document) => root.querySelector(selector);
-const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-const body = document.body;
-const logo = $('#logo');
-const nav = $('#main-nav-list');
-const navLinks = $$('a[href^="#section-"]', nav);
-const sections = $$('main .page-section');
-const stickies = $$('#side-sticky .sticky-tape');
-const panel = $('#content-panel');
-const panelPages = $$('.panel-page');
-const grids = $$('.content-grid');
-const MOBILE_BREAKPOINT = 850;
-const state = { action: '', frame: 0, resizeTimer: 0, panelTimer: 0, noteLayoutTimer: 0 };
-// Content model: Section defines the primary context; Collection is optional within each Section.
-// NOTE is a chronological View of all published articles. Tags connect content across Sections.
-const collections = {
+(() => {
+  'use strict';
+
+  /* ==========================================================================
+     1. CONSTANTS & STATE MANAGEMENT
+     ========================================================================== */
+  const MOBILE_BREAKPOINT = 850;
+  const NOTE_PAGE_SIZE = 6;
+  const MOBILE_NOTE_LIMIT = 12;
+
+  const state = {
+    action: '',
+    frame: 0,
+    resizeTimer: 0,
+    panelTimer: 0,
+    noteLayoutTimer: 0,
+    notePage: 1
+  };
+
+  const collections = {
     PLAY: [
-        { id: 'projects', name: 'Projects', mark: '✦' },
-        { id: 'web', name: 'Web', mark: '◎', description: 'Websites, interfaces, and explorations of the web.' },
-        { id: 'electronics', name: 'Electronics', mark: '⌬', description: 'Electronics projects, repairs, and modifications.' }
+      { id: 'projects', name: 'Projects', mark: '✦' },
+      { id: 'web', name: 'Web', mark: '◎', description: 'Websites, interfaces, and explorations of the web.' },
+      { id: 'electronics', name: 'Electronics', mark: '⌬', description: 'Electronics projects, repairs, and modifications.' }
     ],
     MAKE: [
-        { id: 'development', name: 'Development', mark: '⌘', description: 'Development, design, and the systems behind things.' },
-        { id: 'experiments', name: 'Experiments', mark: '✳', description: 'Prototypes, tests, trials, and learning through experimentation.' },
-        { id: 'tools', name: 'Tools', mark: '⌁', description: 'Tools, utilities, and small things made to support everyday work.' },
-        { id: 'web', name: 'Web', mark: '◎', description: 'Websites, interfaces, and explorations of the web.' },
-        { id: 'food', name: 'Food', mark: '＋', description: 'Cooking, recipes, and experiments with food.' },
-        { id: 'electronics', name: 'Electronics', mark: '⌬', description: 'Electronics projects, repairs, and modifications.' }
+      { id: 'development', name: 'Development', mark: '⌘', description: 'Development, design, and the systems behind things.' },
+      { id: 'experiments', name: 'Experiments', mark: '✳', description: 'Prototypes, tests, trials, and learning through experimentation.' },
+      { id: 'tools', name: 'Tools', mark: '⌁', description: 'Tools, utilities, and small things made to support everyday work.' },
+      { id: 'web', name: 'Web', mark: '◎', description: 'Websites, interfaces, and explorations of the web.' },
+      { id: 'food', name: 'Food', mark: '＋', description: 'Cooking, recipes, and experiments with food.' },
+      { id: 'electronics', name: 'Electronics', mark: '⌬', description: 'Electronics projects, repairs, and modifications.' }
     ],
     THEN: [
-        { id: 'unsorted', name: 'Unsorted', mark: '…', description: 'Everyday notes, short thoughts, memos, and unfinished ideas that do not need a separate category.' },
-        { id: 'works', name: 'Works', mark: '✦', description: 'Past creations and activities that do not belong to a more specific collection.' },
-        { id: 'portfolio', name: 'Portfolio', mark: '▤', description: 'Past portfolios and collections of work presented as a body of work.' },
-        { id: 'electronics', name: 'Electronics', mark: '⌬', description: 'Past electronics projects, repairs, and modifications.' },
-        { id: 'photographs', name: 'Photographs', mark: '▧', description: 'Photographs and visual records from different times and places.' },
-        { id: 'experiments', name: 'Experiments', mark: '✳', description: 'Past prototypes, tests, and experiments, including what was learned along the way.' },
+      { id: 'unsorted', name: 'Unsorted', mark: '…', description: 'Everyday notes, short thoughts, memos, and unfinished ideas that do not need a separate category.' },
+      { id: 'works', name: 'Works', mark: '✦', description: 'Past creations and activities that do not belong to a more specific collection.' },
+      { id: 'portfolio', name: 'Portfolio', mark: '▤', description: 'Past portfolios and collections of work presented as a body of work.' },
+      { id: 'electronics', name: 'Electronics', mark: '⌬', description: 'Past electronics projects, repairs, and modifications.' },
+      { id: 'photographs', name: 'Photographs', mark: '▧', description: 'Photographs and visual records from different times and places.' },
+      { id: 'experiments', name: 'Experiments', mark: '✳', description: 'Past prototypes, tests, and experiments, including what was learned along the way.' }
     ]
-};
+  };
 
-const getCollection = (section, collectionId) =>
-    collections[section]?.find(item => item.id === collectionId);
-const getCollectionName = (section, collectionId) => getCollection(section, collectionId)?.name || '';
-const getItemCollectionName = item => item.collection
-    ? getCollectionName(item.section, item.collection)
-    : '';
-
-const articles = [
+  const articles = [
     { id: 'article-030', status: 'published', featured: false, date: '2026.11.01', title: 'A place for things in motion', description: 'A personal site can hold ongoing work without turning every unfinished thought into an announcement.', section: 'MAKE', collection: 'development', tags: ['personal-site', 'records'] },
     { id: 'article-029', status: 'published', featured: false, date: '2026.10.30', title: 'The small architecture of a personal system', description: 'Useful systems begin with the relationships between information, actions, and the places where they belong.', section: 'MAKE', collection: 'development', tags: ['personal-systems', 'architecture'] },
     { id: 'article-018', status: 'published', featured: true, featuredOrder: 1, date: '2026.10.28', title: 'Why I started building Nest', description: 'A personal system should make everyday life easier, not add another layer of work.', section: 'MAKE', collection: 'development', tags: ['personal-systems', 'design'] },
@@ -1448,9 +1527,9 @@ const articles = [
     { id: 'article-003', status: 'published', featured: false, date: '2026.06.26', title: 'Learning by taking things apart', description: 'Understanding often begins with looking closely at how something was put together.', section: 'MAKE', collection: 'experiments', tags: ['reverse-engineering', 'experiments'] },
     { id: 'article-002', status: 'published', featured: false, date: '2026.06.19', title: 'Leaving room for detours', description: 'Not every experiment needs to lead directly to a finished result.', section: 'MAKE', collection: 'experiments', tags: ['experiments', 'ideas'] },
     { id: 'article-001', status: 'published', featured: false, date: '2026.06.12', title: 'Keeping a trail', description: 'A trail of attempts and decisions makes it easier to see how an idea changed.', section: 'MAKE', tags: ['records', 'process'] }
-];
+  ];
 
-const works = [
+  const works = [
     { id: 'work-loom', status: 'published', cardTitle: 'LOOM', cardSubtitle: 'Web Publishing Platform', order: 1, mark: '▱', description: 'A way to shape information into websites and publish them without making Git the obstacle.', section: 'PLAY', collection: 'web', tags: ['web', 'publishing'], label: 'BUILDING', url: 'https://loom.esenus.com/' },
     { id: 'work-livingbase', status: 'published', cardTitle: 'NEST', cardSubtitle: 'Livingbase', order: 2, mark: '⌂', description: 'A personal system for bringing everyday information, activities, and routines together.', section: 'PLAY', collection: 'projects', tags: ['systems', 'everyday-life'], url: 'https://nest.esenus.com/' },
     { id: 'work-days', status: 'published', cardTitle: 'NEST::DAYS', order: 3, mark: '◷', description: 'A small space for keeping track of days and the things that fill them.', section: 'PLAY', collection: 'projects', tags: ['everyday-life', 'records'], url: 'https://days.esenus.com/' },
@@ -1463,145 +1542,189 @@ const works = [
     { id: 'work-small-web', status: 'published', meta: 'SMALL WEB THINGS', title: 'Web / 2026', description: 'Small websites and interfaces made while figuring out how they should feel.', section: 'MAKE', collection: 'web', tags: ['web', 'interface'], label: 'PLAY' },
     { id: 'work-kitchen', status: 'published', meta: 'KITCHEN EXPERIMENTS', title: 'Food / 2026', description: 'Things cooked simply because I wanted to see what would happen.', section: 'MAKE', collection: 'food', tags: ['food', 'experiments'], label: 'PLAY' },
     { id: 'work-old-hardware', status: 'published', meta: 'OLD HARDWARE', title: 'Electronics / Various', description: 'Devices, repairs, modifications, and experiments collected over time.', section: 'MAKE', collection: 'electronics', tags: ['electronics', 'repair'], label: 'PLAY' }
- ];
-const publishedArticles = articles.filter(item => item.status === 'published');
-const publishedWorks = works.filter(item => item.status === 'published');
-const contentBySection = Object.fromEntries(['PLAY', 'MAKE', 'THEN'].map(section => {
+  ];
+
+  /* ==========================================================================
+     2. DOM ELEMENTS & HELPER FUNCTIONS
+     ========================================================================== */
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+  const body = document.body;
+  const logo = $('#logo');
+  const nav = $('#main-nav-list');
+  const navLinks = $$('a[href^="#section-"]', nav);
+  const sections = $$('main .page-section');
+  const stickies = $$('#side-sticky .sticky-tape');
+  const panel = $('#content-panel');
+  const panelPages = $$('.panel-page');
+  const grids = $$('.content-grid');
+
+  let noteGrid = null;
+  let notePagination = null;
+  let noteMoreLink = null;
+
+  const publishedArticles = articles.filter(item => item.status === 'published');
+  const publishedWorks = works.filter(item => item.status === 'published');
+
+  const contentBySection = Object.fromEntries(['PLAY', 'MAKE', 'THEN'].map(section => {
     const items = [
-        ...publishedArticles.filter(item => item.section === section),
-        ...publishedWorks.filter(item => item.section === section)
+      ...publishedArticles.filter(item => item.section === section),
+      ...publishedWorks.filter(item => item.section === section)
     ];
     if (section === 'PLAY') items.sort((a, b) => a.order - b.order);
     return [section, items];
-}));
-const getContent = section => section === 'NOTE'
-    ? publishedArticles
+  }));
+
+  const getCollectionName = (section, collectionId) => 
+    collections[section]?.find(item => item.id === collectionId)?.name || '';
+
+  const getItemCollectionName = item => item.collection 
+    ? getCollectionName(item.section, item.collection) 
+    : '';
+
+  const getContent = section => section === 'NOTE' 
+    ? publishedArticles 
     : contentBySection[section] || [];
 
-
-const card = item => {
+  /* ==========================================================================
+     3. RENDER FUNCTIONS
+     ========================================================================== */
+  const createCardHTML = item => {
     const meta = item.date || item.meta;
     const collection = getItemCollectionName(item);
     const openTag = item.url ? `<a class="content-card__link" href="${item.url}" target="_blank" rel="noopener noreferrer">` : '';
     const closeTag = item.url ? '</a>' : '';
+
     const playHead = item.section === 'PLAY'
-        ? `<div class="play-card__head"><span class="collection-card__thumb play-card__thumb" aria-hidden="true">${item.mark || '·'}</span><div class="play-card__identity"><h3 class="content-card__title">${item.cardTitle}</h3>${item.cardSubtitle ? `<div class="play-card__subtitle">${item.cardSubtitle}</div>` : ''}</div></div>`
-        : `<div class="content-card__meta">${meta}</div>`;
+      ? `<div class="play-card__head">
+           <span class="collection-card__thumb play-card__thumb" aria-hidden="true">${item.mark || '·'}</span>
+           <div class="play-card__identity">
+             <h3 class="content-card__title">${item.cardTitle}</h3>
+             ${item.cardSubtitle ? `<div class="play-card__subtitle">${item.cardSubtitle}</div>` : ''}
+           </div>
+         </div>`
+      : `<div class="content-card__meta">${meta}</div>`;
+
     return `
-<article class="content-card${item.section === 'PLAY' ? ' play-card' : ''}" data-section="${item.section}"${item.collection ? ` data-collection="${item.collection}"` : ''}>
-${openTag}${playHead}
-${item.section === 'PLAY' ? '' : `<h3 class="content-card__title">${item.title}</h3>`}
-<p class="content-card__text">${item.description}</p>
-${collection ? `<div class="content-card__type">${collection}</div>` : ''}
-${item.label ? `<div class="content-card__status">${item.label}</div>` : ''}${closeTag}
-</article>`;
-};
-const notePageSize = 6;
-const mobileNoteLimit = 12;
-const mobileNoteCard = item => {
+      <article class="content-card${item.section === 'PLAY' ? ' play-card' : ''}" data-section="${item.section}"${item.collection ? ` data-collection="${item.collection}"` : ''}>
+        ${openTag}${playHead}
+        ${item.section === 'PLAY' ? '' : `<h3 class="content-card__title">${item.title}</h3>`}
+        <p class="content-card__text">${item.description}</p>
+        ${collection ? `<div class="content-card__type">${collection}</div>` : ''}
+        ${item.label ? `<div class="content-card__status">${item.label}</div>` : ''}${closeTag}
+      </article>`;
+  };
+
+  const createMobileNoteHTML = item => {
     const date = item.date || '';
     const datetime = date.replace(/\./g, '-');
     const shortDate = date.replace(/^(\d{2})\d{2}(\.\d{2}\.\d{2})$/, '$1$2');
     const collection = getItemCollectionName(item);
-    return `<article class="content-card note-mobile-card" data-section="NOTE"${item.collection ? ` data-collection="${item.collection}"` : ''}><div class="note-mobile-meta"><time class="note-mobile-date" datetime="${datetime}">${shortDate}</time>${collection ? `<span class="note-mobile-collection">${collection}</span>` : ''}</div><h3 class="note-mobile-title">${item.title}</h3></article>`;
-};
-let notePage = 1, noteGrid, notePagination, noteMoreLink;
-const renderNotePage = (scrollToList = false) => {
+
+    return `
+      <article class="content-card note-mobile-card" data-section="NOTE"${item.collection ? ` data-collection="${item.collection}"` : ''}>
+        <div class="note-mobile-meta">
+          <time class="note-mobile-date" datetime="${datetime}">${shortDate}</time>
+          ${collection ? `<span class="note-mobile-collection">${collection}</span>` : ''}
+        </div>
+        <h3 class="note-mobile-title">${item.title}</h3>
+      </article>`;
+  };
+
+  const renderCollectionGrid = (grid, section) => {
+    grid.innerHTML = (collections[section] || []).map(collection => `
+      <article class="content-card collection-card" data-section="${section}" data-collection="${collection.id}">
+        <div class="collection-card__head">
+          <span class="collection-card__thumb" aria-hidden="true">${collection.mark || '·'}</span>
+          <h3 class="content-card__title">${collection.name}</h3>
+        </div>
+        <p class="content-card__text">${collection.description || ''}</p>
+      </article>`).join('');
+  };
+
+  const renderNotePage = (scrollToList = false) => {
     if (!noteGrid || !notePagination) return;
 
     const notes = getContent('NOTE');
-    const isMobile = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT}px)`).matches;
-    const pageCount = Math.max(1, Math.ceil(notes.length / notePageSize));
+    const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+    const pageCount = Math.max(1, Math.ceil(notes.length / NOTE_PAGE_SIZE));
 
     if (noteMoreLink) noteMoreLink.hidden = pageCount < 3;
 
-    notePage = Math.min(Math.max(1, notePage), pageCount);
-    const start = (notePage - 1) * notePageSize;
+    state.notePage = Math.min(Math.max(1, state.notePage), pageCount);
+    const start = (state.notePage - 1) * NOTE_PAGE_SIZE;
     const visibleNotes = isMobile
-        ? notes.slice(0, mobileNoteLimit)
-        : notes.slice(start, start + notePageSize);
+      ? notes.slice(0, MOBILE_NOTE_LIMIT)
+      : notes.slice(start, start + NOTE_PAGE_SIZE);
 
     noteGrid.innerHTML = visibleNotes
-        .map(item => isMobile ? mobileNoteCard(item) : card(item))
-        .join('');
+      .map(item => isMobile ? createMobileNoteHTML(item) : createCardHTML(item))
+      .join('');
+    
     notePagination.hidden = isMobile;
 
     if (isMobile) {
-        if (scrollToList) scrollToSection($('#section-04'));
-        return;
+      if (scrollToList) scrollToSection($('#section-04'));
+      return;
     }
 
     const pageButtons = Array.from({ length: pageCount }, (_, index) => {
-        const page = index + 1;
-        const current = page === notePage ? ' aria-current="page"' : '';
-        return `<button type="button" data-note-page="${page}"${current} aria-label="Page ${page}">${String(page).padStart(2, '0')}</button>`;
+      const page = index + 1;
+      const current = page === state.notePage ? ' aria-current="page"' : '';
+      return `<button type="button" data-note-page="${page}"${current} aria-label="Page ${page}">${String(page).padStart(2, '0')}</button>`;
     }).join('');
 
     notePagination.innerHTML = `
-<nav class="note-pagination__controls" aria-label="NOTE pages">
-<button type="button" data-note-direction="prev" aria-label="Previous page"${notePage === 1 ? ' disabled' : ''}>← PREV</button>
-${pageButtons}
-<button type="button" data-note-direction="next" aria-label="Next page"${notePage === pageCount ? ' disabled' : ''}>NEXT →</button>
-</nav>
-<div class="note-pagination__status" aria-live="polite">${String(start + 1).padStart(2, '0')}–${String(Math.min(start + notePageSize, notes.length)).padStart(2, '0')} / ${String(notes.length).padStart(2, '0')} NOTES</div>`;
+      <nav class="note-pagination__controls" aria-label="NOTE pages">
+        <button type="button" data-note-direction="prev" aria-label="Previous page"${state.notePage === 1 ? ' disabled' : ''}>← PREV</button>
+        ${pageButtons}
+        <button type="button" data-note-direction="next" aria-label="Next page"${state.notePage === pageCount ? ' disabled' : ''}>NEXT →</button>
+      </nav>
+      <div class="note-pagination__status" aria-live="polite">
+        ${String(start + 1).padStart(2, '0')}–${String(Math.min(start + NOTE_PAGE_SIZE, notes.length)).padStart(2, '0')} / ${String(notes.length).padStart(2, '0')} NOTES
+      </div>`;
 
     if (scrollToList) scrollToSection($('#section-04'));
-};
-function renderCollectionGrid(grid, section) {
-    grid.innerHTML = (collections[section] || []).map(collection => `
-<article class="content-card collection-card" data-section="${section}" data-collection="${collection.id}">
-<div class="collection-card__head"><span class="collection-card__thumb" aria-hidden="true">${collection.mark || '·'}</span><h3 class="content-card__title">${collection.name}</h3></div>
-<p class="content-card__text">${collection.description || ''}</p>
-</article>`).join('');
-}
+  };
 
-function initializeContentGrids() {
+  const initializeContentGrids = () => {
     grids.forEach(grid => {
-        const section = grid.dataset.content;
-        if (section === 'NOTE') {
-            noteGrid = grid;
-            noteMoreLink = grid.parentElement?.querySelector('.more-notes-link');
-            const title = grid.closest('article')?.querySelector('.page-title');
-            if (title) {
-                title.insertAdjacentHTML('afterend', '<div class="note-pagination" role="group" aria-label="NOTE pagination"></div>');
-                notePagination = title.nextElementSibling;
-            }
-            renderNotePage();
-            return;
+      const section = grid.dataset.content;
+      if (section === 'NOTE') {
+        noteGrid = grid;
+        noteMoreLink = grid.parentElement?.querySelector('.more-notes-link');
+        const title = grid.closest('article')?.querySelector('.page-title');
+        if (title) {
+          title.insertAdjacentHTML('afterend', '<div class="note-pagination" role="group" aria-label="NOTE pagination"></div>');
+          notePagination = title.nextElementSibling;
         }
-        if (section === 'MAKE' || section === 'THEN') {
-            renderCollectionGrid(grid, section);
-            return;
-        }
-        grid.innerHTML = getContent(section).map(card).join('');
+        renderNotePage();
+        return;
+      }
+      if (section === 'MAKE' || section === 'THEN') {
+        renderCollectionGrid(grid, section);
+        return;
+      }
+      grid.innerHTML = getContent(section).map(createCardHTML).join('');
     });
-}
+  };
 
-initializeContentGrids();
-function handleNotePagination(event) {
-    const button = event.target.closest('button');
-    if (!button || button.disabled) return;
-    if (button.dataset.notePage) notePage = Number(button.dataset.notePage);
-    else if (button.dataset.noteDirection === 'prev') notePage -= 1;
-    else if (button.dataset.noteDirection === 'next') notePage += 1;
-    else return;
-    renderNotePage(true);
-}
-
-if (notePagination) notePagination.addEventListener('click', handleNotePagination);
-const sectionAt = ratio => {
+  /* ==========================================================================
+     4. NAVIGATION & SCROLL HANDLERS
+     ========================================================================== */
+  const sectionAt = ratio => {
     const position = window.scrollY + window.innerHeight * ratio;
     let activeSection = sections[0];
 
     for (const section of sections) {
-        if (section.offsetTop > position) break;
-        activeSection = section;
+      if (section.offsetTop > position) break;
+      activeSection = section;
     }
-
     return activeSection;
-};
+  };
 
-const sync = () => {
+  const sync = () => {
     const activeSection = sectionAt(0.9);
     if (!activeSection) return;
 
@@ -1613,102 +1736,87 @@ const sync = () => {
     body.classList.toggle('is-sub', !isHome);
     body.classList.toggle('is-note', contextId === '04');
     body.classList.toggle(
-        'catchword-sub',
-        isHome && window.scrollY / Math.max(sections[0].offsetHeight, window.innerHeight) >= 0.42
+      'catchword-sub',
+      isHome && window.scrollY / Math.max(sections[0].offsetHeight, window.innerHeight) >= 0.42
     );
 
     navLinks.forEach(link => {
-        const isActive = link.hash === `#section-${contextId}`;
-        link.classList.toggle('is-active', isActive);
+      const isActive = link.hash === `#section-${contextId}`;
+      link.classList.toggle('is-active', isActive);
 
-        if (isActive) link.setAttribute('aria-current', 'page');
-        else link.removeAttribute('aria-current');
+      if (isActive) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
     });
-};
-const requestSync = () => {
-if (state.frame) return;
-state.frame = requestAnimationFrame(() => {
-state.frame = 0;
-sync();
-});
-};
-const scrollToSection = section => {
-if (!section) return;
-const title = section.querySelector('.page-title');
-if (innerWidth > MOBILE_BREAKPOINT && title) {
-const top = window.scrollY + title.getBoundingClientRect().top - 25;
-window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
-} else {
-section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-};
-const go = id => {
-const target = $(`#section-${id}`);
-if (!target) return;
-setPanel('');
-scrollToSection(target);
-};
-nav.addEventListener('click', event => {
-    const link = event.target.closest('a[href^="#section-"]');
-    if (!link) return;
+  };
 
-    event.preventDefault();
+  const requestSync = () => {
+    if (state.frame) return;
+    state.frame = requestAnimationFrame(() => {
+      state.frame = 0;
+      sync();
+    });
+  };
 
-    const sectionId = link.getAttribute('href').slice('#section-'.length);
-    if (sectionId) go(sectionId);
-});
-logo.addEventListener('click', () => go('01'));
-function setPanel(id) {
+  const scrollToSection = section => {
+    if (!section) return;
+
+    const title = section.querySelector('.page-title');
+    if (window.innerWidth > MOBILE_BREAKPOINT && title) {
+      const top = window.scrollY + title.getBoundingClientRect().top - 25;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      return;
+    }
+
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const go = id => {
+    const target = $(`#section-${id}`);
+    if (!target) return;
+
+    setPanel('');
+    scrollToSection(target);
+  };
+
+  const setPanel = id => {
     clearTimeout(state.panelTimer);
 
     const applyPanelState = () => {
-        state.action = id;
-        panelPages.forEach(page => {
-            page.classList.toggle('is-active', page.dataset.actionPage === id);
-        });
+      state.action = id;
+      panelPages.forEach(page => {
+        page.classList.toggle('is-active', page.dataset.actionPage === id);
+      });
 
-        stickies.forEach(item => {
-            const isActive = item.dataset.action === id;
-            item.classList.toggle('is-open', isActive);
-            $('a', item)?.setAttribute('aria-expanded', String(isActive));
-        });
+      stickies.forEach(item => {
+        const isActive = item.dataset.action === id;
+        item.classList.toggle('is-open', isActive);
+        $('a', item)?.setAttribute('aria-expanded', String(isActive));
+      });
 
-        panel.classList.toggle('is-open', Boolean(id));
-        panel.setAttribute('aria-hidden', String(!id));
-        sync();
+      const isOpen = Boolean(id);
+      panel.classList.toggle('is-open', isOpen);
+      panel.setAttribute('aria-hidden', String(!isOpen));
+      
+      // Toggle body state class for panel state to avoid CSS browser hack (:has)
+      body.classList.toggle('is-panel-open', isOpen);
+
+      sync();
     };
 
     if (state.action && id && state.action !== id) {
-        state.action = '';
-        applyPanelState();
-        state.panelTimer = setTimeout(applyPanelState, 100);
-        return;
+      state.action = '';
+      applyPanelState();
+      state.panelTimer = setTimeout(applyPanelState, 100);
+      return;
     }
 
     applyPanelState();
-}
-$('#side-sticky').addEventListener('click', event => {
-const item = event.target.closest('.sticky-tape');
-if (!item) return;
-event.preventDefault();
-setPanel(state.action === item.dataset.action ? '' : item.dataset.action);
-});
-document.addEventListener('keydown', event => {
-if (event.key === 'Escape') setPanel('');
-});
-stickies.forEach(item => item.style.setProperty('--random-rotate', `${(Math.random() - 0.5) * 6}deg`));
-window.addEventListener('scroll', requestSync, { passive: true });
-const handleResize = () => {
-    clearTimeout(state.noteLayoutTimer);
-    state.noteLayoutTimer = setTimeout(() => renderNotePage(false), 120);
-    body.classList.add('is-resizing');
-    clearTimeout(state.resizeTimer);
-    state.resizeTimer = setTimeout(() => body.classList.remove('is-resizing'), 180);
-    requestSync();
-};
-window.addEventListener('resize', handleResize, { passive: true });
-// TOPICS uses quiet relative dates; the semantic datetime remains unchanged.
-function formatRelativeDate(dateValue, now = new Date()) {
+  };
+
+  /* ==========================================================================
+     5. UTILS & INITIALIZATION
+     ========================================================================== */
+  const formatRelativeDate = (dateValue, now = new Date()) => {
     const date = new Date(`${dateValue}T00:00:00`);
     if (Number.isNaN(date.getTime())) return '';
     const today = new Date(now);
@@ -1719,19 +1827,75 @@ function formatRelativeDate(dateValue, now = new Date()) {
     if (days < 30) return `${days}d ago`;
     if (days < 60) return '1mo ago';
     return `${Math.floor(days / 30)}mo ago`;
-}
+  };
 
-function initializeTopicsDates() {
-    document.querySelectorAll('.home-update-date').forEach(time => {
-        const label = formatRelativeDate(time.dateTime);
-        if (!label) return;
-        time.textContent = label;
-        time.setAttribute('aria-label', new Date(`${time.dateTime}T00:00:00`).toLocaleDateString());
+  const initializeTopicsDates = () => {
+    $$('.home-update-date').forEach(time => {
+      const label = formatRelativeDate(time.dateTime);
+      if (!label) return;
+      time.textContent = label;
+      time.setAttribute('aria-label', new Date(`${time.dateTime}T00:00:00`).toLocaleDateString());
     });
-}
+  };
 
-initializeTopicsDates();
-sync();
+  const handleResize = () => {
+    clearTimeout(state.noteLayoutTimer);
+    state.noteLayoutTimer = setTimeout(() => renderNotePage(false), 120);
+    body.classList.add('is-resizing');
+    clearTimeout(state.resizeTimer);
+    state.resizeTimer = setTimeout(() => body.classList.remove('is-resizing'), 180);
+    requestSync();
+  };
+
+  // Event Listeners
+  nav.addEventListener('click', event => {
+    const link = event.target.closest('a[href^="#section-"]');
+    if (!link) return;
+
+    event.preventDefault();
+    go(link.getAttribute('href').slice('#section-'.length));
+  });
+
+  logo.addEventListener('click', () => go('01'));
+
+  $('#side-sticky').addEventListener('click', event => {
+    const item = event.target.closest('.sticky-tape');
+    if (!item) return;
+
+    event.preventDefault();
+    setPanel(state.action === item.dataset.action ? '' : item.dataset.action);
+  });
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') setPanel('');
+  });
+
+  window.addEventListener('scroll', requestSync, { passive: true });
+  window.addEventListener('resize', handleResize, { passive: true });
+
+  // Init Execution
+  initializeContentGrids();
+  
+  if (notePagination) {
+    notePagination.addEventListener('click', event => {
+      const button = event.target.closest('button');
+      if (!button || button.disabled) return;
+      if (button.dataset.notePage) state.notePage = Number(button.dataset.notePage);
+      else if (button.dataset.noteDirection === 'prev') state.notePage -= 1;
+      else if (button.dataset.noteDirection === 'next') state.notePage += 1;
+      else return;
+      renderNotePage(true);
+    });
+  }
+
+  stickies.forEach(item => {
+    const rotation = (Math.random() - 0.5) * 6;
+    item.style.setProperty('--random-rotate', `${rotation}deg`);
+  });
+
+  initializeTopicsDates();
+  sync();
+})();
 </script>
 </body>
 </html>
